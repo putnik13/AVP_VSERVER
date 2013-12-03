@@ -34,7 +34,7 @@ TASK/OWNER/STATUS[DONE, IN PROGRESS]:
 1. Create initial project structure [Mykola] - DONE
 2. Admin UI look&feel [Sergey]- IN PROGRESS
    2.1 - added dynamic template to swith sections [Mykola] - DONE
-3. Client view (display snapshots and smooth change) [Mykola] - IN PROGRESS
+3. Client view (display snapshots and smooth change) [Mykola] - DONE
 4. Stream control section (add WebPlayer, add tiles/photos view)
 5. Configuration persisted in DB (preview in Edit configuration section, default settings)
 6. User roles support (user entities, login/logout view [Sergey]- IN PROGRESS, sessions control)
