@@ -1,0 +1,48 @@
+REQUIREMENTS:
+
+Admin module
+1. Stream control 
+   - start/stop recording
+   - saving recording to file
+   - preview recording stream as snapshots
+   - preview recordred recorderd through WebPlayer
+2. Broadcasting/Conversion
+   - Support for broadcasting modes (unicast, multicast, http)
+3. Broadcasting to web clients
+   - smooth changes between snapshots
+   - change every 3 sec
+   - broadcast audio (???)
+4. Edit configuration
+   - edit and save all possible settings 
+   - restore default settings
+5. Support Samba commands
+6. Support 2 network carts (???)
+7. Save presentation on server as images/pdf
+8. Support snapshot painting on client side (save remarks in pdf file)
+
+Support for user roles and rights restriction
+
+Client module 
+   - Preview snapshots from server
+   - Play audio from server
+
+=================================================================================
+
+
+TASK/OWNER/STATUS[DONE, IN PROGRESS]:
+
+1. Create initial project structure [Mykola] - DONE
+2. Admin UI look&feel [Sergey]- IN PROGRESS
+   2.1 - added dynamic template to swith sections [Mykola] - DONE
+3. Client view (display snapshots and smooth change) [Mykola] - IN PROGRESS
+4. Stream control section (add WebPlayer, add tiles/photos view)
+5. Configuration persisted in DB (preview in Edit configuration section, default settings)
+6. User roles support (user entities, login/logout view [Sergey]- IN PROGRESS, sessions control)
+7. Broadcasting UI look&feel [Sergey]
+8. Client view (play audio ???)
+9. VLC modes [Sergey]
+   - receive stream and save to file
+   - receive stream and brodcast to unicast
+   - receive stream and brodcast to multicast
+   - receive stream and brodcast to http
+10. Add Samba support [Sergey]
