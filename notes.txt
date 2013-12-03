@@ -1,5 +1,5 @@
 REQUIREMENTS:
-***
+**
 
 Admin module
 1. Stream control 
