@@ -3,9 +3,12 @@ package com.atanor.vserver.vsclient.client.ui;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.vsclient.client.presenter.MainPanePresenter;
 import com.google.common.primitives.Ints;
+import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.widgets.AnimationCallback;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
+import com.smartgwt.client.widgets.events.ResizedEvent;
+import com.smartgwt.client.widgets.events.ResizedHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 
 public class MainPaneImpl extends HLayout implements MainPane {
@@ -16,6 +19,10 @@ public class MainPaneImpl extends HLayout implements MainPane {
 	private MainPanePresenter presenter;
 
 	private Img topImg;
+	private Img backgroundImg;
+
+	private String currentImgWidth;
+	private String currentImgHeight;
 
 	public MainPaneImpl() {
 		setWidth100();
@@ -26,6 +33,27 @@ public class MainPaneImpl extends HLayout implements MainPane {
 		snapshotBox.setHeight100();
 		snapshotBox.setShowEdges(false);
 		snapshotBox.setBackgroundColor("lightgrey");
+		snapshotBox.setOverflow(Overflow.HIDDEN);
+		snapshotBox.addResizedHandler(new ResizedHandler() {
+
+			@Override
+			public void onResized(ResizedEvent event) {
+				currentImgWidth = null;
+				currentImgHeight = null;
+			}
+		});
+
+		topImg = new Img();
+		topImg.setAnimateTime(ANIMATION_TIME);
+		topImg.setOpacity(100);
+
+		backgroundImg = new Img();
+		backgroundImg.setAnimateTime(ANIMATION_TIME);
+		backgroundImg.setOpacity(100);
+
+		snapshotBox.addChild(topImg);
+		snapshotBox.addChild(backgroundImg);
+		topImg.bringToFront();
 
 		addMembers(snapshotBox);
 	}
@@ -39,29 +67,41 @@ public class MainPaneImpl extends HLayout implements MainPane {
 	public void addSnapshot(final Snapshot snapshot) {
 
 		final String source = "data:image/png;base64," + snapshot.getEncodedImage();
-		final Img img = new Img();
-		img.setSrc(source);
-		img.setAnimateTime(ANIMATION_TIME);
-		img.setOpacity(100);
 
-		adjustSize(img, Long.valueOf(snapshot.getWidth()), Long.valueOf(snapshot.getHeight()));
-		adjustPosition(img);
+		if (isSnapshotSizeChanged(snapshot.getWidth(), snapshot.getHeight())) {
+			this.currentImgWidth = snapshot.getWidth();
+			this.currentImgHeight = snapshot.getHeight();
+			adjustImage(topImg);
+			adjustImage(backgroundImg);
+		}
 
-		if (topImg == null) {
-			topImg = img;
+		if (topImg.getSrc() == null) {
+			topImg.setSrc(source);
 		} else {
 			topImg.animateFade(0, new AnimationCallback() {
 
 				@Override
 				public void execute(boolean earlyFinish) {
-					cleanScreen();
-					topImg = img;
+					topImg.setSrc(source);
+					topImg.setOpacity(100);
 				}
 			});
-		}
 
-		snapshotBox.addChild(img);
-		img.sendToBack();
+			backgroundImg.setSrc(source);
+		}
+	}
+
+	private boolean isSnapshotSizeChanged(final String width, final String height) {
+		return currentImgWidth == null || currentImgHeight == null || !currentImgWidth.equals(width)
+				|| !currentImgHeight.equals(height);
+	}
+
+	private void adjustImage(final Img img) {
+		final Long imageWidth = Long.valueOf(currentImgWidth);
+		final Long imageHeight = Long.valueOf(currentImgHeight);
+
+		adjustSize(img, imageWidth, imageHeight);
+		adjustPosition(img);
 	}
 
 	private void adjustSize(final Img image, final Long originWidth, final Long originHeight) {
@@ -85,17 +125,12 @@ public class MainPaneImpl extends HLayout implements MainPane {
 	private void adjustPosition(final Img image) {
 		final Long leftOffset = Math.round((getElement().getClientWidth() - image.getWidth()) / 2d);
 		image.setLeft(Ints.checkedCast(leftOffset));
+		final Long topOffset = Math.round((getElement().getClientHeight() - image.getHeight()) / 2d);
+		image.setTop(Ints.checkedCast(topOffset));
 	}
 
 	@Override
 	public void onConnectionClosed() {
-		cleanScreen();
 	}
 
-	private void cleanScreen() {
-		if (topImg != null) {			
-			snapshotBox.removeChild(topImg);
-			topImg = null;
-		}
-	}
 }
