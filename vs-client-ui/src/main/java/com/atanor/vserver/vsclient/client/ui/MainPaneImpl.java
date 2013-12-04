@@ -11,7 +11,7 @@ import com.smartgwt.client.widgets.layout.HLayout;
 public class MainPaneImpl extends HLayout implements MainPane {
 
 	private static final int ANIMATION_TIME = 2000;
-	
+
 	private final Canvas snapshotBox;
 	private MainPanePresenter presenter;
 
@@ -54,7 +54,7 @@ public class MainPaneImpl extends HLayout implements MainPane {
 
 				@Override
 				public void execute(boolean earlyFinish) {
-					topImg.destroy();
+					cleanScreen();
 					topImg = img;
 				}
 			});
@@ -87,4 +87,15 @@ public class MainPaneImpl extends HLayout implements MainPane {
 		image.setLeft(Ints.checkedCast(leftOffset));
 	}
 
+	@Override
+	public void onConnectionClosed() {
+		cleanScreen();
+	}
+
+	private void cleanScreen() {
+		if (topImg != null) {			
+			snapshotBox.removeChild(topImg);
+			topImg = null;
+		}
+	}
 }

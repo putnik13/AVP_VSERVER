@@ -3,6 +3,7 @@ package com.atanor.vserver.vsclient.client.async;
 import java.util.List;
 
 import org.atmosphere.gwt20.client.Atmosphere;
+import org.atmosphere.gwt20.client.AtmosphereCloseHandler;
 import org.atmosphere.gwt20.client.AtmosphereMessageHandler;
 import org.atmosphere.gwt20.client.AtmosphereRequestConfig;
 import org.atmosphere.gwt20.client.AtmosphereResponse;
@@ -10,6 +11,7 @@ import org.atmosphere.gwt20.client.AtmosphereResponse;
 import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.vsclient.client.Client;
+import com.atanor.vserver.vsclient.client.events.ConnectionClosedEvent;
 import com.atanor.vserver.vsclient.client.events.SnapshotReceivedEvent;
 import com.atanor.vserver.vsclient.client.json.JsonSerializer;
 import com.google.gwt.core.client.GWT;
@@ -28,8 +30,18 @@ public class AsyncConnector {
 		jsonRequestConfig.setFallbackTransport(AtmosphereRequestConfig.Transport.STREAMING);
 		jsonRequestConfig.setFlags(AtmosphereRequestConfig.Flags.enableProtocol);
 		jsonRequestConfig.setFlags(AtmosphereRequestConfig.Flags.trackMessageLength);
+		jsonRequestConfig.setMaxReconnectOnClose(5);
+		
+		jsonRequestConfig.setCloseHandler(new AtmosphereCloseHandler() {
+			
+			@Override
+			public void onClose(AtmosphereResponse response) {
+				Client.getEventBus().fireEvent(new ConnectionClosedEvent());				
+			}
+		});
 		
 		jsonRequestConfig.setMessageHandler(new AtmosphereMessageHandler() {
+			
 			@Override
 			public void onMessage(AtmosphereResponse response) {
 				List<Object> messages = response.getMessages();

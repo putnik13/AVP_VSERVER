@@ -9,4 +9,6 @@ public interface MainPane extends IsWidget {
 	void setPresenter(MainPanePresenter presenter);
 	
 	void addSnapshot(Snapshot snapshot);
+	
+	void onConnectionClosed();
 }
