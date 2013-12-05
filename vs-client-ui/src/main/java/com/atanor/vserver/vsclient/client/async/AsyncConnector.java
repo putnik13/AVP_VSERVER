@@ -12,7 +12,7 @@ import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.Signal;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.vsclient.client.Client;
-import com.atanor.vserver.vsclient.client.events.ConnectionClosedEvent;
+import com.atanor.vserver.vsclient.client.events.SessionOverEvent;
 import com.atanor.vserver.vsclient.client.events.SnapshotReceivedEvent;
 import com.atanor.vserver.vsclient.client.json.JsonSerializer;
 import com.google.gwt.core.client.GWT;
@@ -32,14 +32,6 @@ public class AsyncConnector {
 		jsonRequestConfig.setFlags(AtmosphereRequestConfig.Flags.enableProtocol);
 		jsonRequestConfig.setFlags(AtmosphereRequestConfig.Flags.trackMessageLength);
 		jsonRequestConfig.setMaxReconnectOnClose(5);
-
-		jsonRequestConfig.setCloseHandler(new AtmosphereCloseHandler() {
-
-			@Override
-			public void onClose(AtmosphereResponse response) {
-				Client.getEventBus().fireEvent(new ConnectionClosedEvent());
-			}
-		});
 
 		jsonRequestConfig.setMessageHandler(new AtmosphereMessageHandler() {
 
@@ -65,10 +57,18 @@ public class AsyncConnector {
 			final Notification notification = (Notification) message;
 			SC.say("NOTIFICATION:" + notification.getMessage());
 		} else if (message instanceof Signal) {
-			final Signal signal = (Signal) message;
-			SC.say("SIGNAL: " + signal.name());
+			handleSignalMessage((Signal) message);
 		} else {
 			SC.warn((String) message);
+		}
+	}
+
+	private static void handleSignalMessage(final Signal message) {
+		if (message == Signal.SESSION_START) {
+			Client.getEventBus().fireEvent(new SessionOverEvent());
+		}
+		else if (message == Signal.SESSION_OVER) {
+			Client.getEventBus().fireEvent(new SessionOverEvent());
 		}
 	}
 }

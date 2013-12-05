@@ -45,6 +45,7 @@ public class PlayerFacadeMock {
 
 	@Subscribe
 	public void onOpenSession(final OpenSessionEvent event) {
+		AsyncConnector.startSharingSession();
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -57,6 +58,7 @@ public class PlayerFacadeMock {
 
 	@Subscribe
 	public void onCloseSession(final CloseSessionEvent event) {
+		AsyncConnector.stopSharingSession();
 		if (timer != null) {
 			timer.cancel();
 			timer = null;

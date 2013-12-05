@@ -10,5 +10,7 @@ public interface MainPane extends IsWidget {
 	
 	void addSnapshot(Snapshot snapshot);
 	
-	void onConnectionClosed();
+	void onSessionStart();
+	
+	void onSessionOver();
 }

@@ -22,7 +22,7 @@ public class AsyncConnector {
 
 	public static void broadcastNotification(final String msg) {
 		Validate.notEmpty(msg, "msg can not be empty or null");
-		
+
 		final String jsonNotification = gson.toJson(new Notification(msg));
 		final String jsonMsg = appendMessageType(Message.NOTIFCATION, jsonNotification);
 		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
@@ -30,7 +30,7 @@ public class AsyncConnector {
 
 	public static void broadcastSnapshot(final Snapshot snapshot) {
 		Validate.notNull(snapshot, "snapshot can not be null");
-		
+
 		final String jsonSnapshot = gson.toJson(snapshot);
 		final String jsonMsg = appendMessageType(Message.SNAPSHOT, jsonSnapshot);
 		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
@@ -39,24 +39,31 @@ public class AsyncConnector {
 	private static String appendMessageType(final Message msgType, final String message) {
 		return msgType.name() + message;
 	}
-	
-	public static void startSharing() {
-		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, true);
+
+	public static void startSharingSession() {
+		final Broadcaster broadcaster = BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, true);
+		if (isBroadcasterActive(broadcaster)) {
+			signalSessionStart();
+		}
 	}
 
-	public static void stopSharing() {
+	public static void stopSharingSession() {
 		final Broadcaster broadcaster = BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false);
 		if (isBroadcasterActive(broadcaster)) {
 			signalSessionOver();
-			broadcaster.destroy();
 		}
 	}
-	
-	private static boolean isBroadcasterActive(final Broadcaster broadcaster){
+
+	private static boolean isBroadcasterActive(final Broadcaster broadcaster) {
 		return broadcaster != null && !broadcaster.isDestroyed();
 	}
-	
-	private static void signalSessionOver(){
+
+	private static void signalSessionStart() {
+		final String jsonMsg = appendMessageType(Message.SIGNAL, Signal.SESSION_START.name());
+		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
+	}
+
+	private static void signalSessionOver() {
 		final String jsonMsg = appendMessageType(Message.SIGNAL, Signal.SESSION_OVER.name());
 		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
 	}
