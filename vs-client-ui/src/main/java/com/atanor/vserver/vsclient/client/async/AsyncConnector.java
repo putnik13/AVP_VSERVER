@@ -9,6 +9,7 @@ import org.atmosphere.gwt20.client.AtmosphereRequestConfig;
 import org.atmosphere.gwt20.client.AtmosphereResponse;
 
 import com.atanor.vserver.common.entity.Notification;
+import com.atanor.vserver.common.entity.Signal;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.vsclient.client.Client;
 import com.atanor.vserver.vsclient.client.events.ConnectionClosedEvent;
@@ -31,17 +32,17 @@ public class AsyncConnector {
 		jsonRequestConfig.setFlags(AtmosphereRequestConfig.Flags.enableProtocol);
 		jsonRequestConfig.setFlags(AtmosphereRequestConfig.Flags.trackMessageLength);
 		jsonRequestConfig.setMaxReconnectOnClose(5);
-		
+
 		jsonRequestConfig.setCloseHandler(new AtmosphereCloseHandler() {
-			
+
 			@Override
 			public void onClose(AtmosphereResponse response) {
-				Client.getEventBus().fireEvent(new ConnectionClosedEvent());				
+				Client.getEventBus().fireEvent(new ConnectionClosedEvent());
 			}
 		});
-		
+
 		jsonRequestConfig.setMessageHandler(new AtmosphereMessageHandler() {
-			
+
 			@Override
 			public void onMessage(AtmosphereResponse response) {
 				List<Object> messages = response.getMessages();
@@ -63,6 +64,9 @@ public class AsyncConnector {
 		} else if (message instanceof Notification) {
 			final Notification notification = (Notification) message;
 			SC.say("NOTIFICATION:" + notification.getMessage());
+		} else if (message instanceof Signal) {
+			final Signal signal = (Signal) message;
+			SC.say("SIGNAL: " + signal.name());
 		} else {
 			SC.warn((String) message);
 		}

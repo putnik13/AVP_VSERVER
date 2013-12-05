@@ -35,9 +35,9 @@ public class SnapshotResource {
 
 	@Ready
 	public void onReady(final AtmosphereResource r) {
-		logger.info("GET request received, client connected with transport: " + r.transport());
+		logger.info("GET request received, supported transport: " + r.transport());
 		
-		AsyncConnector.getBroadcaster().addAtmosphereResource(r);
+		AsyncConnector.addResource(r);
 		AsyncConnector.broadcastNotification("Browser UUID: " + r.uuid() + " connected.");
 	}
 

@@ -15,12 +15,14 @@ public class MainPaneImpl extends HLayout implements MainPane {
 
 	private static final int ANIMATION_TIME = 2000;
 
-	private final Canvas snapshotBox;
+	private final Canvas snapshotLayer;
+	private final Canvas sessionInactiveLayer;
+	
 	private MainPanePresenter presenter;
 
 	private Img topImg;
 	private Img backgroundImg;
-
+	
 	private String currentImgWidth;
 	private String currentImgHeight;
 
@@ -28,13 +30,13 @@ public class MainPaneImpl extends HLayout implements MainPane {
 		setWidth100();
 		setHeight100();
 
-		snapshotBox = new Canvas();
-		snapshotBox.setWidth100();
-		snapshotBox.setHeight100();
-		snapshotBox.setShowEdges(false);
-		snapshotBox.setBackgroundColor("lightgrey");
-		snapshotBox.setOverflow(Overflow.HIDDEN);
-		snapshotBox.addResizedHandler(new ResizedHandler() {
+		snapshotLayer = new Canvas();
+		snapshotLayer.setWidth100();
+		snapshotLayer.setHeight100();
+		snapshotLayer.setShowEdges(false);
+		snapshotLayer.setOverflow(Overflow.HIDDEN);
+		snapshotLayer.setBackgroundColor("lightgrey");
+		snapshotLayer.addResizedHandler(new ResizedHandler() {
 
 			@Override
 			public void onResized(ResizedEvent event) {
@@ -45,17 +47,16 @@ public class MainPaneImpl extends HLayout implements MainPane {
 
 		topImg = new Img();
 		topImg.setAnimateTime(ANIMATION_TIME);
-		topImg.setOpacity(100);
-
+	
 		backgroundImg = new Img();
-		backgroundImg.setAnimateTime(ANIMATION_TIME);
-		backgroundImg.setOpacity(100);
-
-		snapshotBox.addChild(topImg);
-		snapshotBox.addChild(backgroundImg);
-		topImg.bringToFront();
-
-		addMembers(snapshotBox);
+		
+		sessionInactiveLayer =createSessionInactiveLayer(); 
+		
+		snapshotLayer.addChild(backgroundImg);
+		snapshotLayer.addChild(topImg);
+		
+		addChild(snapshotLayer);
+		addChild(sessionInactiveLayer);
 	}
 
 	@Override
@@ -65,14 +66,16 @@ public class MainPaneImpl extends HLayout implements MainPane {
 
 	@Override
 	public void addSnapshot(final Snapshot snapshot) {
-
+		
 		final String source = "data:image/png;base64," + snapshot.getEncodedImage();
-
+		
 		if (isSnapshotSizeChanged(snapshot.getWidth(), snapshot.getHeight())) {
 			this.currentImgWidth = snapshot.getWidth();
 			this.currentImgHeight = snapshot.getHeight();
 			adjustImage(topImg);
 			adjustImage(backgroundImg);
+			
+			sessionInactiveLayer.sendToBack();
 		}
 
 		if (topImg.getSrc() == null) {
@@ -133,4 +136,17 @@ public class MainPaneImpl extends HLayout implements MainPane {
 	public void onConnectionClosed() {
 	}
 
+	private Canvas createSessionInactiveLayer(){
+		Canvas layer = new Canvas(); 
+		layer.setWidth100();
+		layer.setHeight100();
+		
+		final Img img = new Img();
+		img.setSrc("session_inactive.png");
+		img.setWidth100();
+		img.setHeight100();
+		layer.addChild(img);
+		
+		return layer;
+	}
 }
