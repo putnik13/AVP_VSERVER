@@ -1,0 +1,111 @@
+package com.atanor.vserver.domain.entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "recordings")
+@NamedQuery(name = "Recording.GetAll", query = "SELECT r FROM Recording r")
+public class Recording extends AbstractEntity<Long> {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(name = "name", length = 32)
+	private String name;
+
+	@Column(name = "starttime")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date startTime;
+
+	@Column(name = "endtime")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date endTime;
+
+	@Column(name = "duration", length = 32)
+	private String duration;
+
+	@Lob
+	@Column(name = "image_blob", length = 300000)
+	private String imageBlob;
+	
+	@Transient
+	private Boolean outdated = Boolean.FALSE;
+	
+	public Recording() {
+	}
+
+	public Recording(Long id) {
+		this.id = id;
+	}
+
+	public Recording(final String name) {
+		this.name = name;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(final Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(final Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(final String duration) {
+		this.duration = duration;
+	}
+
+	public String getImageBlob() {
+		return imageBlob;
+	}
+
+	public void setImageBlob(final String imageBlob) {
+		this.imageBlob = imageBlob;
+	}
+
+	public Boolean isOutdated() {
+		return outdated;
+	}
+
+	public void setOutdated(final Boolean outdated) {
+		this.outdated = outdated;
+	}
+
+}

@@ -4,19 +4,19 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
                                  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
-	<persistence-unit name="VRECORDER-JPA" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="VSERVER-JPA" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/vrecorder"/>
-			<property name="hibernate.connection.username" value="vrecorder"/>
-			<property name="hibernate.connection.password" value="vrecorder"/>
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/vserver"/>
+			<property name="hibernate.connection.username" value="vserver"/>
+			<property name="hibernate.connection.password" value="vserver"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
 		</properties>
 	</persistence-unit>
     
-    <persistence-unit name="TEST-VRECORDER-JPA" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="TEST-VSERVER-JPA" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>            
             <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
