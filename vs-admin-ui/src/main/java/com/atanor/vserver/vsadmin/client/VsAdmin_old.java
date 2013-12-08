@@ -1,6 +1,5 @@
 package com.atanor.vserver.vsadmin.client;
 
-import com.atanor.vserver.common.services.Services;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.data.DataSource;
@@ -92,21 +91,6 @@ public class VsAdmin_old implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				Services.getHelloService().hello("Admin",
-						new AsyncCallback<Void>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void onSuccess(Void result) {
-								// TODO Auto-generated method stub
-
-							}
-						});
 			}
 		});
 
