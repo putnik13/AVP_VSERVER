@@ -5,7 +5,7 @@ import java.util.Map;
 import org.atmosphere.cpr.AtmosphereServlet;
 
 import com.atanor.vserver.async.SnapshotResource;
-import com.atanor.vserver.servlet.HelloServlet;
+import com.atanor.vserver.servlet.RecordingServlet;
 import com.atanor.vserver.servlet.SessionCloseServlet;
 import com.atanor.vserver.servlet.SessionOpenServlet;
 import com.google.common.collect.Maps;
@@ -35,8 +35,7 @@ public class AppServletModule extends ServletModule {
 		serve(BASE_CLIENT_URL + "/open").with(SessionOpenServlet.class);
 		serve(BASE_CLIENT_URL + "/close").with(SessionCloseServlet.class);
 
-		serve(BASE_ADMIN_URL + "/hello").with(HelloServlet.class);
-		serve(BASE_CLIENT_URL + "/hello").with(HelloServlet.class);
+		serve(BASE_ADMIN_URL + "/recording").with(RecordingServlet.class);
 	}
 
 }

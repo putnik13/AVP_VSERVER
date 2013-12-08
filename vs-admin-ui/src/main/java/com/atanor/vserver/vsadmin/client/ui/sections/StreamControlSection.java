@@ -1,7 +1,10 @@
 package com.atanor.vserver.vsadmin.client.ui.sections;
 
 import java.util.Date;
+import java.util.List;
 
+import com.atanor.vserver.common.rpc.dto.RecordingDto;
+import com.google.common.collect.Lists;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
@@ -19,11 +22,14 @@ public class StreamControlSection extends BaseSection {
 	public static final Integer SNAPSHOT_WIDTH = 265;
 	public static final Integer SNAPSHOT_HEIGHT = 200;
 
+	private static final String DTO_GRID_ATTR = "dto";
 	private static final String DURATION_GRID_ATTR = "duration";
 	private static final String START_TIME_GRID_ATTR = "startTime";
 	private static final String END_TIME_GRID_ATTR = "endTime";
 	private static final String FILE_NAME_GRID_ATTR = "fileName";
-
+	private static final String ENCODED_IMAGE_ATTR = "encodeImage";
+	private static final String OUTDATED_FLAG_ATTR = "outdated";
+	
 	private final IButton startRecord;
 	private final IButton stopRecord;
 	private final Canvas snapshotBox;
@@ -89,5 +95,28 @@ public class StreamControlSection extends BaseSection {
 		canvas.setShowEdges(true);
 		canvas.setBackgroundColor("black");
 		return canvas;
+	}
+	
+	public void setRecordings(final List<RecordingDto> recordings) {
+		List<ListGridRecord> records = createGridRecords(recordings);
+		listGrid.setData(records.toArray(new ListGridRecord[] {}));
+	}
+	
+	private List<ListGridRecord> createGridRecords(final List<RecordingDto> recordings) {
+		List<ListGridRecord> records = Lists.newArrayList();
+		for (RecordingDto dto : recordings) {
+			ListGridRecord record = new ListGridRecord();
+			record.setAttribute(DTO_GRID_ATTR, dto);
+			record.setAttribute(FILE_NAME_GRID_ATTR, dto.getName());
+			record.setAttribute(START_TIME_GRID_ATTR, dto.getStartTime());
+			record.setAttribute(END_TIME_GRID_ATTR, dto.getEndTime());
+			record.setAttribute(DURATION_GRID_ATTR, dto.getDuration());
+			record.setAttribute(ENCODED_IMAGE_ATTR, dto.getEncodedImage());
+			record.setAttribute(OUTDATED_FLAG_ATTR, dto.isOutdated());
+
+			records.add(record);
+		}
+
+		return records;
 	}
 }

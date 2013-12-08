@@ -1,9 +1,11 @@
 package com.atanor.vserver.vsadmin.client.injector;
 
 
+import com.atanor.vserver.common.rpc.services.RecordingService;
 import com.atanor.vserver.vsadmin.client.ui.SectionsPane;
 import com.atanor.vserver.vsadmin.client.ui.MainPane;
 import com.atanor.vserver.vsadmin.client.ui.NavigatePane;
+import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.web.bindery.event.shared.EventBus;
@@ -18,4 +20,8 @@ public interface ClientInjector extends Ginjector {
 	SectionsPane getContentPane();
 	
 	NavigatePane getNavigatePane();
+	
+	StreamControlPresenter getStreamControlPresenter();
+	
+	RecordingService getRecordingService();
 }

@@ -21,11 +21,17 @@ public class VsAdmin implements EntryPoint {
 
 		RootPanel.get().add(injector.getMainPane());
 		register();
+		
+		initStreamControlSection();
 	}
 
 	private static void register() {
 		injector.getEventBus().addHandler(SectionSelectedEvent.getType(), injector.getContentPane());
 		injector.getEventBus().addHandler(SectionAnimationStartedEvent.getType(), injector.getNavigatePane());
+	}
+	
+	private static void initStreamControlSection() {
+		injector.getStreamControlPresenter().refreshRecordings();
 	}
 
 }
