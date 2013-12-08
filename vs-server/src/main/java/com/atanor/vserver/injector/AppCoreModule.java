@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 import com.atanor.vserver.domain.converter.RecordingConverter;
 import com.atanor.vserver.events.DeadEventListener;
 import com.atanor.vserver.facades.PlayerFacadeMock;
+import com.atanor.vserver.services.PresentationDataService;
+import com.atanor.vserver.services.PresentationDataServiceImpl;
 import com.atanor.vserver.services.RecordingDataService;
 import com.atanor.vserver.services.RecordingDataServiceImpl;
 import com.google.common.eventbus.AsyncEventBus;
@@ -23,6 +25,7 @@ public class AppCoreModule extends AbstractModule {
 		
 		bind(RecordingConverter.class);
 		bind(RecordingDataService.class).to(RecordingDataServiceImpl.class);
+		bind(PresentationDataService.class).to(PresentationDataServiceImpl.class);
 	}
 
 }

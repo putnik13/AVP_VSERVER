@@ -5,6 +5,7 @@ import com.atanor.vserver.vsadmin.client.ui.HeaderPane;
 import com.atanor.vserver.vsadmin.client.ui.MainPane;
 import com.atanor.vserver.vsadmin.client.ui.NavigatePane;
 import com.atanor.vserver.vsadmin.client.ui.SectionsPane;
+import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
 import com.atanor.vserver.vsadmin.client.ui.sections.BroadcastingSection;
 import com.atanor.vserver.vsadmin.client.ui.sections.EditConfigurationSection;
@@ -32,6 +33,7 @@ public class ClientModule extends AbstractGinModule {
 		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
 		
 		bind(StreamControlPresenter.class).in(Singleton.class);
+		bind(ShareConferencePresenter.class).in(Singleton.class);
 	}
 
 }
