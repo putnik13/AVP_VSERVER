@@ -5,17 +5,12 @@ import java.util.List;
 
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.google.common.collect.Lists;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
-import com.smartgwt.client.widgets.events.MouseOutEvent;
-import com.smartgwt.client.widgets.events.MouseOutHandler;
-import com.smartgwt.client.widgets.events.MouseOverEvent;
-import com.smartgwt.client.widgets.events.MouseOverHandler;
 import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -25,13 +20,7 @@ import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-public class StreamControlSection extends BaseSection {
-
-	private static final DateTimeFormat df = DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss");
-	public static final Integer SNAPSHOT_WIDTH = 265;
-	public static final Integer SNAPSHOT_HEIGHT = 200;
-	private static final Integer TOOLBAR_SIZE = 30;
-	private static final Integer TOOLBAR_SIZE_HOVER = 35;
+public class StreamControlSection extends BaseGridSection {
 
 	private static final String DTO_GRID_ATTR = "dto";
 	private static final String DURATION_GRID_ATTR = "duration";
@@ -75,7 +64,7 @@ public class StreamControlSection extends BaseSection {
 
 			@Override
 			public void onSelectionChanged(SelectionEvent event) {
-				if (isAnyRecordSelected()) {
+				if (isAnyRecordSelected(listGrid)) {
 					removeImg.setSrc("recycle.png");
 				} else {
 					removeImg.setSrc("recycle_empty.png");
@@ -111,7 +100,7 @@ public class StreamControlSection extends BaseSection {
 		listGrid.setFields(fileName, startTime, endTime, duration);
 
 		final HLayout gridToolbar = new HLayout();
-		gridToolbar.setHeight(TOOLBAR_SIZE_HOVER);
+		gridToolbar.setHeight(TOOLBAR_HEIGHT);
 		gridToolbar.setAlign(Alignment.RIGHT);
 
 		synchronizeImg = createToolbarImage("synchronize.png", "Synchronize Recordings");
@@ -127,15 +116,6 @@ public class StreamControlSection extends BaseSection {
 		spacer.setHeight(40);
 
 		addMembers(headerPane, spacer, gridPane);
-	}
-
-	private Canvas createSnapshotBox() {
-		final Canvas canvas = new Canvas();
-		canvas.setWidth(SNAPSHOT_WIDTH);
-		canvas.setHeight(SNAPSHOT_HEIGHT);
-		canvas.setShowEdges(true);
-		canvas.setBackgroundColor("black");
-		return canvas;
 	}
 
 	public void setRecordings(final List<RecordingDto> recordings) {
@@ -161,44 +141,4 @@ public class StreamControlSection extends BaseSection {
 		return records;
 	}
 
-	private Img createToolbarImage(final String imgSource, final String tooltip) {
-		final Img img = new Img();
-		img.setSrc(imgSource);
-		img.setTooltip(tooltip);
-		img.setWidth(TOOLBAR_SIZE);
-		img.setHeight(TOOLBAR_SIZE);
-		img.addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				img.animateResize(TOOLBAR_SIZE_HOVER, TOOLBAR_SIZE_HOVER, null, 100);
-			}
-		});
-		img.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				img.animateResize(TOOLBAR_SIZE, TOOLBAR_SIZE);
-			}
-		});
-
-		return img;
-	}
-
-	private boolean isAnyRecordSelected() {
-		for (final ListGridRecord record : listGrid.getRecords()) {
-			if (listGrid.isSelected(record)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private Canvas wrape(final Img image) {
-		Canvas canvas = new Canvas();
-		canvas.setWidth(TOOLBAR_SIZE_HOVER);
-		canvas.setHeight(TOOLBAR_SIZE_HOVER);
-		canvas.addChild(image);
-		return canvas;
-	}
 }
