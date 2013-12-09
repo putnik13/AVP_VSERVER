@@ -382,9 +382,9 @@
   
   <modules>
     <module>vs-common</module>
-	<module>vs-server</module>
-	<module>vs-admin-ui</module>
-	<module>vs-client-ui</module>
+    <module>vs-server</module>
+    <module>vs-admin-ui</module>
+    <module>vs-client-ui</module>
     <module>vs-launch</module>
   </modules>
   
