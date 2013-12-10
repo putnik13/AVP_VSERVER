@@ -5,11 +5,14 @@ import java.io.FileOutputStream;
 import com.lowagie.text.Document;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.codec.PngImage;
 
 public class PngConverterTest {
 
+	private static final Rectangle PAGE_FORMAT = PageSize.A4.rotate();
+	
 	private static final String PDF_FULL_NAME = "d:/temp/pdf/ConvertImagetoPDF.pdf";
 	private static final String IMAGE1_FULL_NAME = "d:/temp/pdf/test0.png";
 	private static final String IMAGE2_FULL_NAME = "d:/temp/pdf/test1.png";
@@ -17,7 +20,7 @@ public class PngConverterTest {
 	
 	public static void main(String[] args) {
 		try {
-			Document convertPngToPdf = new Document(PageSize.A4.rotate());
+			Document convertPngToPdf = new Document(PAGE_FORMAT);
 			PdfWriter.getInstance(convertPngToPdf, new FileOutputStream(PDF_FULL_NAME));
 			convertPngToPdf.open();
 
@@ -43,10 +46,8 @@ public class PngConverterTest {
 	}
 	
 	private static void setImagePosition(final Image image) {
-		// image.setAbsolutePosition((PageSize.A4.rotate().getWidth() -
-		// image.getScaledWidth()) / 2, (PageSize.A4.rotate()
-		// .getHeight() - image.getScaledHeight()) / 2);
 		image.setAbsolutePosition(0,0);
+		image.scaleAbsolute(PAGE_FORMAT.getWidth(), PAGE_FORMAT.getHeight());
 	}
 
 }
