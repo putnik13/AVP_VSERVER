@@ -142,6 +142,11 @@
       <artifactId>javacv-platform</artifactId>
     </dependency>
 	
+	<dependency>
+	  <groupId>com.lowagie</groupId>
+	  <artifactId>itext</artifactId>
+    </dependency>
+	  
   </dependencies>
   
 </project>

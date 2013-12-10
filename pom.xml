@@ -369,6 +369,13 @@
         <version>${javacv.version}-${platform.name}</version>
       </dependency>
 	  
+	  <!-- PDF converter -->
+	  <dependency>
+	    <groupId>com.lowagie</groupId>
+	    <artifactId>itext</artifactId>
+	    <version>4.2.1</version>
+      </dependency>
+
 	  <!-- Tests -->
 	  <dependency>
         <groupId>junit</groupId>
