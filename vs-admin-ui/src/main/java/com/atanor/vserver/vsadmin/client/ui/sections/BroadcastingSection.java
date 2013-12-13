@@ -28,14 +28,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class BroadcastingSection extends BaseGridSection {
 
-//	public BroadcastingSection() {
-//
-//		Label label = new Label();
-//		label.setContents("BROADCASTING");
-//		// label.setTop(0);
-//		addChild(label);
-//	}
-	
 	private static final String DTO_GRID_ATTR = "dto";
 	private static final String DURATION_GRID_ATTR = "duration";
 	private static final String START_TIME_GRID_ATTR = "startTime";
