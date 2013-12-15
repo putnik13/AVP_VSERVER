@@ -2,11 +2,12 @@ package com.atanor.vserver.injector;
 
 import java.util.concurrent.Executors;
 
-import com.atanor.vserver.domain.converter.RecordingConverter;
 import com.atanor.vserver.events.DeadEventListener;
 import com.atanor.vserver.facades.PlayerFacadeMock;
+import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.PresentationDataService;
 import com.atanor.vserver.services.RecordingDataService;
+import com.atanor.vserver.services.impl.ConfigDataServiceImpl;
 import com.atanor.vserver.services.impl.PresentationDataServiceImpl;
 import com.atanor.vserver.services.impl.RecordingDataServiceImpl;
 import com.google.common.eventbus.AsyncEventBus;
@@ -22,10 +23,10 @@ public class AppCoreModule extends AbstractModule {
 
 		bind(EventBus.class).toInstance(eventBus);
 		bind(PlayerFacadeMock.class).asEagerSingleton();
-		
-		bind(RecordingConverter.class);
+
 		bind(RecordingDataService.class).to(RecordingDataServiceImpl.class);
 		bind(PresentationDataService.class).to(PresentationDataServiceImpl.class);
+		bind(ConfigDataService.class).to(ConfigDataServiceImpl.class);
 	}
 
 }

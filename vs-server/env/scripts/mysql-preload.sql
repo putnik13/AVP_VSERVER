@@ -21,6 +21,21 @@ CREATE TABLE presentations (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE vsconfiguration (
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(32) NULL DEFAULT NULL,
+	is_default TINYINT(1) NULL DEFAULT NULL,
+	add_logo TINYINT(1) NULL DEFAULT NULL,
+    palantir_port VARCHAR(32) NULL DEFAULT NULL,
+	palantir_url VARCHAR(32) NULL DEFAULT NULL,
+	player_install VARCHAR(100) NULL DEFAULT NULL,
+    recordings_output VARCHAR(100) NULL DEFAULT NULL,
+	presentations_output VARCHAR(100) NULL DEFAULT NULL,
+    stream_media_options LONGTEXT NULL,
+	conf_media_options LONGTEXT NULL,
+	PRIMARY KEY (id)
+);
+
 -- preload configuration data
 INSERT INTO recordings(name, starttime, endtime, duration) VALUES ('Recording1.avi', '2013-11-04 17:53:42', '2013-11-04 18:05:00', '00:12:13');
 INSERT INTO recordings(name, starttime, endtime, duration) VALUES ('Recording2.avi', '2013-11-04 18:10:22', '2013-11-04 18:33:12', '00:23:44');
@@ -30,3 +45,8 @@ INSERT INTO recordings(name, starttime, endtime, duration) VALUES ('Recording4.a
 INSERT INTO presentations(name, createtime) VALUES ('Presentation1.pdf', '2013-11-04 17:53:42');
 INSERT INTO presentations(name, createtime) VALUES ('Presentation2.pdf', '2013-12-04 18:10:22');
 INSERT INTO presentations(name, createtime) VALUES ('Presentation3.pdf', '2013-12-08 21:56:17');
+
+INSERT INTO vsconfiguration(name, is_default, add_logo, palantir_port, palantir_url, player_install, recordings_output, presentations_output, stream_media_options)
+  VALUES ('TESTCONFIG', 1, 1, '5050', '192.168.1.80', 'C:/Program Files/VideoLAN/VLC', 'D:/tmp/recordings', 'D:/tmp/presentations', ':sout=#tra1nscode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}');
+INSERT INTO vsconfiguration(name, is_default, add_logo, palantir_port, palantir_url, player_install, recordings_output, presentations_output, stream_media_options)
+  VALUES ('MYKOLACONFIG', 0, 1, '5555', '192.168.1.80', 'C:/Program Files/VideoLAN/VLC', 'D:/temp/recordings', 'D:/temp/presentations', ':sout=#tra1nscode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}');
