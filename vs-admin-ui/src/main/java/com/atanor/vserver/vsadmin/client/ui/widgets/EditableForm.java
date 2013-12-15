@@ -2,6 +2,7 @@ package com.atanor.vserver.vsadmin.client.ui.widgets;
 
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextAreaItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
@@ -33,13 +34,24 @@ public class EditableForm extends DynamicForm {
 
 			@Override
 			public void onChanged(ChangedEvent event) {
-				final String newValue = (String) event.getValue();
 				final FormItem item = event.getItem();
-				final String originValue = item.getAttribute(UiUtils.ORIGIN_ITEM_VALUE);
-				final boolean isValueChanged = originValue != null && !originValue.equals(newValue);
+				boolean isValueChanged = false;
+
+				if (item instanceof TextItem || item instanceof TextAreaItem) {
+					final String newValue = (String) event.getValue();
+					final String originValue = item.getAttributeAsString(UiUtils.ORIGIN_ITEM_VALUE);
+					isValueChanged = (originValue == null && newValue != null)
+							|| (originValue != null && !originValue.equals(newValue));
+
+					item.setTextBoxStyle(isValueChanged ? "textItemModified" : "textItem");
+				} else if (item instanceof CheckboxItem) {
+					final Boolean newValue = (Boolean) event.getValue();
+					final Boolean originValue = item.getAttributeAsBoolean(UiUtils.ORIGIN_ITEM_VALUE);
+					isValueChanged = (originValue == null && newValue != null)
+							|| (originValue != null && originValue != newValue);
+				}
 
 				item.setAttribute(UiUtils.ITEM_MODIFIED, isValueChanged);
-				item.setTextBoxStyle(isValueChanged ? "textItemModified" : "textItem");
 			}
 		});
 	}

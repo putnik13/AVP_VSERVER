@@ -9,13 +9,13 @@ import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.events.ItemChangedEvent;
 import com.smartgwt.client.widgets.form.events.ItemChangedHandler;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextAreaItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.SectionStack;
 import com.smartgwt.client.widgets.layout.SectionStackSection;
-import com.smartgwt.client.widgets.layout.VLayout;
 
 public class EditConfigurationSection extends BaseSection {
 
@@ -23,11 +23,15 @@ public class EditConfigurationSection extends BaseSection {
 	private final IButton saveButton;
 	private final IButton cancelButton;
 
-	private final TextAreaItem mediaOptionsAreaItem;
-	private final TextItem outputFolderItem;
+	private final TextAreaItem streamMediaOptionsAreaItem;
+	private final TextItem streamOutputFolderItem;
 	private final TextItem playerPathItem;
 	private final TextItem palantirUrlItem;
 	private final TextItem palantirPortItem;
+
+	private final TextAreaItem confMediaOptionsAreaItem;
+	private final TextItem confOutputFolderItem;
+	private final CheckboxItem addLogoItem;
 
 	public EditConfigurationSection() {
 
@@ -67,38 +71,47 @@ public class EditConfigurationSection extends BaseSection {
 		sectionStack.setHeight100();
 
 		final SectionStackSection streamControlSection = createSection("Stream Control settings");
-		final SectionStackSection broadcastingSection = createSection("Broadcasting settings");
 		final SectionStackSection conferenceSection = createSection("Conference settings");
+		final SectionStackSection broadcastingSection = createSection("Broadcasting settings");
 		final SectionStackSection generalSection = createSection("General settings");
 
 		final EditableForm streamControlForm = new EditableForm();
-
-		mediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
-		outputFolderItem = EditableForm.createTextItem("Output recordings folder");
-		playerPathItem = EditableForm.createTextItem("VLC installation path");
+		streamMediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
+		streamOutputFolderItem = EditableForm.createTextItem("Output recordings folder");
+		streamOutputFolderItem.setColSpan(4);
 		palantirUrlItem = EditableForm.createTextItem("Palantir URL");
 		palantirPortItem = EditableForm.createTextItem("Palantir port");
-
-		setFormItemValues();
-
-		streamControlForm.setFields(mediaOptionsAreaItem, outputFolderItem, playerPathItem, palantirUrlItem,
+		streamControlForm.setFields(streamMediaOptionsAreaItem, streamOutputFolderItem, palantirUrlItem,
 				palantirPortItem);
 
-		final VLayout streamControlLayout = new VLayout();
-		streamControlLayout.setWidth100();
-		streamControlLayout.setPadding(20);
+		final EditableForm conferenceForm = new EditableForm();
+		confMediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
+		confOutputFolderItem = EditableForm.createTextItem("Output presentations folder");
+		confOutputFolderItem.setColSpan(4);
+		addLogoItem = new CheckboxItem();
+		addLogoItem.setTitle("Add logotype to PDF");
+		addLogoItem.setColSpan(4);
+		
+		conferenceForm.setFields(confMediaOptionsAreaItem, confOutputFolderItem, addLogoItem);
 
-		streamControlLayout.addMember(streamControlForm);
+		final EditableForm generalForm = new EditableForm();
+		playerPathItem = EditableForm.createTextItem("VLC installation path");
+		playerPathItem.setColSpan(4);
+		generalForm.setFields(playerPathItem);
+
 		streamControlSection.addItem(streamControlForm);
+		conferenceSection.addItem(conferenceForm);
+		generalSection.addItem(generalForm);
 
 		sectionStack.addSection(streamControlSection);
-		sectionStack.addSection(broadcastingSection);
 		sectionStack.addSection(conferenceSection);
+		sectionStack.addSection(broadcastingSection);
 		sectionStack.addSection(generalSection);
 
 		setScreenEditable(false);
 
-		addAnyItemChangedHandler(streamControlForm);
+		setFormItemValues();
+		addAnyItemChangedHandler(streamControlForm, conferenceForm, generalForm);
 
 		addMembers(buttonLayout, sectionStack);
 	}
@@ -111,14 +124,25 @@ public class EditConfigurationSection extends BaseSection {
 
 	private void setScreenEditable(boolean isEditable) {
 		setStreamControlEditable(isEditable);
+		setConferenceEditable(isEditable);
+		setGeneralEditable(isEditable);
 	}
 
 	private void setStreamControlEditable(boolean isEditable) {
-		setFormItemEditable(mediaOptionsAreaItem, isEditable);
-		setFormItemEditable(outputFolderItem, isEditable);
-		setFormItemEditable(playerPathItem, isEditable);
+		setFormItemEditable(streamMediaOptionsAreaItem, isEditable);
+		setFormItemEditable(streamOutputFolderItem, isEditable);
 		setFormItemEditable(palantirUrlItem, isEditable);
 		setFormItemEditable(palantirPortItem, isEditable);
+	}
+
+	private void setConferenceEditable(boolean isEditable) {
+		addLogoItem.setCanEdit(isEditable);
+		setFormItemEditable(confMediaOptionsAreaItem, isEditable);
+		setFormItemEditable(confOutputFolderItem, isEditable);
+	}
+
+	private void setGeneralEditable(boolean isEditable) {
+		setFormItemEditable(playerPathItem, isEditable);
 	}
 
 	private void setFormItemEditable(final FormItem item, final boolean isEditable) {
@@ -139,15 +163,16 @@ public class EditConfigurationSection extends BaseSection {
 	}
 
 	private void setFormItemValues() {
-		setFormItemValue(mediaOptionsAreaItem,
+		setFormItemValue(streamMediaOptionsAreaItem,
 				":sout=#tra1nscode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}");
-		setFormItemValue(outputFolderItem, "D:/tmp");
+		setFormItemValue(streamOutputFolderItem, "D:/tmp");
 		setFormItemValue(playerPathItem, "C:/Program Files/VideoLAN/VLC");
 		setFormItemValue(palantirUrlItem, "192.168.1.80");
 		setFormItemValue(palantirPortItem, "5050");
+		setFormItemValue(addLogoItem, true);
 	}
 
-	private void setFormItemValue(final FormItem item, final String value) {
+	private void setFormItemValue(final FormItem item, final Object value) {
 		item.setValue(value);
 		item.setAttribute(UiUtils.ORIGIN_ITEM_VALUE, value);
 	}
