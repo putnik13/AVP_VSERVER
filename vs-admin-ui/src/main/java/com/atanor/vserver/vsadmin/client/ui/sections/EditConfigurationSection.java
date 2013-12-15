@@ -1,7 +1,6 @@
 package com.atanor.vserver.vsadmin.client.ui.sections;
 
 import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.types.ReadOnlyDisplayAppearance;
 import com.smartgwt.client.types.VisibilityMode;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -9,8 +8,11 @@ import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.events.ItemChangedEvent;
 import com.smartgwt.client.widgets.form.events.ItemChangedHandler;
+import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextAreaItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
+import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.SectionStack;
 import com.smartgwt.client.widgets.layout.SectionStackSection;
@@ -100,7 +102,16 @@ public class EditConfigurationSection extends BaseSection {
 
 		palantirPortItem = createTextItem("Palantir port");
 		palantirPortItem.setValue("5050");
+		palantirPortItem.addChangedHandler(new ChangedHandler() {
 
+			@Override
+			public void onChanged(ChangedEvent event) {
+				final String newValue = (String) event.getValue();
+				final FormItem item = event.getItem();
+				item.setTextBoxStyle("5050".equals(newValue) ? "textItem" : "textItemModified");
+			}
+		});
+		
 		form.setFields(mediaOptionsAreaItem, outputFolderItem, playerPathItem, palantirUrlItem, palantirPortItem);
 
 		final VLayout streamControlLayout = new VLayout();
@@ -115,6 +126,8 @@ public class EditConfigurationSection extends BaseSection {
 		sectionStack.addSection(conferenceSection);
 		sectionStack.addSection(generalSection);
 
+		setScreenEditable(false);
+		
 		addMembers(buttonLayout, sectionStack);
 	}
 
@@ -130,21 +143,17 @@ public class EditConfigurationSection extends BaseSection {
 		item.setColSpan(4);
 		item.setLength(5000);
 		item.setWidth("*");
-		item.setCanEdit(false);
 		item.setTitleStyle("formTitleVs");
-		item.setReadOnlyTextBoxStyle("textItemReadOnlyVs");
-		item.setReadOnlyDisplay(ReadOnlyDisplayAppearance.STATIC);
+		item.setTextBoxStyle("textItemReadOnly");
 		return item;
 	}
 
 	private TextItem createTextItem(final String title) {
 		final TextItem item = new TextItem();
 		item.setTitle(title);
-		item.setCanEdit(false);
 		item.setWidth("*");
 		item.setTitleStyle("formTitleVs");
-		item.setReadOnlyTextBoxStyle("textItemReadOnlyVs");
-		item.setReadOnlyDisplay(ReadOnlyDisplayAppearance.STATIC);
+		item.setTextBoxStyle("textItemReadOnly");
 		return item;
 	}
 
@@ -153,11 +162,16 @@ public class EditConfigurationSection extends BaseSection {
 	}
 
 	private void setStreamControlEditable(boolean isEditable) {
-		mediaOptionsAreaItem.setCanEdit(isEditable);
-		outputFolderItem.setCanEdit(isEditable);
-		playerPathItem.setCanEdit(isEditable);
-		palantirUrlItem.setCanEdit(isEditable);
-		palantirPortItem.setCanEdit(isEditable);
+		setFormItemEditable(mediaOptionsAreaItem, isEditable);
+		setFormItemEditable(outputFolderItem, isEditable);
+		setFormItemEditable(playerPathItem, isEditable);
+		setFormItemEditable(palantirUrlItem, isEditable);
+		setFormItemEditable(palantirPortItem, isEditable);
+	}
+	
+	private void setFormItemEditable(final FormItem item, final boolean isEditable) {
+		item.setCanEdit(isEditable);
+		item.setTextBoxStyle(isEditable ? "textItem" : "textItemReadOnly");
 	}
 
 	private void setDefaultButtonSettings() {

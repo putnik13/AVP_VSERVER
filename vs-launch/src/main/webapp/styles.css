@@ -39,6 +39,27 @@ h1 {
     font-size: 11px;
 }
 
-.textItemReadOnlyVs, .textItemReadOnlyVsFocused, .textItemReadOnlyVsDisabled {
-    background-color: #E8E8E8;
+.textItemReadOnly, .textItemReadOnlyFocused, .textItemReadOnlyDisabled {
+  background: #E8E8E8;
+  border: 1px solid #ababab;
+  color: black;
+  padding: 4px 2px 4px 2px;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-family: Arial,Verdana,sans-serif;
+  font-size: 11px;
+}
+
+.textItemModified, .textItemModifiedFocused, .textItemModifiedDisabled {
+  background: #FFFF99;
+  color: black;
+  padding: 4px 2px 4px 2px;
+  border-bottom: 1px solid #c0d8ec;
+  border-left: 1px solid #b8cfef;
+  border-right: 1px solid #b3c6db;
+  border-top: 1px solid #587aad;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-family: Arial,Verdana,sans-serif;
+  font-size: 11px;
 }
