@@ -20,6 +20,7 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class EditConfigurationSection extends BaseSection {
 
+	private static final String ORIGIN_ITEM_VALUE = "originvalue";
 	private final IButton editButton;
 	private final IButton saveButton;
 	private final IButton cancelButton;
@@ -88,20 +89,13 @@ public class EditConfigurationSection extends BaseSection {
 		});
 
 		mediaOptionsAreaItem = createTextAreaItem("Media Options");
-		mediaOptionsAreaItem
-				.setValue(":sout=#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}");
-
 		outputFolderItem = createTextItem("Output recordings folder");
-		outputFolderItem.setValue("D:/tmp");
-
 		playerPathItem = createTextItem("VLC installation path");
-		playerPathItem.setValue("C:/Program Files/VideoLAN/VLC");
-
 		palantirUrlItem = createTextItem("Palantir URL");
-		palantirUrlItem.setValue("192.168.1.80");
-
 		palantirPortItem = createTextItem("Palantir port");
-		palantirPortItem.setValue("5050");
+
+		setFormItemValues();
+
 		palantirPortItem.addChangedHandler(new ChangedHandler() {
 
 			@Override
@@ -111,7 +105,7 @@ public class EditConfigurationSection extends BaseSection {
 				item.setTextBoxStyle("5050".equals(newValue) ? "textItem" : "textItemModified");
 			}
 		});
-		
+
 		form.setFields(mediaOptionsAreaItem, outputFolderItem, playerPathItem, palantirUrlItem, palantirPortItem);
 
 		final VLayout streamControlLayout = new VLayout();
@@ -127,7 +121,7 @@ public class EditConfigurationSection extends BaseSection {
 		sectionStack.addSection(generalSection);
 
 		setScreenEditable(false);
-		
+
 		addMembers(buttonLayout, sectionStack);
 	}
 
@@ -168,7 +162,7 @@ public class EditConfigurationSection extends BaseSection {
 		setFormItemEditable(palantirUrlItem, isEditable);
 		setFormItemEditable(palantirPortItem, isEditable);
 	}
-	
+
 	private void setFormItemEditable(final FormItem item, final boolean isEditable) {
 		item.setCanEdit(isEditable);
 		item.setTextBoxStyle(isEditable ? "textItem" : "textItemReadOnly");
@@ -184,5 +178,19 @@ public class EditConfigurationSection extends BaseSection {
 		editButton.disable();
 		saveButton.disable();
 		cancelButton.enable();
+	}
+
+	private void setFormItemValues() {
+		setFormItemValue(mediaOptionsAreaItem,
+				":sout=#tra1nscode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}");
+		setFormItemValue(outputFolderItem, "D:/tmp");
+		setFormItemValue(playerPathItem, "C:/Program Files/VideoLAN/VLC");
+		setFormItemValue(palantirUrlItem, "192.168.1.80");
+		setFormItemValue(palantirPortItem, "5050");
+	}
+
+	private void setFormItemValue(final FormItem item, final String value) {
+		item.setValue(value);
+		item.setAttribute(ORIGIN_ITEM_VALUE, value);
 	}
 }
