@@ -16,7 +16,7 @@ public class ConfigConverter extends AbstractConverter<VsConfigDto, VsConfig> {
 		dto.setDefault(entity.isDefault());
 		dto.setAddLogo(entity.getAddLogo());
 		dto.setPalantirPort(entity.getPalantirPort());
-		dto.setPalantirUrl(entity.getPalantirPort());
+		dto.setPalantirUrl(entity.getPalantirUrl());
 		dto.setPlayerInstallPath(entity.getPlayerInstallPath());
 		dto.setRecordingsOutput(entity.getRecordingsOutput());
 		dto.setPresentationsOutput(entity.getPresentationsOutput());
@@ -35,7 +35,7 @@ public class ConfigConverter extends AbstractConverter<VsConfigDto, VsConfig> {
 		entity.setDefault(dto.isDefault());
 		entity.setAddLogo(dto.getAddLogo());
 		entity.setPalantirPort(dto.getPalantirPort());
-		entity.setPalantirUrl(dto.getPalantirPort());
+		entity.setPalantirUrl(dto.getPalantirUrl());
 		entity.setPlayerInstallPath(dto.getPlayerInstallPath());
 		entity.setRecordingsOutput(dto.getRecordingsOutput());
 		entity.setPresentationsOutput(dto.getPresentationsOutput());
