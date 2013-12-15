@@ -16,6 +16,5 @@ public abstract class BaseSection extends VLayout {
 	public BaseSection() {
 		setWidth100();
 		setHeight100();
-		setBackgroundColor("lightgrey");
 	}
 }

@@ -10,10 +10,9 @@ public class ContentPane extends VLayout {
 	public ContentPane(final HeaderPane headerPane, final SectionsPane sectionsPane) {
 		setHeight100();
 		setWidth100();
-
+		setBackgroundColor("lightgrey");
+		
 		addChild(headerPane);
 		addChild(sectionsPane);
-		
-		headerPane.bringToFront();
 	}
 }
