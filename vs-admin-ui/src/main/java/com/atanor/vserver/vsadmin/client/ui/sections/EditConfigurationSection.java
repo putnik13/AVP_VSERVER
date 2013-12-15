@@ -1,5 +1,7 @@
 package com.atanor.vserver.vsadmin.client.ui.sections;
 
+import com.atanor.vserver.vsadmin.client.ui.UiUtils;
+import com.atanor.vserver.vsadmin.client.ui.widgets.EditableForm;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VisibilityMode;
 import com.smartgwt.client.widgets.IButton;
@@ -7,12 +9,9 @@ import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.events.ItemChangedEvent;
-import com.smartgwt.client.widgets.form.events.ItemChangedHandler;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextAreaItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
-import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
-import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.SectionStack;
 import com.smartgwt.client.widgets.layout.SectionStackSection;
@@ -20,7 +19,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class EditConfigurationSection extends BaseSection {
 
-	private static final String ORIGIN_ITEM_VALUE = "originvalue";
 	private final IButton editButton;
 	private final IButton saveButton;
 	private final IButton cancelButton;
@@ -73,38 +71,21 @@ public class EditConfigurationSection extends BaseSection {
 		final SectionStackSection conferenceSection = createSection("Conference settings");
 		final SectionStackSection generalSection = createSection("General settings");
 
-		final DynamicForm form = new DynamicForm();
-		form.setWidth100();
-		form.setHeight100();
-		form.setPadding(20);
-		form.setNumCols(4);
-		form.setColWidths(200, "*", 200, "*");
-		form.setCellPadding(5);
-		form.addItemChangedHandler(new ItemChangedHandler() {
+		final DynamicForm form = new EditableForm() {
 
 			@Override
-			public void onItemChanged(ItemChangedEvent event) {
+			protected void onAnyItemChanged(ItemChangedEvent event) {
 				saveButton.enable();
 			}
-		});
-
-		mediaOptionsAreaItem = createTextAreaItem("Media Options");
-		outputFolderItem = createTextItem("Output recordings folder");
-		playerPathItem = createTextItem("VLC installation path");
-		palantirUrlItem = createTextItem("Palantir URL");
-		palantirPortItem = createTextItem("Palantir port");
+		};
+			
+		mediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
+		outputFolderItem = EditableForm.createTextItem("Output recordings folder");
+		playerPathItem = EditableForm.createTextItem("VLC installation path");
+		palantirUrlItem = EditableForm.createTextItem("Palantir URL");
+		palantirPortItem = EditableForm.createTextItem("Palantir port");
 
 		setFormItemValues();
-
-		palantirPortItem.addChangedHandler(new ChangedHandler() {
-
-			@Override
-			public void onChanged(ChangedEvent event) {
-				final String newValue = (String) event.getValue();
-				final FormItem item = event.getItem();
-				item.setTextBoxStyle("5050".equals(newValue) ? "textItem" : "textItemModified");
-			}
-		});
 
 		form.setFields(mediaOptionsAreaItem, outputFolderItem, playerPathItem, palantirUrlItem, palantirPortItem);
 
@@ -131,25 +112,7 @@ public class EditConfigurationSection extends BaseSection {
 		return section;
 	}
 
-	private TextAreaItem createTextAreaItem(final String title) {
-		final TextAreaItem item = new TextAreaItem();
-		item.setTitle(title);
-		item.setColSpan(4);
-		item.setLength(5000);
-		item.setWidth("*");
-		item.setTitleStyle("formTitleVs");
-		item.setTextBoxStyle("textItemReadOnly");
-		return item;
-	}
-
-	private TextItem createTextItem(final String title) {
-		final TextItem item = new TextItem();
-		item.setTitle(title);
-		item.setWidth("*");
-		item.setTitleStyle("formTitleVs");
-		item.setTextBoxStyle("textItemReadOnly");
-		return item;
-	}
+	
 
 	private void setScreenEditable(boolean isEditable) {
 		setStreamControlEditable(isEditable);
@@ -191,6 +154,6 @@ public class EditConfigurationSection extends BaseSection {
 
 	private void setFormItemValue(final FormItem item, final String value) {
 		item.setValue(value);
-		item.setAttribute(ORIGIN_ITEM_VALUE, value);
+		item.setAttribute(UiUtils.ORIGIN_ITEM_VALUE, value);
 	}
 }

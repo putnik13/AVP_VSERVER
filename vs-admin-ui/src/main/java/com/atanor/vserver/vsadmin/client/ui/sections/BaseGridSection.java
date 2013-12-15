@@ -1,5 +1,6 @@
 package com.atanor.vserver.vsadmin.client.ui.sections;
 
+import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.events.MouseOutEvent;
@@ -13,8 +14,8 @@ public abstract class BaseGridSection extends BaseSection {
 
 	protected Canvas createSnapshotBox() {
 		final Canvas canvas = new Canvas();
-		canvas.setWidth(SNAPSHOT_WIDTH);
-		canvas.setHeight(SNAPSHOT_HEIGHT);
+		canvas.setWidth(UiUtils.SNAPSHOT_WIDTH);
+		canvas.setHeight(UiUtils.SNAPSHOT_HEIGHT);
 		canvas.setShowEdges(true);
 		canvas.setBackgroundColor("black");
 		return canvas;
@@ -24,20 +25,20 @@ public abstract class BaseGridSection extends BaseSection {
 		final Img img = new Img();
 		img.setSrc(imgSource);
 		img.setTooltip(tooltip);
-		img.setWidth(TOOLBAR_ICON_SIZE);
-		img.setHeight(TOOLBAR_ICON_SIZE);
+		img.setWidth(UiUtils.TOOLBAR_ICON_SIZE);
+		img.setHeight(UiUtils.TOOLBAR_ICON_SIZE);
 		img.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				img.animateResize(TOOLBAR_ICON_SIZE_HOVER, TOOLBAR_ICON_SIZE_HOVER, null, 100);
+				img.animateResize(UiUtils.TOOLBAR_ICON_SIZE_HOVER, UiUtils.TOOLBAR_ICON_SIZE_HOVER, null, 100);
 			}
 		});
 		img.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				img.animateResize(TOOLBAR_ICON_SIZE, TOOLBAR_ICON_SIZE);
+				img.animateResize(UiUtils.TOOLBAR_ICON_SIZE, UiUtils.TOOLBAR_ICON_SIZE);
 			}
 		});
 
@@ -46,8 +47,8 @@ public abstract class BaseGridSection extends BaseSection {
 
 	protected Canvas wrape(final Img image) {
 		Canvas canvas = new Canvas();
-		canvas.setWidth(TOOLBAR_ICON_SIZE_HOVER);
-		canvas.setHeight(TOOLBAR_ICON_SIZE_HOVER);
+		canvas.setWidth(UiUtils.TOOLBAR_ICON_SIZE_HOVER);
+		canvas.setHeight(UiUtils.TOOLBAR_ICON_SIZE_HOVER);
 		canvas.addChild(image);
 		return canvas;
 	}

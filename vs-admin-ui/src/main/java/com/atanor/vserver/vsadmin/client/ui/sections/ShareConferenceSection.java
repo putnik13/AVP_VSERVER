@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
+import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.google.common.collect.Lists;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.SelectionAppearance;
@@ -85,7 +86,7 @@ public class ShareConferenceSection extends BaseGridSection {
 		listGrid.setFields(fileName, createTime);
 
 		final HLayout gridToolbar = new HLayout();
-		gridToolbar.setHeight(TOOLBAR_HEIGHT);
+		gridToolbar.setHeight(UiUtils.TOOLBAR_HEIGHT);
 		gridToolbar.setAlign(Alignment.RIGHT);
 
 		synchronizeImg = createToolbarImage("synchronize.png", "Synchronize Presenations");
