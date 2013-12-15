@@ -25,4 +25,14 @@ public class ConfigDataServiceImpl implements ConfigDataService {
 		throw new IllegalStateException("Default configuration is not set.");
 	}
 
+	@Override
+	public VsConfig getConfigById(Long id) {
+		return configDao.find(id);
+	}
+
+	@Override
+	public void update(VsConfig config) {
+		configDao.update(config);
+	}
+
 }

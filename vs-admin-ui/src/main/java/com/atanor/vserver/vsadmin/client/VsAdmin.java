@@ -24,6 +24,7 @@ public class VsAdmin implements EntryPoint {
 
 		initStreamControlSection();
 		initShareConferenceSection();
+		initEditConfigurationSection();
 	}
 
 	private static void register() {
@@ -39,4 +40,8 @@ public class VsAdmin implements EntryPoint {
 		injector.getShareConferencePresenter().refreshPresentations();
 	}
 
+	private static void initEditConfigurationSection() {
+		injector.getEditConfigurationPresenter().refreshConfiguration();
+	}
+	
 }

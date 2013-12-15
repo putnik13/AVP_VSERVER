@@ -19,7 +19,7 @@ public class VsConfig extends AbstractEntity<Long> {
 
 	@Column(name = "name", length = 32)
 	private String name;
-	
+
 	@Column(name = "stream_media_options", length = 300)
 	private String streamMediaOptions;
 
@@ -43,9 +43,16 @@ public class VsConfig extends AbstractEntity<Long> {
 
 	@Column(name = "is_default", columnDefinition = "BOOLEAN")
 	private Boolean isDefault;
-	
+
 	@Column(name = "add_logo", columnDefinition = "BOOLEAN")
 	private Boolean addLogo;
+
+	public VsConfig() {
+	}
+	
+	public VsConfig(Long id) {
+		this.id = id;
+	}
 
 	@Override
 	public Long getId() {
@@ -59,7 +66,7 @@ public class VsConfig extends AbstractEntity<Long> {
 	public void setName(final String name) {
 		this.name = name;
 	}
-	
+
 	public String getStreamMediaOptions() {
 		return streamMediaOptions;
 	}

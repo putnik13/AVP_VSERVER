@@ -1,6 +1,8 @@
 package com.atanor.vserver.vsadmin.client.ui.sections;
 
+import com.atanor.vserver.common.rpc.dto.VsConfigDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
+import com.atanor.vserver.vsadmin.client.ui.presenters.EditConfigurationPresenter;
 import com.atanor.vserver.vsadmin.client.ui.widgets.EditableForm;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VisibilityMode;
@@ -19,6 +21,8 @@ import com.smartgwt.client.widgets.layout.SectionStackSection;
 
 public class EditConfigurationSection extends BaseSection {
 
+	private EditConfigurationPresenter presenter;
+
 	private final IButton editButton;
 	private final IButton saveButton;
 	private final IButton cancelButton;
@@ -32,6 +36,8 @@ public class EditConfigurationSection extends BaseSection {
 	private final TextAreaItem confMediaOptionsAreaItem;
 	private final TextItem confOutputFolderItem;
 	private final CheckboxItem addLogoItem;
+
+	private VsConfigDto currentConfig;
 
 	public EditConfigurationSection() {
 
@@ -52,6 +58,16 @@ public class EditConfigurationSection extends BaseSection {
 		});
 
 		saveButton = new IButton("Save");
+		saveButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				setScreenEditable(false);
+				setDefaultButtonSettings();
+				updateCongiguration();
+			}
+		});
+
 		cancelButton = new IButton("Cancel");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -59,6 +75,7 @@ public class EditConfigurationSection extends BaseSection {
 			public void onClick(ClickEvent event) {
 				setScreenEditable(false);
 				setDefaultButtonSettings();
+				setConfiguration(currentConfig);
 			}
 		});
 
@@ -91,7 +108,7 @@ public class EditConfigurationSection extends BaseSection {
 		addLogoItem = new CheckboxItem();
 		addLogoItem.setTitle("Add logotype to PDF");
 		addLogoItem.setColSpan(4);
-		
+
 		conferenceForm.setFields(confMediaOptionsAreaItem, confOutputFolderItem, addLogoItem);
 
 		final EditableForm generalForm = new EditableForm();
@@ -110,7 +127,6 @@ public class EditConfigurationSection extends BaseSection {
 
 		setScreenEditable(false);
 
-		setFormItemValues();
 		addAnyItemChangedHandler(streamControlForm, conferenceForm, generalForm);
 
 		addMembers(buttonLayout, sectionStack);
@@ -162,16 +178,6 @@ public class EditConfigurationSection extends BaseSection {
 		cancelButton.enable();
 	}
 
-	private void setFormItemValues() {
-		setFormItemValue(streamMediaOptionsAreaItem,
-				":sout=#tra1nscode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}");
-		setFormItemValue(streamOutputFolderItem, "D:/tmp");
-		setFormItemValue(playerPathItem, "C:/Program Files/VideoLAN/VLC");
-		setFormItemValue(palantirUrlItem, "192.168.1.80");
-		setFormItemValue(palantirPortItem, "5050");
-		setFormItemValue(addLogoItem, true);
-	}
-
 	private void setFormItemValue(final FormItem item, final Object value) {
 		item.setValue(value);
 		item.setAttribute(UiUtils.ORIGIN_ITEM_VALUE, value);
@@ -206,4 +212,34 @@ public class EditConfigurationSection extends BaseSection {
 		}
 		return Boolean.FALSE;
 	}
+
+	public void setConfiguration(final VsConfigDto config) {
+		this.currentConfig = config;
+		setFormItemValue(streamMediaOptionsAreaItem, config.getStreamMediaOptions());
+		setFormItemValue(confMediaOptionsAreaItem, config.getConfMediaOptions());
+		setFormItemValue(streamOutputFolderItem, config.getRecordingsOutput());
+		setFormItemValue(confOutputFolderItem, config.getPresentationsOutput());
+		setFormItemValue(playerPathItem, config.getPlayerInstallPath());
+		setFormItemValue(palantirUrlItem, config.getPalantirUrl());
+		setFormItemValue(palantirPortItem, config.getPalantirPort());
+		setFormItemValue(addLogoItem, config.getAddLogo());
+	}
+
+	private void updateCongiguration() {
+		currentConfig.setStreamMediaOptions(streamMediaOptionsAreaItem.getValueAsString());
+		currentConfig.setConfMediaOptions(confMediaOptionsAreaItem.getValueAsString());
+		currentConfig.setRecordingsOutput(streamOutputFolderItem.getValueAsString());
+		currentConfig.setPresentationsOutput(confOutputFolderItem.getValueAsString());
+		currentConfig.setPlayerInstallPath(playerPathItem.getValueAsString());
+		currentConfig.setPalantirUrl(palantirUrlItem.getValueAsString());
+		currentConfig.setPalantirPort(palantirPortItem.getValueAsString());
+		currentConfig.setAddLogo(addLogoItem.getValueAsBoolean());
+
+		presenter.updateConfiguration(currentConfig);
+	}
+
+	public void setPresenter(final EditConfigurationPresenter presenter) {
+		this.presenter = presenter;
+	}
+	
 }

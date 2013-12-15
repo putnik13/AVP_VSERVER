@@ -5,6 +5,7 @@ import java.util.Map;
 import org.atmosphere.cpr.AtmosphereServlet;
 
 import com.atanor.vserver.async.SnapshotResource;
+import com.atanor.vserver.servlet.ConfigServlet;
 import com.atanor.vserver.servlet.PresentationServlet;
 import com.atanor.vserver.servlet.RecordingServlet;
 import com.atanor.vserver.servlet.SessionCloseServlet;
@@ -38,6 +39,7 @@ public class AppServletModule extends ServletModule {
 
 		serve(BASE_ADMIN_URL + "/recording").with(RecordingServlet.class);
 		serve(BASE_ADMIN_URL + "/presentation").with(PresentationServlet.class);
+		serve(BASE_ADMIN_URL + "/config").with(ConfigServlet.class);
 	}
 
 }

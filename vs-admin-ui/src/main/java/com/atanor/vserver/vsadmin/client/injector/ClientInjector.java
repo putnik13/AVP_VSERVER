@@ -1,10 +1,12 @@
 package com.atanor.vserver.vsadmin.client.injector;
 
+import com.atanor.vserver.common.rpc.services.ConfigService;
 import com.atanor.vserver.common.rpc.services.PresentationService;
 import com.atanor.vserver.common.rpc.services.RecordingService;
 import com.atanor.vserver.vsadmin.client.ui.MainPane;
 import com.atanor.vserver.vsadmin.client.ui.NavigatePane;
 import com.atanor.vserver.vsadmin.client.ui.SectionsPane;
+import com.atanor.vserver.vsadmin.client.ui.presenters.EditConfigurationPresenter;
 import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
 import com.google.gwt.inject.client.GinModules;
@@ -26,7 +28,11 @@ public interface ClientInjector extends Ginjector {
 
 	ShareConferencePresenter getShareConferencePresenter();
 
+	EditConfigurationPresenter getEditConfigurationPresenter();
+
 	RecordingService getRecordingService();
 
 	PresentationService getPresentationService();
+	
+	ConfigService getConfigService();
 }
