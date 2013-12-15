@@ -3,6 +3,7 @@ package com.atanor.vserver.vsadmin.client.ui;
 public class UiUtils {
 	
 	public static final String ORIGIN_ITEM_VALUE = "originvalue";
+	public static final String ITEM_MODIFIED = "itemmodified";
 	
 	public static final Integer SNAPSHOT_WIDTH = 265;
 	public static final Integer SNAPSHOT_HEIGHT = 200;

@@ -7,8 +7,8 @@ import com.smartgwt.client.types.VisibilityMode;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
-import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.events.ItemChangedEvent;
+import com.smartgwt.client.widgets.form.events.ItemChangedHandler;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.TextAreaItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
@@ -71,14 +71,8 @@ public class EditConfigurationSection extends BaseSection {
 		final SectionStackSection conferenceSection = createSection("Conference settings");
 		final SectionStackSection generalSection = createSection("General settings");
 
-		final DynamicForm form = new EditableForm() {
+		final EditableForm streamControlForm = new EditableForm();
 
-			@Override
-			protected void onAnyItemChanged(ItemChangedEvent event) {
-				saveButton.enable();
-			}
-		};
-			
 		mediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
 		outputFolderItem = EditableForm.createTextItem("Output recordings folder");
 		playerPathItem = EditableForm.createTextItem("VLC installation path");
@@ -87,14 +81,15 @@ public class EditConfigurationSection extends BaseSection {
 
 		setFormItemValues();
 
-		form.setFields(mediaOptionsAreaItem, outputFolderItem, playerPathItem, palantirUrlItem, palantirPortItem);
+		streamControlForm.setFields(mediaOptionsAreaItem, outputFolderItem, playerPathItem, palantirUrlItem,
+				palantirPortItem);
 
 		final VLayout streamControlLayout = new VLayout();
 		streamControlLayout.setWidth100();
 		streamControlLayout.setPadding(20);
 
-		streamControlLayout.addMember(form);
-		streamControlSection.addItem(form);
+		streamControlLayout.addMember(streamControlForm);
+		streamControlSection.addItem(streamControlForm);
 
 		sectionStack.addSection(streamControlSection);
 		sectionStack.addSection(broadcastingSection);
@@ -102,6 +97,8 @@ public class EditConfigurationSection extends BaseSection {
 		sectionStack.addSection(generalSection);
 
 		setScreenEditable(false);
+
+		addAnyItemChangedHandler(streamControlForm);
 
 		addMembers(buttonLayout, sectionStack);
 	}
@@ -111,8 +108,6 @@ public class EditConfigurationSection extends BaseSection {
 		section.setCanCollapse(true);
 		return section;
 	}
-
-	
 
 	private void setScreenEditable(boolean isEditable) {
 		setStreamControlEditable(isEditable);
@@ -155,5 +150,35 @@ public class EditConfigurationSection extends BaseSection {
 	private void setFormItemValue(final FormItem item, final String value) {
 		item.setValue(value);
 		item.setAttribute(UiUtils.ORIGIN_ITEM_VALUE, value);
+	}
+
+	private void addAnyItemChangedHandler(final EditableForm... forms) {
+		final ItemChangedHandler handler = createAnyItemChangedHandler(forms);
+		for (final EditableForm form : forms) {
+			form.addItemChangedHandler(handler);
+		}
+	}
+
+	private ItemChangedHandler createAnyItemChangedHandler(final EditableForm[] forms) {
+		return new ItemChangedHandler() {
+
+			@Override
+			public void onItemChanged(ItemChangedEvent event) {
+				if (isAnyItemChanged(forms)) {
+					saveButton.enable();
+				} else {
+					saveButton.disable();
+				}
+			}
+		};
+	}
+
+	private Boolean isAnyItemChanged(final EditableForm[] forms) {
+		for (final EditableForm form : forms) {
+			if (form.isModified()) {
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
 	}
 }
