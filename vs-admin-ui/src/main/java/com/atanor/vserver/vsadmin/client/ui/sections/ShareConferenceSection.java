@@ -48,10 +48,24 @@ public class ShareConferenceSection extends BaseGridSection {
 
 		startPresentation = new IButton("Start Presentation");
 		startPresentation.setWidth(100);
+		startPresentation.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.startPresentation();
+			}
+		});
+		
 		stopPresentation = new IButton("Stop Presentation");
 		stopPresentation.setWidth(100);
 		stopPresentation.setDisabled(true);
+		stopPresentation.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.stopPresentation();
+			}
+		});
 
 		final HLayout headerPane = new HLayout();
 		headerPane.addMembers(snapshotBox, startPresentation, stopPresentation);
@@ -178,6 +192,16 @@ public class ShareConferenceSection extends BaseGridSection {
 			}
 		}
 		return recordings;
+	}
+
+	public void onPresentationStarted() {
+		startPresentation.disable();
+		stopPresentation.enable();
+	}
+
+	public void onPresentationStopped() {
+		startPresentation.enable();
+		stopPresentation.disable();
 	}
 
 }

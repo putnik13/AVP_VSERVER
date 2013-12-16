@@ -51,11 +51,25 @@ public class StreamControlSection extends BaseGridSection {
 
 		startRecord = new IButton("Start Recording");
 		startRecord.setWidth(90);
+		startRecord.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.startRecording();
+			}
+		});
+		
 		stopRecord = new IButton("Stop Recording");
 		stopRecord.setWidth(90);
 		stopRecord.setDisabled(true);
+		stopRecord.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.stopRecording();
+			}
+		});
+		
 		final HLayout headerPane = new HLayout();
 		headerPane.addMembers(snapshotBox, startRecord, stopRecord);
 		headerPane.setMembersMargin(10);
@@ -197,6 +211,16 @@ public class StreamControlSection extends BaseGridSection {
 			}
 		}
 		return recordings;
+	}
+	
+	public void onRecordingStarted() {
+		startRecord.disable();
+		stopRecord.enable();
+	}
+	
+	public void onRecordingStopped() {
+		startRecord.enable();
+		stopRecord.disable();
 	}
 	
 }

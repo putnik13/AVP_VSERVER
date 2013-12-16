@@ -68,4 +68,35 @@ public class ShareConferencePresenter {
 		});
 	}
 
+	public void startPresentation() {
+		presentationService.startPresentation(new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not start presentation");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				view.onPresentationStarted();
+			}
+		});
+	}
+
+	public void stopPresentation() {
+		presentationService.stopPresentation(new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not stop presentation");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				view.onPresentationStopped();
+				refreshPresentations();
+			}
+		});
+	}
+
 }

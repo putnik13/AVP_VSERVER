@@ -5,9 +5,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.common.rpc.services.RecordingService;
 import com.atanor.vserver.domain.converter.RecordingConverter;
+import com.atanor.vserver.facades.PalantirFacade;
+import com.atanor.vserver.facades.palantir.PalantirCommand;
 import com.atanor.vserver.services.RecordingDataService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -15,12 +20,17 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class RecordingServlet extends RemoteServiceServlet implements RecordingService {
 
+	private static final Logger LOG = LoggerFactory.getLogger(RecordingServlet.class);
+	
 	@Inject
 	private RecordingDataService recordingsService;
 
 	@Inject
 	private RecordingConverter converter;
 
+	@Inject
+	private PalantirFacade palantir;
+	
 	@Override
 	public List<RecordingDto> getRecordings() {
 		return converter.toListDto(recordingsService.getRecordings());
@@ -28,14 +38,16 @@ public class RecordingServlet extends RemoteServiceServlet implements RecordingS
 
 	@Override
 	public Boolean startRecording() {
-		// TODO Auto-generated method stub
-		return null;
+		LOG.info("Stream recording started..");
+		palantir.send(PalantirCommand.START_RECORDING);
+		return Boolean.TRUE;
 	}
 
 	@Override
 	public Boolean stopRecording() {
-		// TODO Auto-generated method stub
-		return null;
+		LOG.info("Stream recording stopped..");
+		palantir.send(PalantirCommand.STOP_RECORDING);
+		return Boolean.TRUE;
 	}
 
 	@Override

@@ -67,4 +67,35 @@ public class StreamControlPresenter {
 			}
 		});
 	}
+
+	public void startRecording() {
+		recordingService.startRecording(new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not start recording");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				view.onRecordingStarted();
+			}
+		});
+	}
+
+	public void stopRecording() {
+		recordingService.stopRecording(new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not stop recording");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				view.onRecordingStopped();
+				refreshRecordings();
+			}
+		});
+	}
 }

@@ -3,7 +3,9 @@ package com.atanor.vserver.injector;
 import java.util.concurrent.Executors;
 
 import com.atanor.vserver.events.DeadEventListener;
+import com.atanor.vserver.facades.PalantirFacade;
 import com.atanor.vserver.facades.PlayerFacadeMock;
+import com.atanor.vserver.facades.palantir.PalantirFacadeMock;
 import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.PresentationDataService;
 import com.atanor.vserver.services.RecordingDataService;
@@ -23,7 +25,8 @@ public class AppCoreModule extends AbstractModule {
 
 		bind(EventBus.class).toInstance(eventBus);
 		bind(PlayerFacadeMock.class).asEagerSingleton();
-
+		bind(PalantirFacade.class).to(PalantirFacadeMock.class);
+		
 		bind(RecordingDataService.class).to(RecordingDataServiceImpl.class);
 		bind(PresentationDataService.class).to(PresentationDataServiceImpl.class);
 		bind(ConfigDataService.class).to(ConfigDataServiceImpl.class);

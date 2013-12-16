@@ -5,6 +5,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.common.rpc.services.PresentationService;
 import com.atanor.vserver.domain.converter.PresentationConverter;
@@ -14,6 +17,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @Singleton
 @SuppressWarnings("serial")
 public class PresentationServlet extends RemoteServiceServlet implements PresentationService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(PresentationServlet.class);
 
 	@Inject
 	private PresentationDataService presentationService;
@@ -28,14 +33,14 @@ public class PresentationServlet extends RemoteServiceServlet implements Present
 
 	@Override
 	public Boolean startPresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		LOG.info("Presentation session started..");
+		return Boolean.TRUE;
 	}
 
 	@Override
 	public Boolean stopPresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		LOG.info("Presentation session stopped..");
+		return Boolean.TRUE;
 	}
 
 	@Override
