@@ -69,9 +69,9 @@ public class ShareConferenceSection extends BaseGridSection {
 			@Override
 			public void onSelectionChanged(SelectionEvent event) {
 				if (isAnyRecordSelected(listGrid)) {
-					removeImg.setSrc("recycle.png");
+					removeImg.enable();
 				} else {
-					removeImg.setSrc("recycle_empty.png");
+					removeImg.disable();
 				}
 
 			}
@@ -101,11 +101,12 @@ public class ShareConferenceSection extends BaseGridSection {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				synchronizeImg.disable();
 				presenter.getSynchronizationInfo();
 			}
 		});
 
-		removeImg = createToolbarImage("recycle_empty.png", "Remove Presentations");
+		removeImg = createToolbarImage("recycle.png", "Remove Presentations");
 		removeImg.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -152,6 +153,7 @@ public class ShareConferenceSection extends BaseGridSection {
 	}
 
 	public void onSynchronizationComplete(final List<PresentationDto> presentations) {
+		synchronizeImg.enable();
 		final List<ListGridRecord> records = createGridRecords(presentations);
 		listGrid.setData(records.toArray(new ListGridRecord[] {}));
 		listGrid.selectRecords(recordsToSelect(records));
