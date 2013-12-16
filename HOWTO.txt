@@ -6,3 +6,6 @@ Run fake image stream
 1. Launch vs-client-ui in debug mode
 2. Start send images: http://localhost:8888/VsClient/open
 3. Stop send images: http://localhost:8888/VsClient/close
+
+VLC Player version:
+Tested with VLC media player 2.0.5 Twoflower (for Windows 7)
