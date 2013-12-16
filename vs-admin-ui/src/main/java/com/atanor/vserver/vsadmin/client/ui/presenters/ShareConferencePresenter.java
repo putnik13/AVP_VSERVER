@@ -20,6 +20,7 @@ public class ShareConferencePresenter {
 	@Inject
 	public ShareConferencePresenter(final ShareConferenceSection view) {
 		this.view = view;
+		view.setPresenter(this);
 	}
 
 	public void refreshPresentations() {
@@ -36,4 +37,35 @@ public class ShareConferencePresenter {
 			}
 		});
 	}
+
+	public void getSynchronizationInfo() {
+		presentationService.getSynchronizationInfo(new AsyncCallback<List<PresentationDto>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not synchronize presentations data");
+			}
+
+			@Override
+			public void onSuccess(List<PresentationDto> result) {
+				view.onSynchronizationComplete(result);
+			}
+		});
+	}
+
+	public void removePresentations(final List<PresentationDto> presentations) {
+		presentationService.removePresentations(presentations, new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not remove selected presentations");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				refreshPresentations();
+			}
+		});
+	}
+
 }

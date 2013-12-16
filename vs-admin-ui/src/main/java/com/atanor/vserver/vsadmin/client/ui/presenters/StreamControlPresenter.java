@@ -14,15 +14,16 @@ public class StreamControlPresenter {
 
 	@Inject
 	private RecordingServiceAsync recordingService;
-	
+
 	private StreamControlSection view;
-	
+
 	@Inject
-	public StreamControlPresenter(final StreamControlSection view){
+	public StreamControlPresenter(final StreamControlSection view) {
 		this.view = view;
+		view.setPresenter(this);
 	}
-	
-	public void refreshRecordings(){
+
+	public void refreshRecordings() {
 		recordingService.getRecordings(new AsyncCallback<List<RecordingDto>>() {
 
 			@Override
@@ -33,6 +34,36 @@ public class StreamControlPresenter {
 			@Override
 			public void onSuccess(List<RecordingDto> result) {
 				view.setRecordings(result);
+			}
+		});
+	}
+
+	public void getSynchronizationInfo() {
+		recordingService.getSynchronizationInfo(new AsyncCallback<List<RecordingDto>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not synchronize recordings data");
+			}
+
+			@Override
+			public void onSuccess(List<RecordingDto> result) {
+				view.onSynchronizationComplete(result);
+			}
+		});
+	}
+
+	public void removeRecordings(final List<RecordingDto> recordings) {
+		recordingService.removeRecordings(recordings, new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not remove selected recordings");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				refreshRecordings();
 			}
 		});
 	}

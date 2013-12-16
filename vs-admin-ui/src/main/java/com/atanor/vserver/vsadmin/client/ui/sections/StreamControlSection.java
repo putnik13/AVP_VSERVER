@@ -5,13 +5,17 @@ import java.util.List;
 
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
+import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
 import com.google.common.collect.Lists;
+import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -31,6 +35,8 @@ public class StreamControlSection extends BaseGridSection {
 	private static final String ENCODED_IMAGE_ATTR = "encodeImage";
 	private static final String OUTDATED_FLAG_ATTR = "outdated";
 
+	private StreamControlPresenter presenter; 
+	
 	private final IButton startRecord;
 	private final IButton stopRecord;
 	private final Canvas snapshotBox;
@@ -105,7 +111,23 @@ public class StreamControlSection extends BaseGridSection {
 		gridToolbar.setAlign(Alignment.RIGHT);
 
 		synchronizeImg = createToolbarImage("synchronize.png", "Synchronize Recordings");
+		synchronizeImg.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.getSynchronizationInfo();
+			}
+		});
+		
 		removeImg = createToolbarImage("recycle_empty.png", "Remove Recordings");
+		removeImg.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.removeRecordings(getSelectedRecordings());
+			}
+		});
+		
 		gridToolbar.addMembers(wrape(synchronizeImg), wrape(removeImg));
 
 		final VLayout gridPane = new VLayout();
@@ -142,4 +164,36 @@ public class StreamControlSection extends BaseGridSection {
 		return records;
 	}
 
+	public void onSynchronizationComplete(final List<RecordingDto> recordings){
+		final List<ListGridRecord> records = createGridRecords(recordings);
+		listGrid.setData(records.toArray(new ListGridRecord[] {}));
+		listGrid.selectRecords(recordsToSelect(records));
+	}
+	
+	private Record[] recordsToSelect(final List<ListGridRecord> records) {
+		final List<Record> toSelect = Lists.newArrayList();
+		for (Record record : records) {
+			if (record.getAttributeAsBoolean(OUTDATED_FLAG_ATTR)) {
+				toSelect.add(record);
+			}
+		}
+		return toSelect.toArray(new ListGridRecord[] {});
+	}
+	
+	public void setPresenter(final StreamControlPresenter presenter) {
+		this.presenter = presenter;
+	}
+
+	private List<RecordingDto> getSelectedRecordings() {
+		final List<RecordingDto> recordings = Lists.newArrayList();
+		for (final ListGridRecord record : listGrid.getRecords()) {
+			if (listGrid.isSelected(record)) {
+				final RecordingDto dto = (RecordingDto) record.getAttributeAsObject(DTO_GRID_ATTR);
+				dto.setEncodedImage(null);
+				recordings.add(dto);
+			}
+		}
+		return recordings;
+	}
+	
 }

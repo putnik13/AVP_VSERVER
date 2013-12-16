@@ -5,13 +5,17 @@ import java.util.List;
 
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
+import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
 import com.google.common.collect.Lists;
+import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -26,6 +30,9 @@ public class ShareConferenceSection extends BaseGridSection {
 	private static final String DTO_GRID_ATTR = "dto";
 	private static final String CREATE_TIME_GRID_ATTR = "createTime";
 	private static final String FILE_NAME_GRID_ATTR = "fileName";
+	private static final String OUTDATED_FLAG_ATTR = "outdated";
+
+	private ShareConferencePresenter presenter;
 
 	private final IButton startPresentation;
 	private final IButton stopPresentation;
@@ -69,7 +76,7 @@ public class ShareConferenceSection extends BaseGridSection {
 
 			}
 		});
-		
+
 		final ListGridField fileName = new ListGridField(FILE_NAME_GRID_ATTR, "File Name");
 		final ListGridField createTime = new ListGridField(CREATE_TIME_GRID_ATTR, "Create Time");
 		createTime.setCellFormatter(new CellFormatter() {
@@ -90,7 +97,23 @@ public class ShareConferenceSection extends BaseGridSection {
 		gridToolbar.setAlign(Alignment.RIGHT);
 
 		synchronizeImg = createToolbarImage("synchronize.png", "Synchronize Presenations");
+		synchronizeImg.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.getSynchronizationInfo();
+			}
+		});
+
 		removeImg = createToolbarImage("recycle_empty.png", "Remove Presentations");
+		removeImg.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.removePresentations(getSelectedPresentations());
+			}
+		});
+
 		gridToolbar.addMembers(wrape(synchronizeImg), wrape(removeImg));
 
 		final VLayout gridPane = new VLayout();
@@ -116,11 +139,43 @@ public class ShareConferenceSection extends BaseGridSection {
 			record.setAttribute(DTO_GRID_ATTR, dto);
 			record.setAttribute(FILE_NAME_GRID_ATTR, dto.getName());
 			record.setAttribute(CREATE_TIME_GRID_ATTR, dto.getCreateTime());
+			record.setAttribute(OUTDATED_FLAG_ATTR, dto.isOutdated());
 
 			records.add(record);
 		}
 
 		return records;
+	}
+
+	public void setPresenter(final ShareConferencePresenter presenter) {
+		this.presenter = presenter;
+	}
+
+	public void onSynchronizationComplete(final List<PresentationDto> presentations) {
+		final List<ListGridRecord> records = createGridRecords(presentations);
+		listGrid.setData(records.toArray(new ListGridRecord[] {}));
+		listGrid.selectRecords(recordsToSelect(records));
+	}
+
+	private Record[] recordsToSelect(final List<ListGridRecord> records) {
+		final List<Record> toSelect = Lists.newArrayList();
+		for (Record record : records) {
+			if (record.getAttributeAsBoolean(OUTDATED_FLAG_ATTR)) {
+				toSelect.add(record);
+			}
+		}
+		return toSelect.toArray(new ListGridRecord[] {});
+	}
+
+	private List<PresentationDto> getSelectedPresentations() {
+		final List<PresentationDto> recordings = Lists.newArrayList();
+		for (final ListGridRecord record : listGrid.getRecords()) {
+			if (listGrid.isSelected(record)) {
+				final PresentationDto dto = (PresentationDto) record.getAttributeAsObject(DTO_GRID_ATTR);
+				recordings.add(dto);
+			}
+		}
+		return recordings;
 	}
 
 }

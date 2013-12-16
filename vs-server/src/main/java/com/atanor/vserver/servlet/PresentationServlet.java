@@ -39,15 +39,14 @@ public class PresentationServlet extends RemoteServiceServlet implements Present
 	}
 
 	@Override
-	public Boolean removePresentations(List<PresentationDto> recordings) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean removePresentations(List<PresentationDto> presentations) {
+		presentationService.removePresentations(converter.toListEntities(presentations));
+		return Boolean.TRUE;
 	}
 
 	@Override
 	public List<PresentationDto> getSynchronizationInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return converter.toListDto(presentationService.getSynchronizationInfo());
 	}
 
 }
