@@ -26,4 +26,28 @@ public class PresentationServlet extends RemoteServiceServlet implements Present
 		return converter.toListDto(presentationService.getPresentations());
 	}
 
+	@Override
+	public Boolean startPresentation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean stopPresentation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean removePresentations(List<PresentationDto> recordings) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PresentationDto> getSynchronizationInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

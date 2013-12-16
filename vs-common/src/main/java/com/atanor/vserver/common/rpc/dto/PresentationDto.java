@@ -8,6 +8,7 @@ public class PresentationDto extends AbstractDto {
 	private Long id;
 	private String name;
 	private Date createTime;
+	private Boolean outdated;
 	
 	public PresentationDto() {
 	}
@@ -34,6 +35,14 @@ public class PresentationDto extends AbstractDto {
 
 	public void setCreateTime(final Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Boolean isOutdated() {
+		return outdated;
+	}
+
+	public void setOutdated(final Boolean outdated) {
+		this.outdated = outdated;
 	}
 
 }

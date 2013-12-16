@@ -8,4 +8,7 @@ public interface RecordingDataService {
 
 	List<Recording> getRecordings();
 
+	void removeRecordings(List<Recording> recordings);
+
+	List<Recording> getSynchronizationInfo();
 }

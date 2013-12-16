@@ -12,5 +12,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("recording")
 public interface RecordingService extends RemoteService {
 
+	Boolean startRecording();
+
+	Boolean stopRecording();
+	
 	List<RecordingDto> getRecordings();
+	
+	Boolean removeRecordings(List<RecordingDto> recordings);
+	
+	List<RecordingDto> getSynchronizationInfo();
 }

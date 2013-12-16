@@ -16,7 +16,8 @@ public class PresentationConverter extends AbstractConverter<PresentationDto, Pr
 		final PresentationDto dto = new PresentationDto(entity.getId());
 		dto.setName(entity.getName());
 		dto.setCreateTime(entity.getCreateTime());
-
+		dto.setOutdated(entity.isOutdated());
+		
 		return dto;
 	}
 
@@ -31,7 +32,8 @@ public class PresentationConverter extends AbstractConverter<PresentationDto, Pr
 		final Presentation entity = new Presentation(dto.getId());
 		entity.setName(dto.getName());
 		entity.setCreateTime(dto.getCreateTime());
-
+		entity.setOutdated(dto.isOutdated());
+		
 		return entity;
 	}
 

@@ -26,4 +26,28 @@ public class RecordingServlet extends RemoteServiceServlet implements RecordingS
 		return converter.toListDto(recordingsService.getRecordings());
 	}
 
+	@Override
+	public Boolean startRecording() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean stopRecording() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean removeRecordings(List<RecordingDto> recordings) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RecordingDto> getSynchronizationInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -12,5 +12,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("presentation")
 public interface PresentationService extends RemoteService {
 
+	Boolean startPresentation();
+
+	Boolean stopPresentation();
+
 	List<PresentationDto> getPresentations();
+
+	Boolean removePresentations(List<PresentationDto> recordings);
+
+	List<PresentationDto> getSynchronizationInfo();
 }

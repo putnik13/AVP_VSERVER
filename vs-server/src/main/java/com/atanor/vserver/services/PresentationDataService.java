@@ -8,4 +8,7 @@ public interface PresentationDataService {
 
 	List<Presentation> getPresentations();
 
+	void removePresentations(List<Presentation> presentations);
+
+	List<Presentation> getSynchronizationInfo();
 }
