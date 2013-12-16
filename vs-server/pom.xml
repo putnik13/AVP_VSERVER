@@ -83,7 +83,11 @@
 	  <groupId>org.apache.mina</groupId>
 	  <artifactId>mina-core</artifactId>
     </dependency>
-	
+	<dependency>
+	  <groupId>joda-time</groupId>
+	  <artifactId>joda-time</artifactId>
+    </dependency>
+	  
 	<!-- Atmosphere libs -->
 	<dependency>
       <groupId>org.atmosphere</groupId>
