@@ -3,7 +3,6 @@ package com.atanor.vserver.vsadmin.client.ui.sections;
 import java.util.Date;
 import java.util.List;
 
-import com.atanor.vserver.common.Constants;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
@@ -232,9 +231,9 @@ public class StreamControlSection extends BaseGridSection {
 		final String source = "data:image/png;base64," + encodedSnapshot;
 		snapshot = new Img();
 		snapshot.setSrc(source);
-		snapshot.setWidth(Constants.SNAPSHOT_WIDTH);
-		snapshot.setHeight(Constants.SNAPSHOT_HEIGHT);
-
+		snapshot.setWidth100();
+		snapshot.setHeight100();
+		
 		snapshotBox.addChild(snapshot);
 	}
 
