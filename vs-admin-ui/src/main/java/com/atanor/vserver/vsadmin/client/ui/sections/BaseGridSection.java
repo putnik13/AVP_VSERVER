@@ -1,5 +1,6 @@
 package com.atanor.vserver.vsadmin.client.ui.sections;
 
+import com.atanor.vserver.common.Constants;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
@@ -10,8 +11,8 @@ public abstract class BaseGridSection extends BaseSection {
 
 	protected Canvas createSnapshotBox() {
 		final Canvas canvas = new Canvas();
-		canvas.setWidth(UiUtils.SNAPSHOT_WIDTH);
-		canvas.setHeight(UiUtils.SNAPSHOT_HEIGHT);
+		canvas.setWidth(Constants.SNAPSHOT_WIDTH);
+		canvas.setHeight(Constants.SNAPSHOT_HEIGHT);
 		canvas.setShowEdges(true);
 		canvas.setBackgroundColor("black");
 		return canvas;

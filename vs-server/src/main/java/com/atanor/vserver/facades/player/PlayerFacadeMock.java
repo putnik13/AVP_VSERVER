@@ -57,7 +57,7 @@ public class PlayerFacadeMock implements PlayerFacade {
 	private final EmbeddedMediaPlayer streamPlayer;
 	private final EmbeddedMediaPlayer imagePlayer;
 
-	private final String mediaResourceLocation = "file:///D:/tmp/vlc-input/test2.mp4";
+	private final String mediaResourceLocation = "file:///D:/temp/video/test2.mp4";
 
 	@Inject
 	public PlayerFacadeMock(final EventBus eventBus, final ConfigDataService configService) {
@@ -120,7 +120,7 @@ public class PlayerFacadeMock implements PlayerFacade {
 		if (!isPlaying()) {
 			final Date startTime = new Date();
 			final String fileName = buildRecordingName(startTime);
-			final String[] options = { buildRecordingPath(fileName) };
+			final String[] options = { String.format(config().getStreamMediaOptions(), buildRecordingPath(fileName)) };
 			streamPlayer.playMedia(mediaResourceLocation, options);
 			imagePlayer.playMedia(mediaResourceLocation);
 
@@ -140,8 +140,7 @@ public class PlayerFacadeMock implements PlayerFacade {
 	@Override
 	public String getSnapshot() {
 		if (imagePlayer.isPlaying()) {
-			final BufferedImage bufImage = imagePlayer.getSnapshot(Constants.SNAPSHOT_WIDTH,
-					Constants.SNAPSHOT_HEIGHT);
+			final BufferedImage bufImage = imagePlayer.getSnapshot(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
 			if (bufImage != null) {
 				return ImageDecoder.encodeImage(bufImage);
 			}

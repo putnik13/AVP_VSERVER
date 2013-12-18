@@ -21,4 +21,6 @@ public interface RecordingService extends RemoteService {
 	Boolean removeRecordings(List<RecordingDto> recordings);
 	
 	List<RecordingDto> getSynchronizationInfo();
+	
+	String getSnapshot();
 }

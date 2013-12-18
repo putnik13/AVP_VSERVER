@@ -54,4 +54,10 @@ public class PresentationServlet extends RemoteServiceServlet implements Present
 		return converter.toListDto(presentationService.getSynchronizationInfo());
 	}
 
+	@Override
+	public String getSnapshot() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

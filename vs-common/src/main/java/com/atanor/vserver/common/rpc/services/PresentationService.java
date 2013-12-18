@@ -21,4 +21,6 @@ public interface PresentationService extends RemoteService {
 	Boolean removePresentations(List<PresentationDto> recordings);
 
 	List<PresentationDto> getSynchronizationInfo();
+	
+	String getSnapshot();
 }

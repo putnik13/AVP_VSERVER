@@ -12,6 +12,7 @@ import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.common.rpc.services.RecordingService;
 import com.atanor.vserver.domain.converter.RecordingConverter;
 import com.atanor.vserver.facades.PalantirFacade;
+import com.atanor.vserver.facades.PlayerFacade;
 import com.atanor.vserver.facades.palantir.PalantirCommand;
 import com.atanor.vserver.services.RecordingDataService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -31,6 +32,9 @@ public class RecordingServlet extends RemoteServiceServlet implements RecordingS
 	@Inject
 	private PalantirFacade palantir;
 	
+	@Inject
+	private PlayerFacade player;
+	
 	@Override
 	public List<RecordingDto> getRecordings() {
 		return converter.toListDto(recordingsService.getRecordings());
@@ -40,6 +44,7 @@ public class RecordingServlet extends RemoteServiceServlet implements RecordingS
 	public Boolean startRecording() {
 		LOG.info("Stream recording started..");
 		palantir.send(PalantirCommand.START_RECORDING);
+		player.startRecording();
 		return Boolean.TRUE;
 	}
 
@@ -47,6 +52,7 @@ public class RecordingServlet extends RemoteServiceServlet implements RecordingS
 	public Boolean stopRecording() {
 		LOG.info("Stream recording stopped..");
 		palantir.send(PalantirCommand.STOP_RECORDING);
+		player.stopRecording();
 		return Boolean.TRUE;
 	}
 
@@ -59,6 +65,11 @@ public class RecordingServlet extends RemoteServiceServlet implements RecordingS
 	@Override
 	public List<RecordingDto> getSynchronizationInfo() {
 		return converter.toListDto(recordingsService.getSynchronizationInfo());
+	}
+
+	@Override
+	public String getSnapshot() {
+		return player.getSnapshot();
 	}
 
 }
