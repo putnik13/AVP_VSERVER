@@ -22,7 +22,11 @@ public class ConfigConverter extends AbstractConverter<VsConfigDto, VsConfig> {
 		dto.setPresentationsOutput(entity.getPresentationsOutput());
 		dto.setStreamMediaOptions(entity.getStreamMediaOptions());
 		dto.setConfMediaOptions(entity.getConfMediaOptions());
-
+		dto.setStreamMediaResource(entity.getStreamMediaResource());
+		dto.setConfMediaResource(entity.getConfMediaResource());
+		dto.setRecordingSnapshotOutput(entity.getRecordingSnapshotOutput());
+		dto.setPresentationSnapshotOutput(entity.getPresentationSnapshotOutput());
+		
 		return dto;
 	}
 
@@ -41,7 +45,11 @@ public class ConfigConverter extends AbstractConverter<VsConfigDto, VsConfig> {
 		entity.setPresentationsOutput(dto.getPresentationsOutput());
 		entity.setStreamMediaOptions(dto.getStreamMediaOptions());
 		entity.setConfMediaOptions(dto.getConfMediaOptions());
-
+		entity.setStreamMediaResource(dto.getStreamMediaResource());
+		entity.setConfMediaResource(dto.getConfMediaResource());
+		entity.setRecordingSnapshotOutput(dto.getRecordingSnapshotOutput());
+		entity.setPresentationSnapshotOutput(dto.getPresentationSnapshotOutput());
+		
 		return entity;
 	}
 

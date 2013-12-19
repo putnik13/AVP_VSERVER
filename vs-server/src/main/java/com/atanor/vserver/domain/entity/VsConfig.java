@@ -23,15 +23,27 @@ public class VsConfig extends AbstractEntity<Long> {
 	@Column(name = "stream_media_options", length = 300)
 	private String streamMediaOptions;
 
+	@Column(name = "stream_media_resource", length = 100)
+	private String streamMediaResource;
+	
 	@Column(name = "conf_media_options", length = 300)
 	private String confMediaOptions;
 
+	@Column(name = "conf_media_resource", length = 100)
+	private String confMediaResource;
+	
 	@Column(name = "recordings_output", length = 100)
 	private String recordingsOutput;
 
+	@Column(name = "recording_snapshot_output", length = 100)
+	private String recordingSnapshotOutput;
+	
 	@Column(name = "presentations_output", length = 100)
 	private String presentationsOutput;
 
+	@Column(name = "presentation_snapshot_output", length = 100)
+	private String presentationSnapshotOutput;
+	
 	@Column(name = "player_install", length = 100)
 	private String playerInstallPath;
 
@@ -137,6 +149,38 @@ public class VsConfig extends AbstractEntity<Long> {
 
 	public void setDefault(final Boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	public String getStreamMediaResource() {
+		return streamMediaResource;
+	}
+
+	public void setStreamMediaResource(final String streamMediaResource) {
+		this.streamMediaResource = streamMediaResource;
+	}
+
+	public String getConfMediaResource() {
+		return confMediaResource;
+	}
+
+	public void setConfMediaResource(final String confMediaResource) {
+		this.confMediaResource = confMediaResource;
+	}
+
+	public String getRecordingSnapshotOutput() {
+		return recordingSnapshotOutput;
+	}
+
+	public void setRecordingSnapshotOutput(final String recordingSnapshotOutput) {
+		this.recordingSnapshotOutput = recordingSnapshotOutput;
+	}
+
+	public String getPresentationSnapshotOutput() {
+		return presentationSnapshotOutput;
+	}
+
+	public void setPresentationSnapshotOutput(final String presentationSnapshotOutput) {
+		this.presentationSnapshotOutput = presentationSnapshotOutput;
 	}
 
 }

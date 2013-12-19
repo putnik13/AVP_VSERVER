@@ -28,13 +28,17 @@ public class EditConfigurationSection extends BaseSection {
 	private final IButton cancelButton;
 
 	private final TextAreaItem streamMediaOptionsAreaItem;
+	private final TextItem streamMediaResourceItem;
 	private final TextItem streamOutputFolderItem;
+	private final TextItem streamOutputSnapshotFolderItem;
 	private final TextItem playerPathItem;
 	private final TextItem palantirUrlItem;
 	private final TextItem palantirPortItem;
 
 	private final TextAreaItem confMediaOptionsAreaItem;
+	private final TextItem confMediaResourceItem;
 	private final TextItem confOutputFolderItem;
+	private final TextItem confOutputSnapshotFolderItem;
 	private final CheckboxItem addLogoItem;
 
 	private VsConfigDto currentConfig;
@@ -94,22 +98,27 @@ public class EditConfigurationSection extends BaseSection {
 
 		final EditableForm streamControlForm = new EditableForm();
 		streamMediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
+		streamMediaResourceItem = EditableForm.createTextItem("Media Resource URL");
+		streamMediaResourceItem.setColSpan(4);
 		streamOutputFolderItem = EditableForm.createTextItem("Output recordings folder");
-		streamOutputFolderItem.setColSpan(4);
+		streamOutputSnapshotFolderItem = EditableForm.createTextItem("Output snapshots folder");
 		palantirUrlItem = EditableForm.createTextItem("Palantir URL");
 		palantirPortItem = EditableForm.createTextItem("Palantir port");
-		streamControlForm.setFields(streamMediaOptionsAreaItem, streamOutputFolderItem, palantirUrlItem,
-				palantirPortItem);
+		streamControlForm.setFields(streamMediaOptionsAreaItem, streamMediaResourceItem, streamOutputFolderItem,
+				streamOutputSnapshotFolderItem, palantirUrlItem, palantirPortItem);
 
 		final EditableForm conferenceForm = new EditableForm();
 		confMediaOptionsAreaItem = EditableForm.createTextAreaItem("Media Options");
+		confMediaResourceItem = EditableForm.createTextItem("Media Resource URL");
+		confMediaResourceItem.setColSpan(4);
 		confOutputFolderItem = EditableForm.createTextItem("Output presentations folder");
-		confOutputFolderItem.setColSpan(4);
+		confOutputSnapshotFolderItem = EditableForm.createTextItem("Output snapshots folder");
 		addLogoItem = new CheckboxItem();
 		addLogoItem.setTitle("Add logotype to PDF");
 		addLogoItem.setColSpan(4);
 
-		conferenceForm.setFields(confMediaOptionsAreaItem, confOutputFolderItem, addLogoItem);
+		conferenceForm.setFields(confMediaOptionsAreaItem, confMediaResourceItem, confOutputFolderItem,
+				confOutputSnapshotFolderItem, addLogoItem);
 
 		final EditableForm generalForm = new EditableForm();
 		playerPathItem = EditableForm.createTextItem("VLC installation path");
@@ -146,7 +155,9 @@ public class EditConfigurationSection extends BaseSection {
 
 	private void setStreamControlEditable(boolean isEditable) {
 		setFormItemEditable(streamMediaOptionsAreaItem, isEditable);
+		setFormItemEditable(streamMediaResourceItem, isEditable);
 		setFormItemEditable(streamOutputFolderItem, isEditable);
+		setFormItemEditable(streamOutputSnapshotFolderItem, isEditable);
 		setFormItemEditable(palantirUrlItem, isEditable);
 		setFormItemEditable(palantirPortItem, isEditable);
 	}
@@ -154,7 +165,9 @@ public class EditConfigurationSection extends BaseSection {
 	private void setConferenceEditable(boolean isEditable) {
 		addLogoItem.setCanEdit(isEditable);
 		setFormItemEditable(confMediaOptionsAreaItem, isEditable);
+		setFormItemEditable(confMediaResourceItem, isEditable);
 		setFormItemEditable(confOutputFolderItem, isEditable);
+		setFormItemEditable(confOutputSnapshotFolderItem, isEditable);
 	}
 
 	private void setGeneralEditable(boolean isEditable) {
@@ -216,9 +229,13 @@ public class EditConfigurationSection extends BaseSection {
 	public void setConfiguration(final VsConfigDto config) {
 		this.currentConfig = config;
 		setFormItemValue(streamMediaOptionsAreaItem, config.getStreamMediaOptions());
+		setFormItemValue(streamMediaResourceItem, config.getStreamMediaResource());
 		setFormItemValue(confMediaOptionsAreaItem, config.getConfMediaOptions());
+		setFormItemValue(confMediaResourceItem, config.getConfMediaResource());
 		setFormItemValue(streamOutputFolderItem, config.getRecordingsOutput());
+		setFormItemValue(streamOutputSnapshotFolderItem, config.getRecordingSnapshotOutput());
 		setFormItemValue(confOutputFolderItem, config.getPresentationsOutput());
+		setFormItemValue(confOutputSnapshotFolderItem, config.getPresentationSnapshotOutput());
 		setFormItemValue(playerPathItem, config.getPlayerInstallPath());
 		setFormItemValue(palantirUrlItem, config.getPalantirUrl());
 		setFormItemValue(palantirPortItem, config.getPalantirPort());
@@ -227,9 +244,13 @@ public class EditConfigurationSection extends BaseSection {
 
 	private void updateCongiguration() {
 		currentConfig.setStreamMediaOptions(streamMediaOptionsAreaItem.getValueAsString());
+		currentConfig.setStreamMediaResource(streamMediaResourceItem.getValueAsString());
 		currentConfig.setConfMediaOptions(confMediaOptionsAreaItem.getValueAsString());
+		currentConfig.setConfMediaResource(confMediaResourceItem.getValueAsString());
 		currentConfig.setRecordingsOutput(streamOutputFolderItem.getValueAsString());
+		currentConfig.setRecordingSnapshotOutput(streamOutputSnapshotFolderItem.getValueAsString());
 		currentConfig.setPresentationsOutput(confOutputFolderItem.getValueAsString());
+		currentConfig.setPresentationSnapshotOutput(confOutputSnapshotFolderItem.getValueAsString());
 		currentConfig.setPlayerInstallPath(playerPathItem.getValueAsString());
 		currentConfig.setPalantirUrl(palantirUrlItem.getValueAsString());
 		currentConfig.setPalantirPort(palantirPortItem.getValueAsString());
@@ -241,5 +262,5 @@ public class EditConfigurationSection extends BaseSection {
 	public void setPresenter(final EditConfigurationPresenter presenter) {
 		this.presenter = presenter;
 	}
-	
+
 }

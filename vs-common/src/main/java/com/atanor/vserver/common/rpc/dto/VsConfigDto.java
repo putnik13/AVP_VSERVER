@@ -6,9 +6,13 @@ public class VsConfigDto extends AbstractDto {
 	private Long id;
 	private String name;
 	private String streamMediaOptions;
+	private String streamMediaResource;
 	private String confMediaOptions;
+	private String confMediaResource;
 	private String recordingsOutput;
+	private String recordingSnapshotOutput;
 	private String presentationsOutput;
+	private String presentationSnapshotOutput;
 	private String playerInstallPath;
 	private String palantirUrl;
 	private String palantirPort;
@@ -104,6 +108,38 @@ public class VsConfigDto extends AbstractDto {
 
 	public void setAddLogo(final Boolean addLogo) {
 		this.addLogo = addLogo;
+	}
+
+	public String getStreamMediaResource() {
+		return streamMediaResource;
+	}
+
+	public void setStreamMediaResource(final String streamMediaResource) {
+		this.streamMediaResource = streamMediaResource;
+	}
+
+	public String getConfMediaResource() {
+		return confMediaResource;
+	}
+
+	public void setConfMediaResource(final String confMediaResource) {
+		this.confMediaResource = confMediaResource;
+	}
+
+	public String getRecordingSnapshotOutput() {
+		return recordingSnapshotOutput;
+	}
+
+	public void setRecordingSnapshotOutput(final String recordingSnapshotOutput) {
+		this.recordingSnapshotOutput = recordingSnapshotOutput;
+	}
+
+	public String getPresentationSnapshotOutput() {
+		return presentationSnapshotOutput;
+	}
+
+	public void setPresentationSnapshotOutput(final String presentationSnapshotOutput) {
+		this.presentationSnapshotOutput = presentationSnapshotOutput;
 	}
 
 }
