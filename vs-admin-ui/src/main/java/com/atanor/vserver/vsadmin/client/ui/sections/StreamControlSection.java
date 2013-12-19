@@ -16,6 +16,11 @@ import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
+import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
+import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
+import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
 import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -23,7 +28,11 @@ import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.LayoutSpacer;
 import com.smartgwt.client.widgets.layout.VLayout;
+import com.smartgwt.client.widgets.tile.TileGrid;
+import com.smartgwt.client.widgets.tile.TileRecord;
+import com.smartgwt.client.widgets.viewer.DetailViewerField;
 
 public class StreamControlSection extends BaseGridSection {
 
@@ -34,9 +43,11 @@ public class StreamControlSection extends BaseGridSection {
 	private static final String FILE_NAME_GRID_ATTR = "fileName";
 	private static final String ENCODED_IMAGE_ATTR = "encodeImage";
 	private static final String OUTDATED_FLAG_ATTR = "outdated";
+	private static final String TILE_NAME = "tilename";
+	private static final String TILE_PICTURE = "tilepicture";
 
-	private StreamControlPresenter presenter; 
-	
+	private StreamControlPresenter presenter;
+
 	private final IButton startRecord;
 	private final IButton stopRecord;
 	private final Canvas snapshotBox;
@@ -44,7 +55,8 @@ public class StreamControlSection extends BaseGridSection {
 	private final Img synchronizeImg;
 	private final Img removeImg;
 	private Img snapshot;
-	
+	private TileGrid tileGrid;
+
 	public StreamControlSection() {
 		setPadding(20);
 
@@ -59,7 +71,7 @@ public class StreamControlSection extends BaseGridSection {
 				presenter.startRecording();
 			}
 		});
-		
+
 		stopRecord = new IButton("Stop Recording");
 		stopRecord.setWidth(90);
 		stopRecord.setDisabled(true);
@@ -70,12 +82,14 @@ public class StreamControlSection extends BaseGridSection {
 				presenter.stopRecording();
 			}
 		});
-		
+
 		final HLayout headerPane = new HLayout();
 		headerPane.addMembers(snapshotBox, startRecord, stopRecord);
 		headerPane.setMembersMargin(10);
 
 		listGrid = new ListGrid();
+		listGrid.setWidth100();
+		listGrid.setHeight100();
 		listGrid.setCanHover(true);
 		listGrid.setShowHover(true);
 		listGrid.setShowHoverComponents(true);
@@ -91,7 +105,6 @@ public class StreamControlSection extends BaseGridSection {
 				} else {
 					removeImg.disable();
 				}
-
 			}
 		});
 
@@ -125,6 +138,23 @@ public class StreamControlSection extends BaseGridSection {
 		gridToolbar.setHeight(UiUtils.TOOLBAR_HEIGHT);
 		gridToolbar.setAlign(Alignment.RIGHT);
 
+		final DynamicForm form = new DynamicForm();
+		final CheckboxItem viewCheckbox = new CheckboxItem();
+		viewCheckbox.setTitle("Snapshots View");
+		viewCheckbox.addChangedHandler(new ChangedHandler() {
+
+			@Override
+			public void onChanged(ChangedEvent event) {
+				if (isItemChecked(event.getItem())) {
+					listGrid.sendToBack();
+				} else {
+					listGrid.bringToFront();
+				}
+			}
+		});
+		form.setFields(viewCheckbox);
+		form.setLeft(0);
+
 		synchronizeImg = createToolbarImage("synchronize.png", "Synchronize Recordings");
 		synchronizeImg.addClickHandler(new ClickHandler() {
 
@@ -134,7 +164,7 @@ public class StreamControlSection extends BaseGridSection {
 				presenter.getSynchronizationInfo();
 			}
 		});
-		
+
 		removeImg = createToolbarImage("recycle.png", "Remove Recordings");
 		removeImg.setDisabled(true);
 		removeImg.addClickHandler(new ClickHandler() {
@@ -144,13 +174,20 @@ public class StreamControlSection extends BaseGridSection {
 				presenter.removeRecordings(getSelectedRecordings());
 			}
 		});
-		
-		gridToolbar.addMembers(wrape(synchronizeImg), wrape(removeImg));
+
+		gridToolbar.addMembers(form, new LayoutSpacer(), wrape(synchronizeImg), wrape(removeImg));
+
+		final Canvas recordingsView = new Canvas();
+		recordingsView.setWidth100();
+		recordingsView.setHeight100();
+
+		recordingsView.addChild(createSnapshotsView());
+		recordingsView.addChild(listGrid);
 
 		final VLayout gridPane = new VLayout();
 		gridPane.setWidth100();
 		gridPane.setHeight100();
-		gridPane.addMembers(gridToolbar, listGrid);
+		gridPane.addMembers(gridToolbar, recordingsView);
 
 		final HLayout spacer = new HLayout();
 		spacer.setHeight(40);
@@ -158,13 +195,20 @@ public class StreamControlSection extends BaseGridSection {
 		addMembers(headerPane, spacer, gridPane);
 	}
 
+	protected boolean isItemChecked(final FormItem item) {
+		return item.getValue() != null && (Boolean) item.getValue();
+	}
+
 	public void setRecordings(final List<RecordingDto> recordings) {
-		List<ListGridRecord> records = createGridRecords(recordings);
+		final List<ListGridRecord> records = createGridRecords(recordings);
 		listGrid.setData(records.toArray(new ListGridRecord[] {}));
+
+		final List<TileRecord> tiles = createTileRecords(recordings);
+		tileGrid.setData(tiles.toArray(new TileRecord[] {}));
 	}
 
 	private List<ListGridRecord> createGridRecords(final List<RecordingDto> recordings) {
-		List<ListGridRecord> records = Lists.newArrayList();
+		final List<ListGridRecord> records = Lists.newArrayList();
 		for (RecordingDto dto : recordings) {
 			ListGridRecord record = new ListGridRecord();
 			record.setAttribute(DTO_GRID_ATTR, dto);
@@ -181,13 +225,29 @@ public class StreamControlSection extends BaseGridSection {
 		return records;
 	}
 
-	public void onSynchronizationComplete(final List<RecordingDto> recordings){
+	private List<TileRecord> createTileRecords(List<RecordingDto> recordings) {
+		final List<TileRecord> records = Lists.newArrayList();
+		for (RecordingDto dto : recordings) {
+			TileRecord record = new TileRecord();
+			record.setAttribute(DTO_GRID_ATTR, dto);
+			record.setAttribute(TILE_NAME, dto.getName());
+			
+			final String source = "data:image/png;base64," + dto.getEncodedImage();
+			record.setAttribute(TILE_PICTURE, source);
+
+			records.add(record);
+		}
+
+		return records;
+	}
+
+	public void onSynchronizationComplete(final List<RecordingDto> recordings) {
 		synchronizeImg.enable();
 		final List<ListGridRecord> records = createGridRecords(recordings);
 		listGrid.setData(records.toArray(new ListGridRecord[] {}));
 		listGrid.selectRecords(recordsToSelect(records));
 	}
-	
+
 	private Record[] recordsToSelect(final List<ListGridRecord> records) {
 		final List<Record> toSelect = Lists.newArrayList();
 		for (Record record : records) {
@@ -197,7 +257,7 @@ public class StreamControlSection extends BaseGridSection {
 		}
 		return toSelect.toArray(new ListGridRecord[] {});
 	}
-	
+
 	public void setPresenter(final StreamControlPresenter presenter) {
 		this.presenter = presenter;
 	}
@@ -213,27 +273,27 @@ public class StreamControlSection extends BaseGridSection {
 		}
 		return recordings;
 	}
-	
+
 	public void onRecordingStarted() {
 		startRecord.disable();
 		stopRecord.enable();
 	}
-	
+
 	public void onRecordingStopped() {
 		cleanSnapshot();
 		startRecord.enable();
 		stopRecord.disable();
 	}
-	
+
 	public void setSnapshot(final String encodedSnapshot) {
 		cleanSnapshot();
-		
+
 		final String source = "data:image/png;base64," + encodedSnapshot;
 		snapshot = new Img();
 		snapshot.setSrc(source);
 		snapshot.setWidth100();
 		snapshot.setHeight100();
-		
+
 		snapshotBox.addChild(snapshot);
 	}
 
@@ -243,5 +303,25 @@ public class StreamControlSection extends BaseGridSection {
 			snapshot = null;
 		}
 	}
-	
+
+	private Canvas createSnapshotsView() {
+		tileGrid = new TileGrid();
+		tileGrid.setWidth100();
+		tileGrid.setHeight100();
+		tileGrid.setTileWidth(194);
+		tileGrid.setTileHeight(165);
+		tileGrid.setBackgroundColor("white");
+		
+		final DetailViewerField pictureField = new DetailViewerField(TILE_PICTURE);
+		pictureField.setType("image");
+		pictureField.setImageWidth(186);
+		pictureField.setImageHeight(120);
+
+		final DetailViewerField nameField = new DetailViewerField(TILE_NAME);
+
+		tileGrid.setFields(pictureField, nameField);
+
+		return tileGrid;
+	}
+
 }
