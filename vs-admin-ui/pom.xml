@@ -70,6 +70,12 @@
       <artifactId>gin</artifactId>
     </dependency>
     
+    <!-- VIDEO player -->
+	<dependency>
+      <groupId>com.github.videojs-for-gwt</groupId>
+      <artifactId>player</artifactId>
+    </dependency>
+	  
   </dependencies>
   
   <properties>
