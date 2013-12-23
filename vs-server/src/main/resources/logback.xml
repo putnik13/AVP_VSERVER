@@ -9,9 +9,9 @@
    
    <!--Daily rolling file appender -->
    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-      <File>vserver.log</File>
+      <File>logs/vserver.log</File>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-         <FileNamePattern>vserver.%d{yyyy-MM-dd}.log</FileNamePattern>
+         <FileNamePattern>logs/vserver.%d{yyyy-MM-dd}.log</FileNamePattern>
       </rollingPolicy>
       <layout class="ch.qos.logback.classic.PatternLayout">
          <Pattern>%-4relative [%thread] %-5level %class - %msg%n</Pattern>
