@@ -19,11 +19,11 @@
    </appender>
    
    <logger name="com.atanor.vserver">
-      <level value="debug" />
+      <level value="DEBUG" />
    </logger>
    
    <root>
-      <level value="error" />
+      <level value="INFO" />
       <appender-ref ref="STDOUT" />
       <appender-ref ref="FILE" />
    </root>

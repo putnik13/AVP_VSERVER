@@ -5,7 +5,7 @@
 
 <web-app>
 
-  <!-- FILTERS -->
+  <!-- FILTERS
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
     <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -16,6 +16,7 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
+  -->
   <filter>
     <filter-name>guiceFilter</filter-name>
     <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
