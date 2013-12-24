@@ -14,7 +14,6 @@
   <inherits name='com.smartgwt.SmartGwt'/>
   <inherits name='com.google.common.collect.Collect'/>
   <inherits name="com.google.gwt.inject.Inject"/>
-  <inherits name="com.videojs.VideoPlayer" />
   <inherits name='com.atanor.vserver.Common'/>
   
   <!-- Specify properties                                         -->
