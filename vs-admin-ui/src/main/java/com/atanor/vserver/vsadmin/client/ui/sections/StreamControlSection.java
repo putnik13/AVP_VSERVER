@@ -6,14 +6,19 @@ import java.util.List;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.widgets.VideoCanvas;
 import com.google.common.collect.Lists;
+import com.google.gwt.dom.client.VideoElement;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
+import com.smartgwt.client.widgets.WidgetCanvas;
+import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
@@ -25,6 +30,8 @@ import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
+import com.smartgwt.client.widgets.grid.events.RecordDoubleClickEvent;
+import com.smartgwt.client.widgets.grid.events.RecordDoubleClickHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -33,6 +40,7 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tile.TileGrid;
 import com.smartgwt.client.widgets.tile.TileRecord;
 import com.smartgwt.client.widgets.viewer.DetailViewerField;
+import com.videojs.client.VideoPlayer;
 
 public class StreamControlSection extends BaseGridSection {
 
@@ -107,7 +115,14 @@ public class StreamControlSection extends BaseGridSection {
 				}
 			}
 		});
-
+		listGrid.addRecordDoubleClickHandler(new RecordDoubleClickHandler() {
+			
+			@Override
+			public void onRecordDoubleClick(RecordDoubleClickEvent event) {
+				showVideo("sdfg");
+			}
+		});
+		
 		final ListGridField fileName = new ListGridField(FILE_NAME_GRID_ATTR, "File Name");
 		final ListGridField startTime = new ListGridField(START_TIME_GRID_ATTR, "Start Time");
 		startTime.setCellFormatter(new CellFormatter() {
@@ -324,4 +339,18 @@ public class StreamControlSection extends BaseGridSection {
 		return tileGrid;
 	}
 
+	private void showVideo(String string) {
+        final Canvas backgroundCanvas = new Canvas();
+        backgroundCanvas.setBackgroundColor("grey");
+        backgroundCanvas.setOpacity(80);
+        backgroundCanvas.setWidth100();
+        backgroundCanvas.setHeight100();
+        
+        final Canvas canvas = new Canvas();
+        canvas.setWidth100();
+        canvas.setHeight100();
+        canvas.addChild(backgroundCanvas);
+        canvas.addChild(new VideoCanvas()); 
+        canvas.show();
+	}
 }
