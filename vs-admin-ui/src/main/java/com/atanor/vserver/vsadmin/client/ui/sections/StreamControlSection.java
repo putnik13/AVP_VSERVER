@@ -8,17 +8,13 @@ import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
 import com.atanor.vserver.vsadmin.client.ui.widgets.VideoCanvas;
 import com.google.common.collect.Lists;
-import com.google.gwt.dom.client.VideoElement;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
-import com.smartgwt.client.widgets.WidgetCanvas;
-import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
@@ -40,7 +36,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tile.TileGrid;
 import com.smartgwt.client.widgets.tile.TileRecord;
 import com.smartgwt.client.widgets.viewer.DetailViewerField;
-import com.videojs.client.VideoPlayer;
 
 public class StreamControlSection extends BaseGridSection {
 
@@ -116,13 +111,13 @@ public class StreamControlSection extends BaseGridSection {
 			}
 		});
 		listGrid.addRecordDoubleClickHandler(new RecordDoubleClickHandler() {
-			
+
 			@Override
 			public void onRecordDoubleClick(RecordDoubleClickEvent event) {
 				showVideo("sdfg");
 			}
 		});
-		
+
 		final ListGridField fileName = new ListGridField(FILE_NAME_GRID_ATTR, "File Name");
 		final ListGridField startTime = new ListGridField(START_TIME_GRID_ATTR, "Start Time");
 		startTime.setCellFormatter(new CellFormatter() {
@@ -246,7 +241,7 @@ public class StreamControlSection extends BaseGridSection {
 			TileRecord record = new TileRecord();
 			record.setAttribute(DTO_GRID_ATTR, dto);
 			record.setAttribute(TILE_NAME, dto.getName());
-			
+
 			final String source = "data:image/png;base64," + dto.getEncodedImage();
 			record.setAttribute(TILE_PICTURE, source);
 
@@ -326,7 +321,7 @@ public class StreamControlSection extends BaseGridSection {
 		tileGrid.setTileWidth(194);
 		tileGrid.setTileHeight(165);
 		tileGrid.setBackgroundColor("white");
-		
+
 		final DetailViewerField pictureField = new DetailViewerField(TILE_PICTURE);
 		pictureField.setType("image");
 		pictureField.setImageWidth(186);
@@ -340,17 +335,33 @@ public class StreamControlSection extends BaseGridSection {
 	}
 
 	private void showVideo(String string) {
-        final Canvas backgroundCanvas = new Canvas();
-        backgroundCanvas.setBackgroundColor("grey");
-        backgroundCanvas.setOpacity(80);
-        backgroundCanvas.setWidth100();
-        backgroundCanvas.setHeight100();
-        
-        final Canvas canvas = new Canvas();
-        canvas.setWidth100();
-        canvas.setHeight100();
-        canvas.addChild(backgroundCanvas);
-        canvas.addChild(new VideoCanvas()); 
-        canvas.show();
+		final Canvas canvas = new Canvas();
+		canvas.setWidth100();
+		canvas.setHeight100();
+		
+		final Canvas backgroundCanvas = new Canvas();
+		backgroundCanvas.setBackgroundColor("grey");
+		backgroundCanvas.setOpacity(80);
+		backgroundCanvas.setWidth100();
+		backgroundCanvas.setHeight100();
+
+		final Canvas closeButton = createNavigateControl("close.png", "Close Window");
+		closeButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				canvas.destroy();
+			}
+		});
+		
+		
+		final HLayout closeLayout = new HLayout();
+		closeLayout.setWidth100();
+		closeLayout.addMembers(new LayoutSpacer(), closeButton);
+		
+		canvas.addChild(backgroundCanvas);
+		canvas.addChild(new VideoCanvas());
+		canvas.addChild(closeLayout);
+		canvas.show();
 	}
 }

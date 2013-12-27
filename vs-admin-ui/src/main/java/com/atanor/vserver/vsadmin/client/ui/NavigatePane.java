@@ -22,9 +22,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class NavigatePane extends HLayout implements SectionAnimationStartedHandler {
 
-	private static final Integer CONTROL_SIZE = 48;
-	private static final int CONTROL_SIZE_HOVER = 60;
-	
 	@Inject
 	private EventBus eventBus;
 
@@ -75,8 +72,8 @@ public class NavigatePane extends HLayout implements SectionAnimationStartedHand
 
 	private void resetControl(final Canvas control) {
 		control.enable();
-		control.setWidth(CONTROL_SIZE);
-		control.setHeight(CONTROL_SIZE);
+		control.setWidth(UiUtils.NAVIGATE_ICON_CONTROL_SIZE);
+		control.setHeight(UiUtils.NAVIGATE_ICON_CONTROL_SIZE);
 	}
 
 	@Override
@@ -104,21 +101,22 @@ public class NavigatePane extends HLayout implements SectionAnimationStartedHand
 		final Img img = new Img();
 		img.setSrc(imgSource);
 		img.setTooltip(tooltip);
-		img.setWidth(CONTROL_SIZE);
-		img.setHeight(CONTROL_SIZE);
+		img.setWidth(UiUtils.NAVIGATE_ICON_CONTROL_SIZE);
+		img.setHeight(UiUtils.NAVIGATE_ICON_CONTROL_SIZE);
 		img.addClickHandler(buildClickHandler(section));
 		img.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				img.animateResize(CONTROL_SIZE_HOVER, CONTROL_SIZE_HOVER, null, 100);
+				img.animateResize(UiUtils.NAVIGATE_ICON_CONTROL_SIZE_HOVER, UiUtils.NAVIGATE_ICON_CONTROL_SIZE_HOVER,
+						null, 100);
 			}
 		});
 		img.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				img.animateResize(CONTROL_SIZE, CONTROL_SIZE);
+				img.animateResize(UiUtils.NAVIGATE_ICON_CONTROL_SIZE, UiUtils.NAVIGATE_ICON_CONTROL_SIZE);
 			}
 		});
 
