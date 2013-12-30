@@ -9,4 +9,6 @@ public interface ConfigDataService {
 	VsConfig getConfigById(Long id);
 
 	void update(VsConfig config);
+	
+	void applyDefaultConfig();
 }

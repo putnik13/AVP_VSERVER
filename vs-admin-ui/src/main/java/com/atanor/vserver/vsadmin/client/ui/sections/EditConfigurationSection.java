@@ -26,7 +26,8 @@ public class EditConfigurationSection extends BaseSection {
 	private final IButton editButton;
 	private final IButton saveButton;
 	private final IButton cancelButton;
-
+	private final IButton applyDefaultButton;
+	
 	private final TextAreaItem streamMediaOptionsAreaItem;
 	private final TextItem streamMediaResourceItem;
 	private final TextItem streamOutputFolderItem;
@@ -83,7 +84,16 @@ public class EditConfigurationSection extends BaseSection {
 			}
 		});
 
-		buttonLayout.addMembers(editButton, saveButton, cancelButton);
+		applyDefaultButton = new IButton("Apply Default");
+		applyDefaultButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.applyDefaultConfiguration();
+			}
+		});
+		
+		buttonLayout.addMembers(editButton, saveButton, cancelButton, applyDefaultButton);
 		setDefaultButtonSettings();
 
 		final SectionStack sectionStack = new SectionStack();

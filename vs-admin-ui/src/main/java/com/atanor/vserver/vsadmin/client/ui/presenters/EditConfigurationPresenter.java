@@ -22,7 +22,7 @@ public class EditConfigurationPresenter {
 	}
 
 	public void refreshConfiguration() {
-		configService.getDefaultConfig(new AsyncCallback<VsConfigDto>() {
+		configService.getConfig(new AsyncCallback<VsConfigDto>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -42,6 +42,21 @@ public class EditConfigurationPresenter {
 			@Override
 			public void onFailure(Throwable caught) {
 				SC.say("Error. Can not update configuration data");
+			}
+
+			@Override
+			public void onSuccess(VsConfigDto config) {
+				view.setConfiguration(config);
+			}
+		});
+	}
+	
+	public void applyDefaultConfiguration() {
+		configService.applyDefaultConfig(new AsyncCallback<VsConfigDto>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				SC.say("Error. Can not apply default application configuration data");
 			}
 
 			@Override

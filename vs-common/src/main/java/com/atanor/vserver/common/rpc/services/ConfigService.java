@@ -10,7 +10,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("config")
 public interface ConfigService extends RemoteService {
 
-	VsConfigDto getDefaultConfig();
+	VsConfigDto getConfig();
 
 	VsConfigDto update(VsConfigDto configDto);
+	
+	VsConfigDto applyDefaultConfig();
 }

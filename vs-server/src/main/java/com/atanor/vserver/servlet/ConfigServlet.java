@@ -20,7 +20,7 @@ public class ConfigServlet extends RemoteServiceServlet implements ConfigService
 	private ConfigConverter converter;
 
 	@Override
-	public VsConfigDto getDefaultConfig() {
+	public VsConfigDto getConfig() {
 		return converter.toDto(configService.getConfig());
 	}
 
@@ -28,6 +28,12 @@ public class ConfigServlet extends RemoteServiceServlet implements ConfigService
 	public VsConfigDto update(final VsConfigDto configDto) {
 		configService.update(converter.toEntity(configDto));
 		return converter.toDto(configService.getConfigById(configDto.getId()));
+	}
+
+	@Override
+	public VsConfigDto applyDefaultConfig() {
+		configService.applyDefaultConfig();
+		return converter.toDto(configService.getConfig());
 	}
 
 }
