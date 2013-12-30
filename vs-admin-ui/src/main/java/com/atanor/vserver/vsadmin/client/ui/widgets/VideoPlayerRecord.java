@@ -3,6 +3,8 @@ package com.atanor.vserver.vsadmin.client.ui.widgets;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Label;
+import com.smartgwt.client.widgets.events.DoubleClickEvent;
+import com.smartgwt.client.widgets.events.DoubleClickHandler;
 import com.smartgwt.client.widgets.events.MouseOutEvent;
 import com.smartgwt.client.widgets.events.MouseOutHandler;
 import com.smartgwt.client.widgets.events.MouseOverEvent;
@@ -17,9 +19,9 @@ public class VideoPlayerRecord extends Label {
 
 	private Boolean isSelected = Boolean.FALSE;
 
-	public VideoPlayerRecord(final RecordingDto recording) {
+	public VideoPlayerRecord(final RecordingDto recording, final LoadVideoHandler handler) {
 		super(recording.getName());
-		
+
 		setWidth100();
 		setHeight(50);
 		setBackgroundColor(DEFAULT_ITEM_COLOR);
@@ -46,6 +48,16 @@ public class VideoPlayerRecord extends Label {
 				}
 			}
 		});
+		addDoubleClickHandler(new DoubleClickHandler() {
+
+			@Override
+			public void onDoubleClick(DoubleClickEvent event) {
+				if (!isSelected()) {
+					handler.onLoadVideo(getContents());
+					select();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -57,13 +69,15 @@ public class VideoPlayerRecord extends Label {
 	public Boolean isSelected() {
 		return isSelected;
 	}
-	
-	public void select(){
+
+	public void select() {
+		setSelected(Boolean.TRUE);
 		setBorder(DEFAULT_ITEM_BORDER_STYLE);
 		setBackgroundColor("#999999");
 	}
 
-	public void deselect(){
+	public void deselect() {
+		setSelected(Boolean.FALSE);
 		setBackgroundColor(DEFAULT_ITEM_COLOR);
 		setBorder(DEFAULT_ITEM_BORDER_STYLE);
 	}

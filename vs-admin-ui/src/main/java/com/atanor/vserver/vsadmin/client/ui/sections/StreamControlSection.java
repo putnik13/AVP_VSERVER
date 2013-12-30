@@ -360,8 +360,16 @@ public class StreamControlSection extends BaseGridSection {
 		closeLayout.addMembers(new LayoutSpacer(), closeButton);
 		
 		canvas.addChild(backgroundCanvas);
-		canvas.addChild(new VideoCanvas());
+		canvas.addChild(new VideoCanvas(getRecordings()));
 		canvas.addChild(closeLayout);
 		canvas.show();
+	}
+	
+	private List<RecordingDto> getRecordings() {
+		final List<RecordingDto> recordings = Lists.newArrayList();
+		for (final ListGridRecord record : listGrid.getRecords()) {
+			recordings.add((RecordingDto) record.getAttributeAsObject(DTO_GRID_ATTR));
+		}
+		return recordings;
 	}
 }
