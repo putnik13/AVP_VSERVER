@@ -6,6 +6,7 @@ import java.util.List;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.widgets.VideoCanvas;
 import com.google.common.collect.Lists;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
@@ -25,6 +26,8 @@ import com.smartgwt.client.widgets.grid.CellFormatter;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
+import com.smartgwt.client.widgets.grid.events.RecordDoubleClickEvent;
+import com.smartgwt.client.widgets.grid.events.RecordDoubleClickHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -105,6 +108,13 @@ public class StreamControlSection extends BaseGridSection {
 				} else {
 					removeImg.disable();
 				}
+			}
+		});
+		listGrid.addRecordDoubleClickHandler(new RecordDoubleClickHandler() {
+
+			@Override
+			public void onRecordDoubleClick(RecordDoubleClickEvent event) {
+				showVideo("sdfg");
 			}
 		});
 
@@ -231,7 +241,7 @@ public class StreamControlSection extends BaseGridSection {
 			TileRecord record = new TileRecord();
 			record.setAttribute(DTO_GRID_ATTR, dto);
 			record.setAttribute(TILE_NAME, dto.getName());
-			
+
 			final String source = "data:image/png;base64," + dto.getEncodedImage();
 			record.setAttribute(TILE_PICTURE, source);
 
@@ -311,7 +321,7 @@ public class StreamControlSection extends BaseGridSection {
 		tileGrid.setTileWidth(194);
 		tileGrid.setTileHeight(165);
 		tileGrid.setBackgroundColor("white");
-		
+
 		final DetailViewerField pictureField = new DetailViewerField(TILE_PICTURE);
 		pictureField.setType("image");
 		pictureField.setImageWidth(186);
@@ -324,4 +334,42 @@ public class StreamControlSection extends BaseGridSection {
 		return tileGrid;
 	}
 
+	private void showVideo(String string) {
+		final Canvas canvas = new Canvas();
+		canvas.setWidth100();
+		canvas.setHeight100();
+		
+		final Canvas backgroundCanvas = new Canvas();
+		backgroundCanvas.setBackgroundColor("grey");
+		backgroundCanvas.setOpacity(80);
+		backgroundCanvas.setWidth100();
+		backgroundCanvas.setHeight100();
+
+		final Canvas closeButton = createNavigateControl("close.png", "Close Window");
+		closeButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				canvas.destroy();
+			}
+		});
+		
+		
+		final HLayout closeLayout = new HLayout();
+		closeLayout.setWidth100();
+		closeLayout.addMembers(new LayoutSpacer(), closeButton);
+		
+		canvas.addChild(backgroundCanvas);
+		canvas.addChild(new VideoCanvas(getRecordings()));
+		canvas.addChild(closeLayout);
+		canvas.show();
+	}
+	
+	private List<RecordingDto> getRecordings() {
+		final List<RecordingDto> recordings = Lists.newArrayList();
+		for (final ListGridRecord record : listGrid.getRecords()) {
+			recordings.add((RecordingDto) record.getAttributeAsObject(DTO_GRID_ATTR));
+		}
+		return recordings;
+	}
 }
