@@ -57,8 +57,6 @@ public class PlayerFacadeMock implements PlayerFacade {
 	private final EmbeddedMediaPlayer streamPlayer;
 	private final EmbeddedMediaPlayer imagePlayer;
 
-	private final String mediaResourceLocation = "file:///D:/temp/video/test2.mp4";
-
 	@Inject
 	public PlayerFacadeMock(final EventBus eventBus, final ConfigDataService configService) {
 		this.eventBus = eventBus;
@@ -121,8 +119,8 @@ public class PlayerFacadeMock implements PlayerFacade {
 			final Date startTime = new Date();
 			final String fileName = buildRecordingName(startTime);
 			final String[] options = { String.format(config().getStreamMediaOptions(), buildRecordingPath(fileName)) };
-			streamPlayer.playMedia(mediaResourceLocation, options);
-			imagePlayer.playMedia(mediaResourceLocation);
+			streamPlayer.playMedia(config().getStreamMediaResource(), options);
+			imagePlayer.playMedia(config().getStreamMediaResource());
 
 			currentRecordingId = recordingService.createRecording(fileName, startTime);
 			eventBus.post(new CreateAndSaveSnapshotEvent(currentRecordingId));
@@ -171,7 +169,7 @@ public class PlayerFacadeMock implements PlayerFacade {
 	}
 
 	private VsConfig config() {
-		return configService.getDefaultConfig();
+		return configService.getConfig();
 	}
 
 	private void saveSnapshot() {

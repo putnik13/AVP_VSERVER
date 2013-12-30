@@ -47,7 +47,7 @@ public class RecordingDataServiceImpl implements RecordingDataService {
 	}
 
 	private String buildRecordingPath(final String recordingName) {
-		return configService.getDefaultConfig().getRecordingsOutput() + "/" + recordingName;
+		return configService.getConfig().getRecordingsOutput() + "/" + recordingName;
 	}
 
 	@Override

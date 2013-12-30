@@ -10,19 +10,21 @@ import com.atanor.vserver.services.ConfigDataService;
 
 public class ConfigDataServiceImpl implements ConfigDataService {
 
+	private static final String APP_CONFIG = "APPCONFIG";
+	
 	@Inject
 	private VsConfigDao configDao;
 
 	@Override
-	public VsConfig getDefaultConfig() {
+	public VsConfig getConfig() {
 		List<VsConfig> configs = configDao.findAll();
 		for (VsConfig config : configs) {
-			if (config.isDefault()) {
+			if (APP_CONFIG.equals(config.getName())) {
 				return config;
 			}
 		}
 
-		throw new IllegalStateException("Default configuration is not set.");
+		throw new IllegalStateException("Application configuration is not found.");
 	}
 
 	@Override

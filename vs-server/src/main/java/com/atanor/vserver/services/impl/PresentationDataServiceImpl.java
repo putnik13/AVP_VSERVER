@@ -42,7 +42,7 @@ public class PresentationDataServiceImpl implements PresentationDataService {
 	}
 
 	private String buildPresentationPath(final String presentationName) {
-		return configService.getDefaultConfig().getPresentationsOutput() + "/" + presentationName;
+		return configService.getConfig().getPresentationsOutput() + "/" + presentationName;
 	}
 
 	@Override

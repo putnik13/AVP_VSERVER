@@ -21,7 +21,7 @@ public class ConfigServlet extends RemoteServiceServlet implements ConfigService
 
 	@Override
 	public VsConfigDto getDefaultConfig() {
-		return converter.toDto(configService.getDefaultConfig());
+		return converter.toDto(configService.getConfig());
 	}
 
 	@Override
