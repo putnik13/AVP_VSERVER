@@ -193,12 +193,14 @@ public class EditConfigurationSection extends BaseSection {
 		editButton.enable();
 		saveButton.disable();
 		cancelButton.disable();
+		applyDefaultButton.enable();
 	}
 
 	private void setEditButtonSettings() {
 		editButton.disable();
 		saveButton.disable();
 		cancelButton.enable();
+		applyDefaultButton.disable();
 	}
 
 	private void setFormItemValue(final FormItem item, final Object value) {
