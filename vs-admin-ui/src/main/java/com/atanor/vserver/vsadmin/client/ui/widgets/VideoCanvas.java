@@ -92,8 +92,8 @@ public class VideoCanvas extends VLayout implements LoadVideoHandler {
 				play();
 			}
 		};
-		player.addSource(RECORDINGS_URL + recording, VideoElement.TYPE_MP4);
-		//player.addSource("http://video-js.zencoder.com/oceans-clip.mp4", VideoElement.TYPE_MP4);
+		//player.addSource(RECORDINGS_URL + recording, VideoElement.TYPE_MP4);
+		player.addSource("http://video-js.zencoder.com/oceans-clip.mp4", VideoElement.TYPE_MP4);
 
 		final Canvas canvas = new WidgetCanvas(player);
 		canvas.setWidth(PLAYER_WIDTH);
