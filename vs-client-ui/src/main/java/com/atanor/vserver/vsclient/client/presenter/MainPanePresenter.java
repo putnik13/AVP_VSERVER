@@ -1,14 +1,14 @@
 package com.atanor.vserver.vsclient.client.presenter;
 
-import com.atanor.vserver.common.async.events.SessionOverEvent;
-import com.atanor.vserver.common.async.events.SessionOverHandler;
-import com.atanor.vserver.common.async.events.SessionStartEvent;
-import com.atanor.vserver.common.async.events.SessionStartHandler;
-import com.atanor.vserver.common.async.events.SnapshotReceivedEvent;
-import com.atanor.vserver.common.async.events.SnapshotReceivedHandler;
+import com.atanor.vserver.common.async.events.PresentationOverEvent;
+import com.atanor.vserver.common.async.events.PresentationOverHandler;
+import com.atanor.vserver.common.async.events.PresentationStartEvent;
+import com.atanor.vserver.common.async.events.PresentationStartHandler;
+import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedEvent;
+import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedHandler;
 import com.atanor.vserver.vsclient.client.ui.MainPane;
 
-public class MainPanePresenter implements SnapshotReceivedHandler, SessionOverHandler, SessionStartHandler {
+public class MainPanePresenter implements PresentationSnapshotReceivedHandler, PresentationOverHandler, PresentationStartHandler {
 
 	private MainPane view;
 
@@ -17,17 +17,17 @@ public class MainPanePresenter implements SnapshotReceivedHandler, SessionOverHa
 	}
 
 	@Override
-	public void onSnapshotReceived(final SnapshotReceivedEvent event) {
+	public void onPresentationSnapshotReceived(final PresentationSnapshotReceivedEvent event) {
 		view.addSnapshot(event.getSnapshot());
 	}
 
 	@Override
-	public void onSessionOver(final SessionOverEvent event) {
+	public void onPresentationOver(final PresentationOverEvent event) {
 		view.onSessionOver();
 	}
 
 	@Override
-	public void onSessionStart(SessionStartEvent event) {
+	public void onPresentationStart(PresentationStartEvent event) {
 		// TODO Auto-generated method stub
 	}
 

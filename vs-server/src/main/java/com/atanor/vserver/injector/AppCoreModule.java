@@ -4,9 +4,11 @@ import java.util.concurrent.Executors;
 
 import com.atanor.vserver.events.DeadEventListener;
 import com.atanor.vserver.facades.PalantirFacade;
-import com.atanor.vserver.facades.PlayerFacade;
+import com.atanor.vserver.facades.PresentationFacade;
+import com.atanor.vserver.facades.VideoFacade;
 import com.atanor.vserver.facades.palantir.PalantirFacadeMock;
-import com.atanor.vserver.facades.player.PlayerFacadeMock;
+import com.atanor.vserver.facades.player.PresentationFacadeImpl;
+import com.atanor.vserver.facades.player.VideoFacadeImpl;
 import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.PresentationDataService;
 import com.atanor.vserver.services.RecordingDataService;
@@ -30,9 +32,10 @@ public class AppCoreModule extends AbstractModule {
 		bind(RecordingDataService.class).to(RecordingDataServiceImpl.class);
 		bind(PresentationDataService.class).to(PresentationDataServiceImpl.class);
 		bind(ConfigDataService.class).to(ConfigDataServiceImpl.class);
-		
-		bind(PlayerFacade.class).to(PlayerFacadeMock.class).in(Scopes.SINGLETON);
+
 		bind(PalantirFacade.class).to(PalantirFacadeMock.class).in(Scopes.SINGLETON);
+		bind(VideoFacade.class).to(VideoFacadeImpl.class).in(Scopes.SINGLETON);
+		bind(PresentationFacade.class).to(PresentationFacadeImpl.class).in(Scopes.SINGLETON);
 	}
 
 }

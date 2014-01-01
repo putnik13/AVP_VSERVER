@@ -2,7 +2,7 @@ package com.atanor.vserver.common.async.events;
 
 import com.google.gwt.event.shared.EventHandler;
 
-public interface SessionOverHandler extends EventHandler {
+public interface PresentationOverHandler extends EventHandler {
 
-	void onSessionOver(SessionOverEvent event);
+	void onPresentationOver(PresentationOverEvent event);
 }

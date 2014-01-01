@@ -4,27 +4,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.atanor.vserver.common.async.events.VideoSnapshotReceivedEvent;
+import com.atanor.vserver.common.async.events.VideoSnapshotReceivedHandler;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.common.rpc.services.RecordingServiceAsync;
-import com.atanor.vserver.vsadmin.client.events.GetStreamSnapshotEvent;
-import com.atanor.vserver.vsadmin.client.events.GetStreamSnapshotHandler;
 import com.atanor.vserver.vsadmin.client.ui.sections.StreamControlSection;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.web.bindery.event.shared.EventBus;
 import com.smartgwt.client.util.SC;
 
-public class StreamControlPresenter implements GetStreamSnapshotHandler {
-
-	private static final int GET_SNAPSHOT_INTERVAL = 5000;
+public class StreamControlPresenter implements VideoSnapshotReceivedHandler {
 
 	@Inject
 	private RecordingServiceAsync recordingService;
-	
-	@Inject
-	private EventBus eventBus;
 
-	private Timer snapshotTimer;
 	private StreamControlSection view;
 
 	@Inject
@@ -89,18 +81,8 @@ public class StreamControlPresenter implements GetStreamSnapshotHandler {
 			@Override
 			public void onSuccess(Boolean result) {
 				view.onRecordingStarted();
-				startGettingSnapshots();
 			}
 		});
-	}
-
-	private void startGettingSnapshots() {
-		snapshotTimer = new Timer() {
-			public void run() {
-				eventBus.fireEvent(new GetStreamSnapshotEvent());
-			}
-		};
-		snapshotTimer.scheduleRepeating(GET_SNAPSHOT_INTERVAL);
 	}
 
 	public void stopRecording() {
@@ -108,13 +90,11 @@ public class StreamControlPresenter implements GetStreamSnapshotHandler {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				snapshotTimer.cancel();
 				SC.say("Error. Can not stop recording");
 			}
 
 			@Override
 			public void onSuccess(Boolean result) {
-				snapshotTimer.cancel();
 				view.onRecordingStopped();
 				refreshRecordings();
 			}
@@ -122,22 +102,7 @@ public class StreamControlPresenter implements GetStreamSnapshotHandler {
 	}
 
 	@Override
-	public void onGetStreamSnapshot(GetStreamSnapshotEvent event) {
-		recordingService.getSnapshot(new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				snapshotTimer.cancel();
-				SC.say("Error. Can not get stream snapshot");
-			}
-
-			@Override
-			public void onSuccess(String snapshot) {
-				if (snapshot != null) {
-					view.setSnapshot(snapshot);
-				}
-			}
-		});
-		
+	public void onVideoSnapshotReceived(final VideoSnapshotReceivedEvent event) {
+		view.setSnapshot(event.getSnapshot());
 	}
 }

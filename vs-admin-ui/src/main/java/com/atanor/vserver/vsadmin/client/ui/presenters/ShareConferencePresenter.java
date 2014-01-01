@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.atanor.vserver.common.async.events.SnapshotReceivedEvent;
-import com.atanor.vserver.common.async.events.SnapshotReceivedHandler;
+import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedEvent;
+import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedHandler;
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.common.rpc.services.PresentationServiceAsync;
 import com.atanor.vserver.vsadmin.client.ui.sections.ShareConferenceSection;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.util.SC;
 
-public class ShareConferencePresenter implements SnapshotReceivedHandler {
+public class ShareConferencePresenter implements PresentationSnapshotReceivedHandler {
 
 	@Inject
 	private PresentationServiceAsync presentationService;
@@ -102,7 +102,7 @@ public class ShareConferencePresenter implements SnapshotReceivedHandler {
 	}
 
 	@Override
-	public void onSnapshotReceived(SnapshotReceivedEvent event) {
+	public void onPresentationSnapshotReceived(PresentationSnapshotReceivedEvent event) {
 		view.setSnapshot(event.getSnapshot());
 	}
 

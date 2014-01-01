@@ -2,24 +2,24 @@ package com.atanor.vserver.common.async.events;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-public class SessionOverEvent extends GwtEvent<SessionOverHandler> {
+public class PresentationOverEvent extends GwtEvent<PresentationOverHandler> {
 
-	private static Type<SessionOverHandler> TYPE;
+	private static Type<PresentationOverHandler> TYPE;
 
-	public static Type<SessionOverHandler> getType() {
+	public static Type<PresentationOverHandler> getType() {
 		if (TYPE == null) {
-			TYPE = new Type<SessionOverHandler>();
+			TYPE = new Type<PresentationOverHandler>();
 		}
 		return TYPE;
 	}
 
 	@Override
-	public final Type<SessionOverHandler> getAssociatedType() {
+	public final Type<PresentationOverHandler> getAssociatedType() {
 		return TYPE;
 	}
 
 	@Override
-	protected void dispatch(SessionOverHandler handler) {
-		handler.onSessionOver(this);
+	protected void dispatch(PresentationOverHandler handler) {
+		handler.onPresentationOver(this);
 	}
 }

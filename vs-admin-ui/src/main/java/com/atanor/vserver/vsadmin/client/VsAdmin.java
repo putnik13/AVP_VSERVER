@@ -1,7 +1,7 @@
 package com.atanor.vserver.vsadmin.client;
 
-import com.atanor.vserver.common.async.events.SnapshotReceivedEvent;
-import com.atanor.vserver.vsadmin.client.events.GetStreamSnapshotEvent;
+import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedEvent;
+import com.atanor.vserver.common.async.events.VideoSnapshotReceivedEvent;
 import com.atanor.vserver.vsadmin.client.events.SectionAnimationStartedEvent;
 import com.atanor.vserver.vsadmin.client.events.SectionSelectedEvent;
 import com.atanor.vserver.vsadmin.client.injector.ClientInjector;
@@ -34,8 +34,8 @@ public class VsAdmin implements EntryPoint {
 	private static void register() {
 		injector.getEventBus().addHandler(SectionSelectedEvent.getType(), injector.getContentPane());
 		injector.getEventBus().addHandler(SectionAnimationStartedEvent.getType(), injector.getNavigatePane());
-		injector.getEventBus().addHandler(GetStreamSnapshotEvent.getType(), injector.getStreamControlPresenter());
-		injector.getEventBus().addHandler(SnapshotReceivedEvent.getType(), injector.getShareConferencePresenter());
+		injector.getEventBus().addHandler(VideoSnapshotReceivedEvent.getType(), injector.getStreamControlPresenter());
+		injector.getEventBus().addHandler(PresentationSnapshotReceivedEvent.getType(), injector.getShareConferencePresenter());
 	}
 
 	private static void connectAsync() {

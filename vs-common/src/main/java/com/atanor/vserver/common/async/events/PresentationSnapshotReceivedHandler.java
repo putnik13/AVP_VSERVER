@@ -2,7 +2,7 @@ package com.atanor.vserver.common.async.events;
 
 import com.google.gwt.event.shared.EventHandler;
 
-public interface SnapshotReceivedHandler extends EventHandler {
+public interface PresentationSnapshotReceivedHandler extends EventHandler {
 
-	void onSnapshotReceived(SnapshotReceivedEvent event);
+	void onPresentationSnapshotReceived(PresentationSnapshotReceivedEvent event);
 }

@@ -9,19 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.atanor.vserver.events.OpenSessionEvent;
-import com.google.common.eventbus.EventBus;
+import com.atanor.vserver.facades.PresentationFacade;
 
 @Singleton
 @SuppressWarnings("serial")
 public class SessionOpenServlet extends HttpServlet {
 
 	@Inject
-	private EventBus eventBus;
+	private PresentationFacade presentationFacade;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		eventBus.post(new OpenSessionEvent());
+		presentationFacade.startPresentation();
 	}
 
 	@Override

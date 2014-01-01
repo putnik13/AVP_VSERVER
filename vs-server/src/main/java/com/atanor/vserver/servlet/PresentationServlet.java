@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.common.rpc.services.PresentationService;
 import com.atanor.vserver.domain.converter.PresentationConverter;
-import com.atanor.vserver.facades.PlayerFacade;
+import com.atanor.vserver.facades.PresentationFacade;
 import com.atanor.vserver.services.PresentationDataService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -28,7 +28,7 @@ public class PresentationServlet extends RemoteServiceServlet implements Present
 	private PresentationConverter converter;
 
 	@Inject
-	private PlayerFacade player;
+	private PresentationFacade presentationFacade;
 	
 	@Override
 	public List<PresentationDto> getPresentations() {
@@ -38,14 +38,14 @@ public class PresentationServlet extends RemoteServiceServlet implements Present
 	@Override
 	public Boolean startPresentation() {
 		LOG.info("Presentation session started..");
-		player.startPresentation();
+		presentationFacade.startPresentation();
 		return Boolean.TRUE;
 	}
 
 	@Override
 	public Boolean stopPresentation() {
 		LOG.info("Presentation session stopped..");
-		player.stopPresentation();
+		presentationFacade.stopPresentation();
 		return Boolean.TRUE;
 	}
 

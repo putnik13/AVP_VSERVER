@@ -5,6 +5,11 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Snapshot implements Serializable {
 
+	public enum TYPE {
+		VIDEO, PRESENTATION
+	}
+
+	private TYPE type;
 	private String width;
 	private String height;
 	private String encodedImage;
@@ -12,17 +17,18 @@ public class Snapshot implements Serializable {
 	public Snapshot() {
 	}
 
-	public Snapshot(final String encodedImage, final String width, final String height) {
+	public Snapshot(final TYPE type, final String encodedImage, final String width, final String height) {
+		this.type = type;
 		this.encodedImage = encodedImage;
 		this.width = width;
 		this.height = height;
 	}
-	
+
 	public String getWidth() {
 		return width;
 	}
 
-	public void setWidth(String width) {
+	public void setWidth(final String width) {
 		this.width = width;
 	}
 
@@ -30,7 +36,7 @@ public class Snapshot implements Serializable {
 		return height;
 	}
 
-	public void setHeight(String height) {
+	public void setHeight(final String height) {
 		this.height = height;
 	}
 
@@ -38,13 +44,16 @@ public class Snapshot implements Serializable {
 		return encodedImage;
 	}
 
-	public void setEncodedImage(String encodedImage) {
+	public void setEncodedImage(final String encodedImage) {
 		this.encodedImage = encodedImage;
 	}
 
-	@Override
-	public String toString() {
-		return "Snapshot [width=" + width + ", height=" + height + ", encodedImage=" + encodedImage + "]";
+	public void setType(final TYPE type) {
+		this.type = type;
+	}
+
+	public TYPE getType() {
+		return type;
 	}
 
 }
