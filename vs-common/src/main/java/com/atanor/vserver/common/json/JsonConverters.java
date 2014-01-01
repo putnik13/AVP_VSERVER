@@ -1,4 +1,4 @@
-package com.atanor.vserver.vsclient.client.json;
+package com.atanor.vserver.common.json;
 
 import name.pehl.piriti.json.client.JsonReader;
 import name.pehl.piriti.json.client.JsonWriter;

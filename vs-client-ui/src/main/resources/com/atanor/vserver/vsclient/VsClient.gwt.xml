@@ -11,10 +11,6 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
-  <inherits name='com.smartgwt.SmartGwt'/>
-  <inherits name='com.google.common.collect.Collect'/> 
-  <inherits name="org.atmosphere.gwt20.AtmosphereGwt20"/>
-  <inherits name="name.pehl.piriti.json.JSON" />
   <inherits name='com.atanor.vserver.Common'/>
   
   <!-- Specify properties                                         -->

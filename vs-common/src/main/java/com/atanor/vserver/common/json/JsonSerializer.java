@@ -1,4 +1,4 @@
-package com.atanor.vserver.vsclient.client.json;
+package com.atanor.vserver.common.json;
 
 import org.atmosphere.gwt20.client.ClientSerializer;
 

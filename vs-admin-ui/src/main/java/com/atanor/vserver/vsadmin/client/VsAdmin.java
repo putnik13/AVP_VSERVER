@@ -22,7 +22,9 @@ public class VsAdmin implements EntryPoint {
 
 		RootPanel.get().add(injector.getMainPane());
 		register();
-
+		
+		connectAsync();
+		
 		initStreamControlSection();
 		initShareConferenceSection();
 		initEditConfigurationSection();
@@ -34,6 +36,10 @@ public class VsAdmin implements EntryPoint {
 		injector.getEventBus().addHandler(GetStreamSnapshotEvent.getType(), injector.getStreamControlPresenter());
 	}
 
+	private static void connectAsync() {
+		injector.getAsyncConnector().connect();
+	}
+	
 	private static void initStreamControlSection() {
 		injector.getStreamControlPresenter().refreshRecordings();
 	}

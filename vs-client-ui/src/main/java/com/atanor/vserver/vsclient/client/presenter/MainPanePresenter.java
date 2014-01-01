@@ -1,11 +1,11 @@
 package com.atanor.vserver.vsclient.client.presenter;
 
-import com.atanor.vserver.vsclient.client.events.SessionOverEvent;
-import com.atanor.vserver.vsclient.client.events.SessionOverHandler;
-import com.atanor.vserver.vsclient.client.events.SessionStartEvent;
-import com.atanor.vserver.vsclient.client.events.SessionStartHandler;
-import com.atanor.vserver.vsclient.client.events.SnapshotReceivedEvent;
-import com.atanor.vserver.vsclient.client.events.SnapshotReceivedHandler;
+import com.atanor.vserver.common.async.events.SessionOverEvent;
+import com.atanor.vserver.common.async.events.SessionOverHandler;
+import com.atanor.vserver.common.async.events.SessionStartEvent;
+import com.atanor.vserver.common.async.events.SessionStartHandler;
+import com.atanor.vserver.common.async.events.SnapshotReceivedEvent;
+import com.atanor.vserver.common.async.events.SnapshotReceivedHandler;
 import com.atanor.vserver.vsclient.client.ui.MainPane;
 
 public class MainPanePresenter implements SnapshotReceivedHandler, SessionOverHandler, SessionStartHandler {
@@ -29,7 +29,6 @@ public class MainPanePresenter implements SnapshotReceivedHandler, SessionOverHa
 	@Override
 	public void onSessionStart(SessionStartEvent event) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

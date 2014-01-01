@@ -13,11 +13,27 @@
   <name>vs-common</name>
 
   <dependencies>
-	<dependency>
+    
+    <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
+    </dependency>	
+    <dependency>
+    	<groupId>com.smartgwt</groupId>
+    	<artifactId>smartgwt</artifactId>
+	</dependency>
+    <dependency>
+   		<groupId>javax.validation</groupId>
+   		<artifactId>validation-api</artifactId>
+   		<scope>provided</scope>
+	</dependency>
+	<dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
+    
 	<dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -36,6 +52,63 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
+    </dependency>
+    
+    <!-- Atmosphere libs -->
+	<dependency>
+      <groupId>org.atmosphere</groupId>
+      <artifactId>atmosphere-runtime</artifactId>
+    </dependency>
+	<dependency>
+      <groupId>org.atmosphere.extensions</groupId>
+      <artifactId>atmosphere-gwt20-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.atmosphere.extensions</groupId>
+      <artifactId>atmosphere-gwt20-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.atmosphere.extensions</groupId>
+      <artifactId>atmosphere-gwt20-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.atmosphere.extensions</groupId>
+      <artifactId>atmosphere-gwt20-managed</artifactId>
+    </dependency>
+	<dependency>
+      <groupId>org.atmosphere.client</groupId>
+      <artifactId>javascript</artifactId>
+      <type>war</type>
+      <scope>compile</scope>
+    </dependency>
+    
+    <!-- JSON mapper -->
+	<dependency>
+      <groupId>name.pehl</groupId>
+      <artifactId>piriti-user</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>name.pehl</groupId>
+      <artifactId>piriti-dev</artifactId>
+    </dependency>
+	<dependency>
+      <groupId>name.pehl</groupId>
+      <artifactId>totoe</artifactId>
+    </dependency>
+    
+    <dependency>
+	  <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+	</dependency>
+	<dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-gwt</artifactId>
+	</dependency>
+	
+	<!-- DI -->
+	<dependency>
+      <groupId>com.google.gwt.inject</groupId>
+      <artifactId>gin</artifactId>
     </dependency>
     
   </dependencies>

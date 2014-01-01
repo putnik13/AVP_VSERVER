@@ -1,5 +1,6 @@
 package com.atanor.vserver.vsadmin.client.injector;
 
+import com.atanor.vserver.vsadmin.client.async.AsyncConnector;
 import com.atanor.vserver.vsadmin.client.ui.ContentPane;
 import com.atanor.vserver.vsadmin.client.ui.HeaderPane;
 import com.atanor.vserver.vsadmin.client.ui.MainPane;
@@ -36,6 +37,8 @@ public class ClientModule extends AbstractGinModule {
 		bind(StreamControlPresenter.class).in(Singleton.class);
 		bind(ShareConferencePresenter.class).in(Singleton.class);
 		bind(EditConfigurationPresenter.class).in(Singleton.class);
+		
+		bind(AsyncConnector.class).in(Singleton.class);
 	}
 
 }

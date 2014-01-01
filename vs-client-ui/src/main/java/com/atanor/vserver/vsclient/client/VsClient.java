@@ -1,10 +1,10 @@
 package com.atanor.vserver.vsclient.client;
 
 
+import com.atanor.vserver.common.async.events.SessionOverEvent;
+import com.atanor.vserver.common.async.events.SessionStartEvent;
+import com.atanor.vserver.common.async.events.SnapshotReceivedEvent;
 import com.atanor.vserver.vsclient.client.async.AsyncConnector;
-import com.atanor.vserver.vsclient.client.events.SessionOverEvent;
-import com.atanor.vserver.vsclient.client.events.SessionStartEvent;
-import com.atanor.vserver.vsclient.client.events.SnapshotReceivedEvent;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
 
