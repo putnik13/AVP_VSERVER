@@ -14,7 +14,7 @@ import org.atmosphere.interceptor.SuspendTrackerInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ManagedService(path = "/VsClient/atmosphere/async", interceptors = {
+@ManagedService(path = "/atmosphere/async", interceptors = {
 /**
  * Handle lifecycle for us
  */

@@ -7,4 +7,8 @@ public interface PlayerFacade {
 	void stopRecording();	
 	
 	String getSnapshot();
+	
+	void startPresentation();
+	
+	void stopPresentation();
 }

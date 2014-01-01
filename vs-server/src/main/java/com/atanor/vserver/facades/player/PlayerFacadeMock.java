@@ -181,4 +181,26 @@ public class PlayerFacadeMock implements PlayerFacade {
 			recordingService.saveSnapshot(currentRecordingId, snapshotName);
 		}
 	}
+
+	@Override
+	public void startPresentation() {
+		AsyncConnector.startSharingSession();
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				eventBus.post(new GetSnapshotEvent());
+			}
+		}, DELAY_TIME, INTERVAL_TIME);
+	}
+
+	@Override
+	public void stopPresentation() {
+		AsyncConnector.stopSharingSession();
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
+	}
 }

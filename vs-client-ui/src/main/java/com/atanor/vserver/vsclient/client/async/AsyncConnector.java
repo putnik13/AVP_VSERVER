@@ -3,7 +3,6 @@ package com.atanor.vserver.vsclient.client.async;
 import java.util.List;
 
 import org.atmosphere.gwt20.client.Atmosphere;
-import org.atmosphere.gwt20.client.AtmosphereCloseHandler;
 import org.atmosphere.gwt20.client.AtmosphereMessageHandler;
 import org.atmosphere.gwt20.client.AtmosphereRequestConfig;
 import org.atmosphere.gwt20.client.AtmosphereResponse;
@@ -25,7 +24,7 @@ public class AsyncConnector {
 		final JsonSerializer jsonSerializer = GWT.create(JsonSerializer.class);
 		final AtmosphereRequestConfig jsonRequestConfig = AtmosphereRequestConfig.create(jsonSerializer);
 
-		jsonRequestConfig.setUrl(GWT.getModuleBaseURL() + "atmosphere/async");
+		jsonRequestConfig.setUrl(GWT.getHostPageBaseURL() + "atmosphere/async");
 		jsonRequestConfig.setContentType("application/json; charset=UTF-8");
 		jsonRequestConfig.setTransport(AtmosphereRequestConfig.Transport.WEBSOCKET);
 		jsonRequestConfig.setFallbackTransport(AtmosphereRequestConfig.Transport.STREAMING);
