@@ -3,6 +3,7 @@ package com.atanor.vserver.vsadmin.client.ui.sections;
 import java.util.Date;
 import java.util.List;
 
+import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
@@ -40,7 +41,8 @@ public class ShareConferenceSection extends BaseGridSection {
 	private final ListGrid listGrid;
 	private final Img synchronizeImg;
 	private final Img removeImg;
-
+	private Img snapshot;
+	
 	public ShareConferenceSection() {
 		setPadding(20);
 
@@ -200,8 +202,28 @@ public class ShareConferenceSection extends BaseGridSection {
 	}
 
 	public void onPresentationStopped() {
+		cleanSnapshot();
 		startPresentation.enable();
 		stopPresentation.disable();
 	}
 
+	public void setSnapshot(final Snapshot snapshotSrc) {
+		cleanSnapshot();
+
+		final String source = "data:image/png;base64," + snapshotSrc.getEncodedImage();
+		snapshot = new Img();
+		snapshot.setSrc(source);
+		snapshot.setWidth100();
+		snapshot.setHeight100();
+
+		snapshotBox.addChild(snapshot);
+	}
+	
+	private void cleanSnapshot() {
+		if (snapshot != null) {
+			snapshot.destroy();
+			snapshot = null;
+		}
+	}
+	
 }

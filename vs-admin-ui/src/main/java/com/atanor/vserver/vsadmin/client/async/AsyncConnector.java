@@ -1,10 +1,17 @@
 package com.atanor.vserver.vsadmin.client.async;
 
+import javax.inject.Inject;
+
 import com.atanor.vserver.common.async.BaseAsyncConnector;
+import com.atanor.vserver.common.async.events.SnapshotReceivedEvent;
 import com.atanor.vserver.common.entity.Snapshot;
+import com.google.web.bindery.event.shared.EventBus;
 
 public class AsyncConnector extends BaseAsyncConnector {
 
+	@Inject
+	private EventBus eventBus;
+	
 	public void connect() {
 		connectWebsocket();
 	}
@@ -14,16 +21,8 @@ public class AsyncConnector extends BaseAsyncConnector {
 
 		if (message instanceof Snapshot) {
 			final Snapshot snapshot = (Snapshot) message;
-			//Client.getEventBus().fireEvent(new SnapshotReceivedEvent(snapshot));
+			eventBus.fireEvent(new SnapshotReceivedEvent(snapshot));
 		} 
 	}
-
-//	private void handleSignalMessage(final Signal message) {
-//		if (message == Signal.SESSION_START) {
-//			Client.getEventBus().fireEvent(new SessionOverEvent());
-//		} else if (message == Signal.SESSION_OVER) {
-//			Client.getEventBus().fireEvent(new SessionOverEvent());
-//		}
-//	}
 
 }
