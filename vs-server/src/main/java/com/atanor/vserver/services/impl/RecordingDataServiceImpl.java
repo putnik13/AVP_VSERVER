@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.Validate;
 
 import com.atanor.vserver.async.AsyncConnector;
-import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.domain.dao.RecordingDao;
 import com.atanor.vserver.domain.entity.Recording;
 import com.atanor.vserver.events.VideoSnapshotEvent;
@@ -30,10 +29,10 @@ public class RecordingDataServiceImpl implements RecordingDataService {
 	private ConfigDataService configService;
 
 	@Inject
-	public RecordingDataServiceImpl(final EventBus eventBus){
+	public RecordingDataServiceImpl(final EventBus eventBus) {
 		eventBus.register(this);
 	}
-	
+
 	@Override
 	public List<Recording> getRecordings() {
 		return recordingDao.findAll();
@@ -123,7 +122,7 @@ public class RecordingDataServiceImpl implements RecordingDataService {
 	}
 
 	@Subscribe
-	public void onSnapshotTaken(final VideoSnapshotEvent event){
+	public void onSnapshotTaken(final VideoSnapshotEvent event) {
 		AsyncConnector.broadcastSnapshot(event.getSnapshot());
 	}
 }
