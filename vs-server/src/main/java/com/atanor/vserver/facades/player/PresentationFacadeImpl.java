@@ -3,6 +3,7 @@ package com.atanor.vserver.facades.player;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +25,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 
 	private Timer timer;
 	private int snapshotCount = 0;
+	private String folderName;
 
 	@Inject
 	public PresentationFacadeImpl(EventBus eventBus, ConfigDataService configService) {
@@ -33,6 +35,9 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 
 	@Override
 	public void startPresentation() {
+		folderName = buildFolderName();
+		createFolder(folderName);
+
 		AsyncConnector.startSharingSession();
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -45,10 +50,27 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 		}, DELAY_TIME, INTERVAL_TIME);
 	}
 
+	private String buildFolderName() {
+		return "PRESENTAION-" + df.format(new Date());
+	}
+
+	private String buildSnapshotName() {
+		return config().getPresentationSnapshotOutput() + "/" + folderName + "/" + snapshotCount + ".png";
+	}
+
+	private void createFolder(String name) {
+		final String fileName = config().getPresentationSnapshotOutput() + "/" + name;
+		final File snapshotFolder = new File(fileName);
+		if (!snapshotFolder.exists()) {
+			snapshotFolder.mkdirs();
+		}
+	}
+
 	@Override
 	public void stopPresentation() {
 		stopTimer();
 		snapshotCount = 0;
+		folderName = null;
 		AsyncConnector.stopSharingSession();
 	}
 
@@ -58,7 +80,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 			timer = null;
 		}
 	}
-	
+
 	@Subscribe
 	public void onGetSnapshot(final GetSnapshotEvent event) throws IOException {
 		System.out.println("onGetSnapshot() called");
@@ -72,8 +94,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 		final String encodedImage = ImageDecoder.encodeImage(file);
 		final Snapshot snapshot = new Snapshot(TYPE.PRESENTATION, encodedImage, "795", "586");
 		final BufferedImage in = ImageIO.read(file);
-		final String fileName = config().getPresentationSnapshotOutput() + "/" + snapshotCount + ".png";
-		getEventBus().post(new PresentationSnapshotEvent(in, fileName, snapshot));
+		getEventBus().post(new PresentationSnapshotEvent(in, buildSnapshotName(), snapshot));
 	}
 
 }
