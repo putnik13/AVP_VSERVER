@@ -35,11 +35,11 @@ public class NavigatePane extends HLayout implements SectionAnimationStartedHand
 		setHeight100();
 		setBackgroundColor("grey");
 
-		streamControl = createNavigateControl(Section.STREAM_CONTROL, "stream_control.png", "Stream Control");
+		streamControl = createNavigateControl(Section.RECORDING, "stream_control.png", "Stream Control");
 		streamControl.setDisabled(true);
-		shareConference = createNavigateControl(Section.SHARE_CONFERENCE, "share_conference.png", "Share Conference");
+		shareConference = createNavigateControl(Section.PRESENTATION, "share_conference.png", "Share Conference");
 		broadcasting = createNavigateControl(Section.BROADCASTING, "broadcasting.png", "Broadcasting");
-		editConfiguration = createNavigateControl(Section.EDIT_CONFIGURATION, "edit_config.png", "Edit Configuration");
+		editConfiguration = createNavigateControl(Section.CONFIGURATION, "edit_config.png", "Edit Configuration");
 
 		final VLayout controlsLayout = new VLayout();
 		controlsLayout.setWidth100();
@@ -80,16 +80,16 @@ public class NavigatePane extends HLayout implements SectionAnimationStartedHand
 	public void onAnimationStarted(final SectionAnimationStartedEvent event) {
 		enableAllControls();
 		switch (event.getSection()) {
-		case STREAM_CONTROL:
+		case RECORDING:
 			streamControl.disable();
 			break;
-		case SHARE_CONFERENCE:
+		case PRESENTATION:
 			shareConference.disable();
 			break;
 		case BROADCASTING:
 			broadcasting.disable();
 			break;
-		case EDIT_CONFIGURATION:
+		case CONFIGURATION:
 			editConfiguration.disable();
 			break;
 		default:

@@ -41,9 +41,9 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 		if (!isPlaying()) {
 			final Date startTime = new Date();
 			final String fileName = buildRecordingName(startTime);
-			final String[] options = { String.format(config().getStreamMediaOptions(), buildRecordingPath(fileName)) };
-			getStreamPlayer().playMedia(config().getStreamMediaResource(), options);
-			getImagePlayer().playMedia(config().getStreamMediaResource());
+			final String[] options = { String.format(config().getRecordingMediaOptions(), buildRecordingPath(fileName)) };
+			getStreamPlayer().playMedia(config().getRecordingMediaResource(), options);
+			getImagePlayer().playMedia(config().getRecordingMediaResource());
 
 			currentRecordingId = recordingService.createRecording(fileName, startTime);
 			startTakeSnapshots();

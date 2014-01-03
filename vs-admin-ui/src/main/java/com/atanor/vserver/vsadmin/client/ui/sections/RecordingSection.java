@@ -6,7 +6,7 @@ import java.util.List;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
-import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.RecordingPresenter;
 import com.atanor.vserver.vsadmin.client.ui.widgets.SnapshotBox;
 import com.atanor.vserver.vsadmin.client.ui.widgets.VideoCanvas;
 import com.google.common.collect.Lists;
@@ -39,7 +39,7 @@ import com.smartgwt.client.widgets.tile.TileGrid;
 import com.smartgwt.client.widgets.tile.TileRecord;
 import com.smartgwt.client.widgets.viewer.DetailViewerField;
 
-public class StreamControlSection extends BaseGridSection {
+public class RecordingSection extends BaseGridSection {
 
 	private static final String DTO_GRID_ATTR = "dto";
 	private static final String DURATION_GRID_ATTR = "duration";
@@ -51,7 +51,7 @@ public class StreamControlSection extends BaseGridSection {
 	private static final String TILE_NAME = "tilename";
 	private static final String TILE_PICTURE = "tilepicture";
 
-	private StreamControlPresenter presenter;
+	private RecordingPresenter presenter;
 
 	private final IButton startRecord;
 	private final IButton stopRecord;
@@ -61,7 +61,7 @@ public class StreamControlSection extends BaseGridSection {
 	private final Img removeImg;
 	private TileGrid tileGrid;
 
-	public StreamControlSection() {
+	public RecordingSection() {
 		setPadding(20);
 
 		snapshotBox = new SnapshotBox();
@@ -269,7 +269,7 @@ public class StreamControlSection extends BaseGridSection {
 		return toSelect.toArray(new ListGridRecord[] {});
 	}
 
-	public void setPresenter(final StreamControlPresenter presenter) {
+	public void setPresenter(final RecordingPresenter presenter) {
 		this.presenter = presenter;
 	}
 

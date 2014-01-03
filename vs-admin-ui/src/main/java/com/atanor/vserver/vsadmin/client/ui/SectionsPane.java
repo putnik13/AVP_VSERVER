@@ -10,9 +10,9 @@ import com.atanor.vserver.vsadmin.client.events.SectionSelectedEvent;
 import com.atanor.vserver.vsadmin.client.events.SectionSelectedHandler;
 import com.atanor.vserver.vsadmin.client.ui.sections.BaseSection;
 import com.atanor.vserver.vsadmin.client.ui.sections.BroadcastingSection;
-import com.atanor.vserver.vsadmin.client.ui.sections.EditConfigurationSection;
-import com.atanor.vserver.vsadmin.client.ui.sections.ShareConferenceSection;
-import com.atanor.vserver.vsadmin.client.ui.sections.StreamControlSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.ConfigurationSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.PresentationSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.RecordingSection;
 import com.google.web.bindery.event.shared.EventBus;
 import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.widgets.AnimationCallback;
@@ -26,10 +26,10 @@ public class SectionsPane extends HLayout implements SectionSelectedHandler {
 	@Inject
 	private EventBus eventBus;
 
-	private final StreamControlSection streamControl;
-	private final ShareConferenceSection shareConference;
+	private final RecordingSection recording;
+	private final PresentationSection presentation;
 	private final BroadcastingSection broadcasting;
-	private final EditConfigurationSection editConfiguration;
+	private final ConfigurationSection configuration;
 
 	private final List<BaseSection> sections;
 
@@ -37,14 +37,14 @@ public class SectionsPane extends HLayout implements SectionSelectedHandler {
 	private boolean isAnimationInProgress = false;
 
 	@Inject
-	public SectionsPane(final StreamControlSection streamControl, final ShareConferenceSection shareConference,
-			final BroadcastingSection broadcasting, final EditConfigurationSection editConfiguration) {
-		this.streamControl = streamControl;
-		this.shareConference = shareConference;
+	public SectionsPane(final RecordingSection recording, final PresentationSection presentation,
+			final BroadcastingSection broadcasting, final ConfigurationSection configuration) {
+		this.recording = recording;
+		this.presentation = presentation;
 		this.broadcasting = broadcasting;
-		this.editConfiguration = editConfiguration;
+		this.configuration = configuration;
 
-		this.sections = Arrays.asList(streamControl, shareConference, broadcasting, editConfiguration);
+		this.sections = Arrays.asList(recording, presentation, broadcasting, configuration);
 
 		setWidth100();
 		setHeight100();
@@ -54,12 +54,12 @@ public class SectionsPane extends HLayout implements SectionSelectedHandler {
 		canvas.setHeight100();
 		canvas.setOverflow(Overflow.HIDDEN);
 
-		canvas.addChild(streamControl);
-		canvas.addChild(shareConference);
+		canvas.addChild(recording);
+		canvas.addChild(presentation);
 		canvas.addChild(broadcasting);
-		canvas.addChild(editConfiguration);
+		canvas.addChild(configuration);
 
-		setToFrontSection(streamControl);
+		setToFrontSection(recording);
 
 		addMember(canvas);
 	}
@@ -72,17 +72,17 @@ public class SectionsPane extends HLayout implements SectionSelectedHandler {
 
 		BaseSection newSelectedSection = null;
 		switch (event.getSection()) {
-		case STREAM_CONTROL:
-			newSelectedSection = streamControl;
+		case RECORDING:
+			newSelectedSection = recording;
 			break;
-		case SHARE_CONFERENCE:
-			newSelectedSection = shareConference;
+		case PRESENTATION:
+			newSelectedSection = presentation;
 			break;
 		case BROADCASTING:
 			newSelectedSection = broadcasting;
 			break;
-		case EDIT_CONFIGURATION:
-			newSelectedSection = editConfiguration;
+		case CONFIGURATION:
+			newSelectedSection = configuration;
 			break;
 		default:
 			throw new IllegalStateException("Section not found " + event.getSection().name());

@@ -20,10 +20,10 @@ public class ConfigConverter extends AbstractConverter<VsConfigDto, VsConfig> {
 		dto.setPlayerInstallPath(entity.getPlayerInstallPath());
 		dto.setRecordingsOutput(entity.getRecordingsOutput());
 		dto.setPresentationsOutput(entity.getPresentationsOutput());
-		dto.setStreamMediaOptions(entity.getStreamMediaOptions());
-		dto.setConfMediaOptions(entity.getConfMediaOptions());
-		dto.setStreamMediaResource(entity.getStreamMediaResource());
-		dto.setConfMediaResource(entity.getConfMediaResource());
+		dto.setRecordingMediaOptions(entity.getRecordingMediaOptions());
+		dto.setPresentationMediaOptions(entity.getPresentationMediaOptions());
+		dto.setRecordingMediaResource(entity.getRecordingMediaResource());
+		dto.setPresentationMediaResource(entity.getPresentationMediaResource());
 		dto.setRecordingSnapshotOutput(entity.getRecordingSnapshotOutput());
 		dto.setPresentationSnapshotOutput(entity.getPresentationSnapshotOutput());
 		
@@ -43,10 +43,10 @@ public class ConfigConverter extends AbstractConverter<VsConfigDto, VsConfig> {
 		entity.setPlayerInstallPath(dto.getPlayerInstallPath());
 		entity.setRecordingsOutput(dto.getRecordingsOutput());
 		entity.setPresentationsOutput(dto.getPresentationsOutput());
-		entity.setStreamMediaOptions(dto.getStreamMediaOptions());
-		entity.setConfMediaOptions(dto.getConfMediaOptions());
-		entity.setStreamMediaResource(dto.getStreamMediaResource());
-		entity.setConfMediaResource(dto.getConfMediaResource());
+		entity.setRecordingMediaOptions(dto.getRecordingMediaOptions());
+		entity.setPresentationMediaOptions(dto.getPresentationMediaOptions());
+		entity.setRecordingMediaResource(dto.getRecordingMediaResource());
+		entity.setPresentationMediaResource(dto.getPresentationMediaResource());
 		entity.setRecordingSnapshotOutput(dto.getRecordingSnapshotOutput());
 		entity.setPresentationSnapshotOutput(dto.getPresentationSnapshotOutput());
 		

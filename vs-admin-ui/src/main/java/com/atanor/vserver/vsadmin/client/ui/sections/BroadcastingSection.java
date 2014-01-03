@@ -7,7 +7,7 @@ import java.util.List;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.BroadcastingPresenter;
-import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.RecordingPresenter;
 import com.google.common.collect.Lists;
 import com.smartgwt.client.data.Criteria;
 import com.smartgwt.client.data.Record;

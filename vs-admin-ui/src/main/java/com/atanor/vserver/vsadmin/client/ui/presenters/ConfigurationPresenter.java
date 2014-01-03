@@ -4,19 +4,19 @@ import javax.inject.Inject;
 
 import com.atanor.vserver.common.rpc.dto.VsConfigDto;
 import com.atanor.vserver.common.rpc.services.ConfigServiceAsync;
-import com.atanor.vserver.vsadmin.client.ui.sections.EditConfigurationSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.ConfigurationSection;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.util.SC;
 
-public class EditConfigurationPresenter {
+public class ConfigurationPresenter {
 
 	@Inject
 	private ConfigServiceAsync configService;
 
-	private EditConfigurationSection view;
+	private ConfigurationSection view;
 
 	@Inject
-	public EditConfigurationPresenter(final EditConfigurationSection view) {
+	public ConfigurationPresenter(final ConfigurationSection view) {
 		this.view = view;
 		view.setPresenter(this);
 	}

@@ -7,9 +7,9 @@ import com.atanor.vserver.vsadmin.client.async.AsyncConnector;
 import com.atanor.vserver.vsadmin.client.ui.MainPane;
 import com.atanor.vserver.vsadmin.client.ui.NavigatePane;
 import com.atanor.vserver.vsadmin.client.ui.SectionsPane;
-import com.atanor.vserver.vsadmin.client.ui.presenters.EditConfigurationPresenter;
-import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
-import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.ConfigurationPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.PresentationPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.RecordingPresenter;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.google.web.bindery.event.shared.EventBus;
@@ -25,11 +25,11 @@ public interface ClientInjector extends Ginjector {
 
 	NavigatePane getNavigatePane();
 
-	StreamControlPresenter getStreamControlPresenter();
+	RecordingPresenter getStreamControlPresenter();
 
-	ShareConferencePresenter getShareConferencePresenter();
+	PresentationPresenter getShareConferencePresenter();
 
-	EditConfigurationPresenter getEditConfigurationPresenter();
+	ConfigurationPresenter getEditConfigurationPresenter();
 
 	RecordingService getRecordingService();
 

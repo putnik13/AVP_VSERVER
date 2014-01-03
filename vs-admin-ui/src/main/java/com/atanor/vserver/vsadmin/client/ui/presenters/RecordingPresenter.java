@@ -8,19 +8,19 @@ import com.atanor.vserver.common.async.events.VideoSnapshotReceivedEvent;
 import com.atanor.vserver.common.async.events.VideoSnapshotReceivedHandler;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.common.rpc.services.RecordingServiceAsync;
-import com.atanor.vserver.vsadmin.client.ui.sections.StreamControlSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.RecordingSection;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.util.SC;
 
-public class StreamControlPresenter implements VideoSnapshotReceivedHandler {
+public class RecordingPresenter implements VideoSnapshotReceivedHandler {
 
 	@Inject
 	private RecordingServiceAsync recordingService;
 
-	private StreamControlSection view;
+	private RecordingSection view;
 
 	@Inject
-	public StreamControlPresenter(final StreamControlSection view) {
+	public RecordingPresenter(final RecordingSection view) {
 		this.view = view;
 		view.setPresenter(this);
 	}

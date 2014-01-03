@@ -33,10 +33,10 @@ CREATE TABLE vsconfiguration (
 	presentations_output VARCHAR(100) NULL DEFAULT NULL,
 	recording_snapshot_output VARCHAR(100) NULL DEFAULT NULL,
 	presentation_snapshot_output VARCHAR(100) NULL DEFAULT NULL,
-	stream_media_resource VARCHAR(100) NULL DEFAULT NULL,
-    conf_media_resource VARCHAR(100) NULL DEFAULT NULL,
-	stream_media_options LONGTEXT NULL,
-	conf_media_options LONGTEXT NULL,
+	recording_media_resource VARCHAR(100) NULL DEFAULT NULL,
+    presentation_media_resource VARCHAR(100) NULL DEFAULT NULL,
+	recording_media_options LONGTEXT NULL,
+	presentation_media_options LONGTEXT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -50,7 +50,7 @@ INSERT INTO presentations(name, createtime) VALUES ('Presentation1.pdf', '2013-1
 INSERT INTO presentations(name, createtime) VALUES ('Presentation2.pdf', '2013-12-04 18:10:22');
 INSERT INTO presentations(name, createtime) VALUES ('Presentation3.pdf', '2013-12-08 21:56:17');
 
-INSERT INTO vsconfiguration(name, is_default, add_logo, palantir_port, palantir_url, player_install, recordings_output, presentations_output, recording_snapshot_output, presentation_snapshot_output, stream_media_resource, stream_media_options)
+INSERT INTO vsconfiguration(name, is_default, add_logo, palantir_port, palantir_url, player_install, recordings_output, presentations_output, recording_snapshot_output, presentation_snapshot_output, recording_media_resource, recording_media_options)
   VALUES ('APPCONFIG', 0, 1, '5050', '192.168.1.80', 'D:/Installed/VLC', 'D:/tmp/recordings', 'D:/tmp/presentations', 'D:/tmp/recordings/snapshots', 'D:/tmp/presentations/snapshots', 'file:///D:/temp/video/test2.mp4', ':sout=#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}');
-INSERT INTO vsconfiguration(name, is_default, add_logo, palantir_port, palantir_url, player_install, recordings_output, presentations_output, recording_snapshot_output, presentation_snapshot_output, stream_media_resource, stream_media_options)
+INSERT INTO vsconfiguration(name, is_default, add_logo, palantir_port, palantir_url, player_install, recordings_output, presentations_output, recording_snapshot_output, presentation_snapshot_output, recording_media_resource, recording_media_options)
   VALUES ('DEFAULTCONFIG', 1, 1, '5050', '192.168.1.80', 'C:/Program Files/VideoLAN/VLC', 'D:/temp/recordings', 'D:/temp/presentations', 'D:/tmp/recordings/snapshots', 'D:/tmp/presentations/snapshots', 'file:///D:/temp/video/test2.mp4', ':sout=#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:std{access=file,mux=ts,dst=%s}');

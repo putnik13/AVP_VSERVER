@@ -8,19 +8,19 @@ import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedEvent;
 import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedHandler;
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.common.rpc.services.PresentationServiceAsync;
-import com.atanor.vserver.vsadmin.client.ui.sections.ShareConferenceSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.PresentationSection;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.util.SC;
 
-public class ShareConferencePresenter implements PresentationSnapshotReceivedHandler {
+public class PresentationPresenter implements PresentationSnapshotReceivedHandler {
 
 	@Inject
 	private PresentationServiceAsync presentationService;
 
-	private ShareConferenceSection view;
+	private PresentationSection view;
 
 	@Inject
-	public ShareConferencePresenter(final ShareConferenceSection view) {
+	public PresentationPresenter(final PresentationSection view) {
 		this.view = view;
 		view.setPresenter(this);
 	}

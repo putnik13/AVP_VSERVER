@@ -22,8 +22,8 @@ public class VsConfigDaoTest extends BaseDaoTest<VsConfig> {
 
 		config.setName("MYCONFIG");
 		config.setDefault(Boolean.TRUE);
-		config.setStreamMediaOptions(MEDIA_OPTIONS);
-		config.setConfMediaOptions(MEDIA_OPTIONS);
+		config.setRecordingMediaOptions(MEDIA_OPTIONS);
+		config.setPresentationMediaOptions(MEDIA_OPTIONS);
 		config.setPalantirUrl(PALANTIR_URL);
 		config.setPalantirPort(PALANTIR_PORT);
 		config.setAddLogo(Boolean.TRUE);
@@ -49,8 +49,8 @@ public class VsConfigDaoTest extends BaseDaoTest<VsConfig> {
 
 		config.setName("MYCONFIG");
 		config.setDefault(Boolean.TRUE);
-		config.setStreamMediaOptions(MEDIA_OPTIONS);
-		config.setConfMediaOptions(MEDIA_OPTIONS);
+		config.setRecordingMediaOptions(MEDIA_OPTIONS);
+		config.setPresentationMediaOptions(MEDIA_OPTIONS);
 		config.setPalantirUrl(PALANTIR_URL);
 		config.setPalantirPort(PALANTIR_PORT);
 		config.setAddLogo(Boolean.TRUE);
@@ -64,8 +64,8 @@ public class VsConfigDaoTest extends BaseDaoTest<VsConfig> {
 		Assert.assertNotNull(configFromDB);
 		Assert.assertEquals("MYCONFIG", configFromDB.getName());
 		Assert.assertTrue(configFromDB.isDefault());
-		Assert.assertEquals(MEDIA_OPTIONS, configFromDB.getStreamMediaOptions());
-		Assert.assertEquals(MEDIA_OPTIONS, configFromDB.getConfMediaOptions());
+		Assert.assertEquals(MEDIA_OPTIONS, configFromDB.getRecordingMediaOptions());
+		Assert.assertEquals(MEDIA_OPTIONS, configFromDB.getPresentationMediaOptions());
 		Assert.assertEquals(PALANTIR_URL, configFromDB.getPalantirUrl());
 		Assert.assertEquals(PALANTIR_PORT, configFromDB.getPalantirPort());
 		Assert.assertTrue(configFromDB.getAddLogo());

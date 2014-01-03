@@ -51,10 +51,10 @@ public class ConfigDataServiceImpl implements ConfigDataService {
 		currentCfg.setRecordingSnapshotOutput(defaultCfg.getRecordingSnapshotOutput());
 		currentCfg.setPresentationsOutput(defaultCfg.getPresentationsOutput());
 		currentCfg.setPresentationSnapshotOutput(defaultCfg.getPresentationSnapshotOutput());
-		currentCfg.setStreamMediaOptions(defaultCfg.getStreamMediaOptions());
-		currentCfg.setStreamMediaResource(defaultCfg.getStreamMediaResource());
-		currentCfg.setConfMediaOptions(defaultCfg.getConfMediaOptions());
-		currentCfg.setConfMediaResource(defaultCfg.getConfMediaResource());
+		currentCfg.setRecordingMediaOptions(defaultCfg.getRecordingMediaOptions());
+		currentCfg.setRecordingMediaResource(defaultCfg.getRecordingMediaResource());
+		currentCfg.setPresentationMediaOptions(defaultCfg.getPresentationMediaOptions());
+		currentCfg.setPresentationMediaResource(defaultCfg.getPresentationMediaResource());
 		
 		configDao.update(currentCfg);
 	}

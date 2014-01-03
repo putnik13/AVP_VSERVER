@@ -5,10 +5,10 @@ public class VsConfigDto extends AbstractDto {
 
 	private Long id;
 	private String name;
-	private String streamMediaOptions;
-	private String streamMediaResource;
-	private String confMediaOptions;
-	private String confMediaResource;
+	private String recordingMediaOptions;
+	private String recordingMediaResource;
+	private String presentationMediaOptions;
+	private String presentationMediaResource;
 	private String recordingsOutput;
 	private String recordingSnapshotOutput;
 	private String presentationsOutput;
@@ -38,20 +38,20 @@ public class VsConfigDto extends AbstractDto {
 		this.name = name;
 	}
 
-	public String getStreamMediaOptions() {
-		return streamMediaOptions;
+	public String getRecordingMediaOptions() {
+		return recordingMediaOptions;
 	}
 
-	public void setStreamMediaOptions(final String streamMediaOptions) {
-		this.streamMediaOptions = streamMediaOptions;
+	public void setRecordingMediaOptions(final String recordingMediaOptions) {
+		this.recordingMediaOptions = recordingMediaOptions;
 	}
 
-	public String getConfMediaOptions() {
-		return confMediaOptions;
+	public String getPresentationMediaOptions() {
+		return presentationMediaOptions;
 	}
 
-	public void setConfMediaOptions(final String confMediaOptions) {
-		this.confMediaOptions = confMediaOptions;
+	public void setPresentationMediaOptions(final String presentationMediaOptions) {
+		this.presentationMediaOptions = presentationMediaOptions;
 	}
 
 	public String getRecordingsOutput() {
@@ -110,20 +110,20 @@ public class VsConfigDto extends AbstractDto {
 		this.addLogo = addLogo;
 	}
 
-	public String getStreamMediaResource() {
-		return streamMediaResource;
+	public String getRecordingMediaResource() {
+		return recordingMediaResource;
 	}
 
-	public void setStreamMediaResource(final String streamMediaResource) {
-		this.streamMediaResource = streamMediaResource;
+	public void setRecordingMediaResource(final String recordingMediaResource) {
+		this.recordingMediaResource = recordingMediaResource;
 	}
 
-	public String getConfMediaResource() {
-		return confMediaResource;
+	public String getPresentationMediaResource() {
+		return presentationMediaResource;
 	}
 
-	public void setConfMediaResource(final String confMediaResource) {
-		this.confMediaResource = confMediaResource;
+	public void setPresentationMediaResource(final String confMediaResource) {
+		this.presentationMediaResource = confMediaResource;
 	}
 
 	public String getRecordingSnapshotOutput() {

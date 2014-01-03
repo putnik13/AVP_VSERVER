@@ -6,7 +6,7 @@ import java.util.List;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
-import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.PresentationPresenter;
 import com.atanor.vserver.vsadmin.client.ui.widgets.SnapshotBox;
 import com.google.common.collect.Lists;
 import com.smartgwt.client.data.Record;
@@ -26,14 +26,14 @@ import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-public class ShareConferenceSection extends BaseGridSection {
+public class PresentationSection extends BaseGridSection {
 
 	private static final String DTO_GRID_ATTR = "dto";
 	private static final String CREATE_TIME_GRID_ATTR = "createTime";
 	private static final String FILE_NAME_GRID_ATTR = "fileName";
 	private static final String OUTDATED_FLAG_ATTR = "outdated";
 
-	private ShareConferencePresenter presenter;
+	private PresentationPresenter presenter;
 
 	private final IButton startPresentation;
 	private final IButton stopPresentation;
@@ -42,7 +42,7 @@ public class ShareConferenceSection extends BaseGridSection {
 	private final Img synchronizeImg;
 	private final Img removeImg;
 
-	public ShareConferenceSection() {
+	public PresentationSection() {
 		setPadding(20);
 
 		snapshotBox = new SnapshotBox();
@@ -163,7 +163,7 @@ public class ShareConferenceSection extends BaseGridSection {
 		return records;
 	}
 
-	public void setPresenter(final ShareConferencePresenter presenter) {
+	public void setPresenter(final PresentationPresenter presenter) {
 		this.presenter = presenter;
 	}
 

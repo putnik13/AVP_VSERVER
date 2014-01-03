@@ -2,7 +2,7 @@ package com.atanor.vserver.vsadmin.client.ui.sections;
 
 import com.atanor.vserver.common.rpc.dto.VsConfigDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
-import com.atanor.vserver.vsadmin.client.ui.presenters.EditConfigurationPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.ConfigurationPresenter;
 import com.atanor.vserver.vsadmin.client.ui.widgets.EditableForm;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VisibilityMode;
@@ -19,9 +19,9 @@ import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.SectionStack;
 import com.smartgwt.client.widgets.layout.SectionStackSection;
 
-public class EditConfigurationSection extends BaseSection {
+public class ConfigurationSection extends BaseSection {
 
-	private EditConfigurationPresenter presenter;
+	private ConfigurationPresenter presenter;
 
 	private final IButton editButton;
 	private final IButton saveButton;
@@ -44,7 +44,7 @@ public class EditConfigurationSection extends BaseSection {
 
 	private VsConfigDto currentConfig;
 
-	public EditConfigurationSection() {
+	public ConfigurationSection() {
 
 		setPadding(20);
 
@@ -240,10 +240,10 @@ public class EditConfigurationSection extends BaseSection {
 
 	public void setConfiguration(final VsConfigDto config) {
 		this.currentConfig = config;
-		setFormItemValue(streamMediaOptionsAreaItem, config.getStreamMediaOptions());
-		setFormItemValue(streamMediaResourceItem, config.getStreamMediaResource());
-		setFormItemValue(confMediaOptionsAreaItem, config.getConfMediaOptions());
-		setFormItemValue(confMediaResourceItem, config.getConfMediaResource());
+		setFormItemValue(streamMediaOptionsAreaItem, config.getRecordingMediaOptions());
+		setFormItemValue(streamMediaResourceItem, config.getRecordingMediaResource());
+		setFormItemValue(confMediaOptionsAreaItem, config.getPresentationMediaOptions());
+		setFormItemValue(confMediaResourceItem, config.getPresentationMediaResource());
 		setFormItemValue(streamOutputFolderItem, config.getRecordingsOutput());
 		setFormItemValue(streamOutputSnapshotFolderItem, config.getRecordingSnapshotOutput());
 		setFormItemValue(confOutputFolderItem, config.getPresentationsOutput());
@@ -255,10 +255,10 @@ public class EditConfigurationSection extends BaseSection {
 	}
 
 	private void updateCongiguration() {
-		currentConfig.setStreamMediaOptions(streamMediaOptionsAreaItem.getValueAsString());
-		currentConfig.setStreamMediaResource(streamMediaResourceItem.getValueAsString());
-		currentConfig.setConfMediaOptions(confMediaOptionsAreaItem.getValueAsString());
-		currentConfig.setConfMediaResource(confMediaResourceItem.getValueAsString());
+		currentConfig.setRecordingMediaOptions(streamMediaOptionsAreaItem.getValueAsString());
+		currentConfig.setRecordingMediaResource(streamMediaResourceItem.getValueAsString());
+		currentConfig.setPresentationMediaOptions(confMediaOptionsAreaItem.getValueAsString());
+		currentConfig.setPresentationMediaResource(confMediaResourceItem.getValueAsString());
 		currentConfig.setRecordingsOutput(streamOutputFolderItem.getValueAsString());
 		currentConfig.setRecordingSnapshotOutput(streamOutputSnapshotFolderItem.getValueAsString());
 		currentConfig.setPresentationsOutput(confOutputFolderItem.getValueAsString());
@@ -271,7 +271,7 @@ public class EditConfigurationSection extends BaseSection {
 		presenter.updateConfiguration(currentConfig);
 	}
 
-	public void setPresenter(final EditConfigurationPresenter presenter) {
+	public void setPresenter(final ConfigurationPresenter presenter) {
 		this.presenter = presenter;
 	}
 

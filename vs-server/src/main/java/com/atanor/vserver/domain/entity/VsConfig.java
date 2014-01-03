@@ -20,17 +20,17 @@ public class VsConfig extends AbstractEntity<Long> {
 	@Column(name = "name", length = 32)
 	private String name;
 
-	@Column(name = "stream_media_options", length = 300)
-	private String streamMediaOptions;
+	@Column(name = "recording_media_options", length = 300)
+	private String recordingMediaOptions;
 
-	@Column(name = "stream_media_resource", length = 100)
-	private String streamMediaResource;
+	@Column(name = "recording_media_resource", length = 100)
+	private String recordingMediaResource;
 	
-	@Column(name = "conf_media_options", length = 300)
-	private String confMediaOptions;
+	@Column(name = "presentation_media_options", length = 300)
+	private String presentationMediaOptions;
 
-	@Column(name = "conf_media_resource", length = 100)
-	private String confMediaResource;
+	@Column(name = "presentation_media_resource", length = 100)
+	private String presentationMediaResource;
 	
 	@Column(name = "recordings_output", length = 100)
 	private String recordingsOutput;
@@ -79,20 +79,20 @@ public class VsConfig extends AbstractEntity<Long> {
 		this.name = name;
 	}
 
-	public String getStreamMediaOptions() {
-		return streamMediaOptions;
+	public String getRecordingMediaOptions() {
+		return recordingMediaOptions;
 	}
 
-	public void setStreamMediaOptions(final String streamMediaOptions) {
-		this.streamMediaOptions = streamMediaOptions;
+	public void setRecordingMediaOptions(final String recordingMediaOptions) {
+		this.recordingMediaOptions = recordingMediaOptions;
 	}
 
-	public String getConfMediaOptions() {
-		return confMediaOptions;
+	public String getPresentationMediaOptions() {
+		return presentationMediaOptions;
 	}
 
-	public void setConfMediaOptions(final String confMediaOptions) {
-		this.confMediaOptions = confMediaOptions;
+	public void setPresentationMediaOptions(final String presentationMediaOptions) {
+		this.presentationMediaOptions = presentationMediaOptions;
 	}
 
 	public String getRecordingsOutput() {
@@ -151,20 +151,20 @@ public class VsConfig extends AbstractEntity<Long> {
 		this.isDefault = isDefault;
 	}
 
-	public String getStreamMediaResource() {
-		return streamMediaResource;
+	public String getRecordingMediaResource() {
+		return recordingMediaResource;
 	}
 
-	public void setStreamMediaResource(final String streamMediaResource) {
-		this.streamMediaResource = streamMediaResource;
+	public void setRecordingMediaResource(final String recordingMediaResource) {
+		this.recordingMediaResource = recordingMediaResource;
 	}
 
-	public String getConfMediaResource() {
-		return confMediaResource;
+	public String getPresentationMediaResource() {
+		return presentationMediaResource;
 	}
 
-	public void setConfMediaResource(final String confMediaResource) {
-		this.confMediaResource = confMediaResource;
+	public void setPresentationMediaResource(final String presentationMediaResource) {
+		this.presentationMediaResource = presentationMediaResource;
 	}
 
 	public String getRecordingSnapshotOutput() {

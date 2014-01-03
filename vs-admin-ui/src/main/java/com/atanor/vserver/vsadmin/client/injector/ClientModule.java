@@ -6,13 +6,13 @@ import com.atanor.vserver.vsadmin.client.ui.HeaderPane;
 import com.atanor.vserver.vsadmin.client.ui.MainPane;
 import com.atanor.vserver.vsadmin.client.ui.NavigatePane;
 import com.atanor.vserver.vsadmin.client.ui.SectionsPane;
-import com.atanor.vserver.vsadmin.client.ui.presenters.EditConfigurationPresenter;
-import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
-import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.ConfigurationPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.PresentationPresenter;
+import com.atanor.vserver.vsadmin.client.ui.presenters.RecordingPresenter;
 import com.atanor.vserver.vsadmin.client.ui.sections.BroadcastingSection;
-import com.atanor.vserver.vsadmin.client.ui.sections.EditConfigurationSection;
-import com.atanor.vserver.vsadmin.client.ui.sections.ShareConferenceSection;
-import com.atanor.vserver.vsadmin.client.ui.sections.StreamControlSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.ConfigurationSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.PresentationSection;
+import com.atanor.vserver.vsadmin.client.ui.sections.RecordingSection;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -27,16 +27,16 @@ public class ClientModule extends AbstractGinModule {
 		bind(NavigatePane.class).in(Singleton.class);
 		bind(SectionsPane.class).in(Singleton.class);
 		bind(HeaderPane.class).in(Singleton.class);
-		bind(StreamControlSection.class).in(Singleton.class);
-		bind(ShareConferenceSection.class).in(Singleton.class);
+		bind(RecordingSection.class).in(Singleton.class);
+		bind(PresentationSection.class).in(Singleton.class);
 		bind(BroadcastingSection.class).in(Singleton.class);
-		bind(EditConfigurationSection.class).in(Singleton.class);
+		bind(ConfigurationSection.class).in(Singleton.class);
 		
 		bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
 		
-		bind(StreamControlPresenter.class).in(Singleton.class);
-		bind(ShareConferencePresenter.class).in(Singleton.class);
-		bind(EditConfigurationPresenter.class).in(Singleton.class);
+		bind(RecordingPresenter.class).in(Singleton.class);
+		bind(PresentationPresenter.class).in(Singleton.class);
+		bind(ConfigurationPresenter.class).in(Singleton.class);
 		
 		bind(AsyncConnector.class).in(Singleton.class);
 	}
