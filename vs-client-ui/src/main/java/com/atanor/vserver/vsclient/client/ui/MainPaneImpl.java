@@ -1,5 +1,6 @@
 package com.atanor.vserver.vsclient.client.ui;
 
+import com.atanor.vserver.common.Constants;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.vsclient.client.presenter.MainPanePresenter;
 import com.google.common.primitives.Ints;
@@ -16,8 +17,6 @@ import com.smartgwt.client.widgets.layout.LayoutSpacer;
 import com.smartgwt.client.widgets.layout.VLayout;
 
 public class MainPaneImpl extends HLayout implements MainPane {
-
-	private static final int ANIMATION_TIME = 2000;
 
 	private MainPanePresenter presenter;
 	
@@ -51,7 +50,7 @@ public class MainPaneImpl extends HLayout implements MainPane {
 		});
 
 		topImg = new Img();
-		topImg.setAnimateTime(ANIMATION_TIME);
+		topImg.setAnimateTime(Constants.SNAPSHOT_ANIMATION_TIME);
 
 		backgroundImg = new Img();
 

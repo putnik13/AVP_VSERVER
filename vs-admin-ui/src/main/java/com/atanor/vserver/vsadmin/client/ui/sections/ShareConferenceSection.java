@@ -7,12 +7,12 @@ import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.rpc.dto.PresentationDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.ShareConferencePresenter;
+import com.atanor.vserver.vsadmin.client.ui.widgets.SnapshotBox;
 import com.google.common.collect.Lists;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.SelectionAppearance;
 import com.smartgwt.client.types.SelectionStyle;
-import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -37,16 +37,15 @@ public class ShareConferenceSection extends BaseGridSection {
 
 	private final IButton startPresentation;
 	private final IButton stopPresentation;
-	private final Canvas snapshotBox;
+	private final SnapshotBox snapshotBox;
 	private final ListGrid listGrid;
 	private final Img synchronizeImg;
 	private final Img removeImg;
-	private Img snapshot;
-	
+
 	public ShareConferenceSection() {
 		setPadding(20);
 
-		snapshotBox = createSnapshotBox();
+		snapshotBox = new SnapshotBox();
 
 		startPresentation = new IButton("Start Presentation");
 		startPresentation.setWidth(100);
@@ -57,7 +56,7 @@ public class ShareConferenceSection extends BaseGridSection {
 				presenter.startPresentation();
 			}
 		});
-		
+
 		stopPresentation = new IButton("Stop Presentation");
 		stopPresentation.setWidth(100);
 		stopPresentation.setDisabled(true);
@@ -202,28 +201,13 @@ public class ShareConferenceSection extends BaseGridSection {
 	}
 
 	public void onPresentationStopped() {
-		cleanSnapshot();
+		snapshotBox.clean();
 		startPresentation.enable();
 		stopPresentation.disable();
 	}
 
-	public void setSnapshot(final Snapshot snapshotSrc) {
-		cleanSnapshot();
-
-		final String source = "data:image/png;base64," + snapshotSrc.getEncodedImage();
-		snapshot = new Img();
-		snapshot.setSrc(source);
-		snapshot.setWidth100();
-		snapshot.setHeight100();
-
-		snapshotBox.addChild(snapshot);
+	public void setSnapshot(final Snapshot snapshot) {
+		snapshotBox.addSnapshot(snapshot);
 	}
-	
-	private void cleanSnapshot() {
-		if (snapshot != null) {
-			snapshot.destroy();
-			snapshot = null;
-		}
-	}
-	
+
 }

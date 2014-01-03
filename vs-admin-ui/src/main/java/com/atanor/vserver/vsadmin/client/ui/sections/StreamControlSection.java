@@ -7,6 +7,7 @@ import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.rpc.dto.RecordingDto;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
 import com.atanor.vserver.vsadmin.client.ui.presenters.StreamControlPresenter;
+import com.atanor.vserver.vsadmin.client.ui.widgets.SnapshotBox;
 import com.atanor.vserver.vsadmin.client.ui.widgets.VideoCanvas;
 import com.google.common.collect.Lists;
 import com.smartgwt.client.data.Record;
@@ -54,17 +55,16 @@ public class StreamControlSection extends BaseGridSection {
 
 	private final IButton startRecord;
 	private final IButton stopRecord;
-	private final Canvas snapshotBox;
+	private final SnapshotBox snapshotBox;
 	private final ListGrid listGrid;
 	private final Img synchronizeImg;
 	private final Img removeImg;
-	private Img snapshot;
 	private TileGrid tileGrid;
 
 	public StreamControlSection() {
 		setPadding(20);
 
-		snapshotBox = createSnapshotBox();
+		snapshotBox = new SnapshotBox();
 
 		startRecord = new IButton("Start Recording");
 		startRecord.setWidth(90);
@@ -291,28 +291,13 @@ public class StreamControlSection extends BaseGridSection {
 	}
 
 	public void onRecordingStopped() {
-		cleanSnapshot();
+		snapshotBox.clean();
 		startRecord.enable();
 		stopRecord.disable();
 	}
 
-	public void setSnapshot(final Snapshot snapshotSrc) {
-		cleanSnapshot();
-
-		final String source = "data:image/png;base64," + snapshotSrc.getEncodedImage();
-		snapshot = new Img();
-		snapshot.setSrc(source);
-		snapshot.setWidth100();
-		snapshot.setHeight100();
-
-		snapshotBox.addChild(snapshot);
-	}
-
-	private void cleanSnapshot() {
-		if (snapshot != null) {
-			snapshot.destroy();
-			snapshot = null;
-		}
+	public void setSnapshot(final Snapshot snapshot) {
+		snapshotBox.addSnapshot(snapshot);
 	}
 
 	private Canvas createSnapshotsView() {
@@ -339,7 +324,7 @@ public class StreamControlSection extends BaseGridSection {
 		final Canvas canvas = new Canvas();
 		canvas.setWidth100();
 		canvas.setHeight100();
-		
+
 		final Canvas backgroundCanvas = new Canvas();
 		backgroundCanvas.setBackgroundColor("grey");
 		backgroundCanvas.setOpacity(80);
@@ -348,24 +333,23 @@ public class StreamControlSection extends BaseGridSection {
 
 		final Canvas closeButton = createNavigateControl("close.png", "Close Window");
 		closeButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				canvas.destroy();
 			}
 		});
-		
-		
+
 		final HLayout closeLayout = new HLayout();
 		closeLayout.setWidth100();
 		closeLayout.addMembers(new LayoutSpacer(), closeButton);
-		
+
 		canvas.addChild(backgroundCanvas);
 		canvas.addChild(new VideoCanvas(getRecordings()));
 		canvas.addChild(closeLayout);
 		canvas.show();
 	}
-	
+
 	private List<RecordingDto> getRecordings() {
 		final List<RecordingDto> recordings = Lists.newArrayList();
 		for (final ListGridRecord record : listGrid.getRecords()) {

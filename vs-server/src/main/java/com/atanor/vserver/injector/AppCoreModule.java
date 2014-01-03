@@ -29,8 +29,8 @@ public class AppCoreModule extends AbstractModule {
 
 		bind(EventBus.class).toInstance(eventBus);
 
-		bind(RecordingDataService.class).to(RecordingDataServiceImpl.class);
-		bind(PresentationDataService.class).to(PresentationDataServiceImpl.class);
+		bind(RecordingDataService.class).to(RecordingDataServiceImpl.class).in(Scopes.SINGLETON);
+		bind(PresentationDataService.class).to(PresentationDataServiceImpl.class).in(Scopes.SINGLETON);
 		bind(ConfigDataService.class).to(ConfigDataServiceImpl.class);
 
 		bind(PalantirFacade.class).to(PalantirFacadeMock.class).in(Scopes.SINGLETON);

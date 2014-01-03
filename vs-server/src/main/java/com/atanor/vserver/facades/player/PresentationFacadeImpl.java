@@ -47,14 +47,18 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 
 	@Override
 	public void stopPresentation() {
+		stopTimer();
+		snapshotCount = 0;
 		AsyncConnector.stopSharingSession();
+	}
+
+	private void stopTimer() {
 		if (timer != null) {
 			timer.cancel();
 			timer = null;
 		}
-		snapshotCount = 0;
 	}
-
+	
 	@Subscribe
 	public void onGetSnapshot(final GetSnapshotEvent event) throws IOException {
 		System.out.println("onGetSnapshot() called");

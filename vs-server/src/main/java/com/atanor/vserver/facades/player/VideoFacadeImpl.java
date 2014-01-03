@@ -76,10 +76,18 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 
 	@Override
 	public void stopRecording() {
+		stopTimer();
 		getStreamPlayer().stop();
 		getImagePlayer().stop();
 		recordingService.updateDuration(currentRecordingId, new Date());
 
+	}
+
+	private void stopTimer() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
 	}
 
 	@Subscribe
