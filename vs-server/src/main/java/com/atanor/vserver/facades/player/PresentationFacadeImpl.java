@@ -86,7 +86,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 		System.out.println("onGetSnapshot() called");
 
 		final Long random = Math.round(Math.random() * 4);
-		final File file = new File("d:/projects/AVP_VSERVER/vs-launch/src/main/webapp/images/test" + random + ".png");
+		final File file = new File("/home/projects/AVP_VSERVER/vs-launch/src/main/webapp/images/test" + random + ".png");
 		if (!file.exists()) {
 			throw new IllegalStateException("Snapshot is not exist!");
 		}

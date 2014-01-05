@@ -11,7 +11,8 @@ DROP USER 'vserver';
 CREATE USER 'vserver' IDENTIFIED BY 'vserver';
 DROP DATABASE vserver;
 CREATE DATABASE vserver DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
-GRANT ALL PRIVILEGES ON vserver.* TO 'vserver'@'%';
+-- GRANT ALL PRIVILEGES ON vserver.* TO 'vserver'@'%';
+GRANT ALL PRIVILEGES ON vserver.* TO vserver@localhost IDENTIFIED BY 'vserver' WITH GRANT OPTION;
 
 --  if you get error:
 --  ERROR 1396 (HY000) at line 3: Operation CREATE USER failed for 'vserver'@'%'

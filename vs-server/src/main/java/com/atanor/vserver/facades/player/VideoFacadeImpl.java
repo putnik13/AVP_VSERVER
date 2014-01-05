@@ -77,10 +77,10 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	@Override
 	public void stopRecording() {
 		stopTimer();
+		cleanSnapshotFolder();
 		getStreamPlayer().stop();
 		getImagePlayer().stop();
 		recordingService.updateDuration(currentRecordingId, new Date());
-
 	}
 
 	private void stopTimer() {
@@ -90,6 +90,13 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 		}
 	}
 
+	private void cleanSnapshotFolder() {
+		final File snapshot = new File(buildSnapshotName());
+		if(snapshot.exists()){
+			snapshot.delete();
+		}
+	}
+	
 	@Subscribe
 	public void onCreateAndSaveEvent(final CreateAndSaveSnapshotEvent event) throws InterruptedException {
 		TimeUnit.SECONDS.sleep(10);
@@ -109,7 +116,7 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	}
 
 	private String buildSnapshotName() {
-		return config().getRecordingsOutput() + "/" + SNAPSHOT_NAME;
+		return config().getRecordingSnapshotOutput() + "/" + SNAPSHOT_NAME;
 	}
 
 	private void saveSnapshot() {
