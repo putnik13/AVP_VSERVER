@@ -8,13 +8,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 import com.atanor.vserver.async.AsyncConnector;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.entity.Snapshot.TYPE;
-import com.atanor.vserver.events.GetSnapshotEvent;
+import com.atanor.vserver.events.GetPresentationSnapshotEvent;
 import com.atanor.vserver.events.PresentationSnapshotEvent;
 import com.atanor.vserver.facades.PresentationFacade;
 import com.atanor.vserver.services.ConfigDataService;
@@ -33,43 +32,50 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 
 	@Inject
 	PresentationDataService presentationService;
-	
+
 	@Inject
-	public PresentationFacadeImpl(EventBus eventBus, ConfigDataService configService) {
+	public PresentationFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
-		getImagePlayer().setSnapshotDirectory(config().getPresentationsOutput());
+		getImagePlayer().setSnapshotDirectory(config().getPresentationSnapshotOutput());
 	}
 
 	@Override
 	public void startPresentation() {
-		folderName = buildFolderName();
-		createFolder(folderName);
+		if (!getImagePlayer().isPlaying()) {
+			folderName = buildFolderName();
+			createFolder(folderName);
 
-		AsyncConnector.startSharingSession();
+			getImagePlayer().playMedia(config().getPresentationMediaResource());
+			AsyncConnector.startSharingSession();
+			startTakeSnapshots();
+		}
+	}
+
+	private void startTakeSnapshots() {
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 
 			@Override
 			public void run() {
-				getEventBus().post(new GetSnapshotEvent());
-				snapshotCount++;
+				getEventBus().post(new GetPresentationSnapshotEvent());
 			}
 		}, DELAY_TIME, INTERVAL_TIME);
+
 	}
 
 	private String buildFolderName() {
 		return "PRESENTAION-" + df.format(new Date());
 	}
-	
-	private String buildPresentationPdfName(){
+
+	private String buildPresentationPdfName() {
 		return folderName + ".pdf";
 	}
-	
+
 	private String buildSnapshotName() {
 		return config().getPresentationSnapshotOutput() + "/" + folderName + "/" + snapshotCount + ".png";
 	}
 
-	private void createFolder(String name) {
+	private void createFolder(final String name) {
 		final String fileName = config().getPresentationSnapshotOutput() + "/" + name;
 		final File snapshotFolder = new File(fileName);
 		if (!snapshotFolder.exists()) {
@@ -80,6 +86,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	@Override
 	public void stopPresentation() {
 		stopTimer();
+		getImagePlayer().stop();
 		AsyncConnector.stopSharingSession();
 		presentationService.saveAndGeneratePdf(buildPresentationPdfName(), snapshots);
 		snapshotCount = 0;
@@ -95,20 +102,39 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	}
 
 	@Subscribe
-	public void onGetSnapshot(final GetSnapshotEvent event) throws IOException {
-		System.out.println("onGetSnapshot() called");
+	public void takeSnapshot(final GetPresentationSnapshotEvent event) throws IOException {
+		if (getImagePlayer().isPlaying()) {
 
-		final Long random = Math.round(Math.random() * 4);
-		final File file = new File("D:/projects/AVP_VSERVER/vs-launch/src/main/webapp/images/test" + random + ".png");
-		if (!file.exists()) {
-			throw new IllegalStateException("Snapshot is not exist!");
+			final BufferedImage bufImage = getImagePlayer().getSnapshot();
+			if (bufImage != null) {
+				final String encodedImage = ImageDecoder.encodeImage(bufImage);
+				final String width = String.valueOf(bufImage.getWidth());
+				final String height = String.valueOf(bufImage.getHeight());
+				final Snapshot snapshot = new Snapshot(TYPE.PRESENTATION, buildSnapshotName(), encodedImage, width,
+						height);
+				snapshots.add(snapshot);
+
+				getEventBus().post(new PresentationSnapshotEvent(bufImage, snapshot));
+				snapshotCount++;
+			}
 		}
 
-		final String encodedImage = ImageDecoder.encodeImage(file);
-		final Snapshot snapshot = new Snapshot(TYPE.PRESENTATION, buildSnapshotName(), encodedImage, "795", "586");
-		snapshots.add(snapshot);
-		final BufferedImage in = ImageIO.read(file);
-		getEventBus().post(new PresentationSnapshotEvent(in, snapshot));
 	}
+
+	// used to emulate presentation stream
+	// final Long random = Math.round(Math.random() * 4);
+	// final File file = new
+	// File("D:/projects/AVP_VSERVER/vs-launch/src/main/webapp/images/test" +
+	// random + ".png");
+	// if (!file.exists()) {
+	// throw new IllegalStateException("Snapshot is not exist!");
+	// }
+	//
+	// final String encodedImage = ImageDecoder.encodeImage(file);
+	// final Snapshot snapshot = new Snapshot(TYPE.PRESENTATION,
+	// buildSnapshotName(), encodedImage, "795", "586");
+	// snapshots.add(snapshot);
+	// final BufferedImage in = ImageIO.read(file);
+	// getEventBus().post(new PresentationSnapshotEvent(in, snapshot));
 
 }
