@@ -13,12 +13,15 @@ public class Snapshot implements Serializable {
 	private String width;
 	private String height;
 	private String encodedImage;
-
+	private String fileName;
+	
 	public Snapshot() {
 	}
 
-	public Snapshot(final TYPE type, final String encodedImage, final String width, final String height) {
+	public Snapshot(final TYPE type, final String fileName, final String encodedImage, final String width,
+			final String height) {
 		this.type = type;
+		this.fileName = fileName;
 		this.encodedImage = encodedImage;
 		this.width = width;
 		this.height = height;
@@ -54,6 +57,14 @@ public class Snapshot implements Serializable {
 
 	public TYPE getType() {
 		return type;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(final String fileName) {
+		this.fileName = fileName;
 	}
 
 }

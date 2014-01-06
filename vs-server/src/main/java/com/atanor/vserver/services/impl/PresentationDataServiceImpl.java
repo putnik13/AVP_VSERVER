@@ -3,6 +3,7 @@ package com.atanor.vserver.services.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -12,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.atanor.vserver.async.AsyncConnector;
+import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.domain.dao.PresentationDao;
 import com.atanor.vserver.domain.entity.Presentation;
 import com.atanor.vserver.events.PresentationSnapshotEvent;
+import com.atanor.vserver.pdf.PdfGenerator;
 import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.PresentationDataService;
 import com.google.common.eventbus.EventBus;
@@ -30,6 +33,9 @@ public class PresentationDataServiceImpl implements PresentationDataService {
 
 	@Inject
 	private ConfigDataService configService;
+
+	@Inject
+	private PdfGenerator pdfGenerator;
 
 	@Inject
 	public PresentationDataServiceImpl(final EventBus eventBus) {
@@ -81,7 +87,7 @@ public class PresentationDataServiceImpl implements PresentationDataService {
 	@Subscribe
 	public void onSnapshotTaken(final PresentationSnapshotEvent event) {
 		AsyncConnector.broadcastSnapshot(event.getSnapshot());
-		saveSnapshot(event.getImage(), event.getFileName());
+		saveSnapshot(event.getImage(), event.getSnapshot().getFileName());
 	}
 
 	private void saveSnapshot(final BufferedImage image, final String fileName) {
@@ -93,4 +99,18 @@ public class PresentationDataServiceImpl implements PresentationDataService {
 		}
 	}
 
+	@Override
+	public void saveAndGeneratePdf(String fileName, List<Snapshot> snapshots) {
+		final Presentation presentation = createPresentation(fileName);
+		presentationDao.insert(presentation);
+
+		LOG.info("File {} will be generated..", fileName);
+		pdfGenerator.generatePdf(fileName, snapshots);
+	}
+
+	private Presentation createPresentation(final String fileName) {
+		final Presentation presentation = new Presentation(fileName);
+		presentation.setCreateTime(new Date());
+		return presentation;
+	}
 }

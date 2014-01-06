@@ -131,7 +131,8 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 
 	private Snapshot createSnapshot(final BufferedImage bufImage) {
 		final String encodedImage = ImageDecoder.encodeImage(bufImage);
-		return new Snapshot(TYPE.VIDEO, encodedImage, String.valueOf(bufImage.getWidth()), String.valueOf(bufImage
-				.getHeight()));
+		final String width = String.valueOf(bufImage.getWidth());
+		final String height = String.valueOf(bufImage.getHeight());
+		return new Snapshot(TYPE.VIDEO, buildSnapshotName(), encodedImage, width, height);
 	}
 }

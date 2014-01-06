@@ -7,12 +7,10 @@ import com.atanor.vserver.common.entity.Snapshot;
 public class PresentationSnapshotEvent {
 
 	private final BufferedImage image;
-	private final String fileName;
 	private final Snapshot snapshot;
 
-	public PresentationSnapshotEvent(final BufferedImage image, final String fileName, final Snapshot snapshot) {
+	public PresentationSnapshotEvent(final BufferedImage image, final Snapshot snapshot) {
 		this.image = image;
-		this.fileName = fileName;
 		this.snapshot = snapshot;
 	}
 
@@ -22,10 +20,6 @@ public class PresentationSnapshotEvent {
 
 	public BufferedImage getImage() {
 		return image;
-	}
-
-	public String getFileName() {
-		return fileName;
 	}
 
 }

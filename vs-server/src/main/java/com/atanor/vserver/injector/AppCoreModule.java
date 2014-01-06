@@ -9,6 +9,8 @@ import com.atanor.vserver.facades.VideoFacade;
 import com.atanor.vserver.facades.palantir.PalantirFacadeMock;
 import com.atanor.vserver.facades.player.PresentationFacadeImpl;
 import com.atanor.vserver.facades.player.VideoFacadeImpl;
+import com.atanor.vserver.pdf.PdfGenerator;
+import com.atanor.vserver.pdf.impl.PdfGeneratorImpl;
 import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.PresentationDataService;
 import com.atanor.vserver.services.RecordingDataService;
@@ -36,6 +38,8 @@ public class AppCoreModule extends AbstractModule {
 		bind(PalantirFacade.class).to(PalantirFacadeMock.class).in(Scopes.SINGLETON);
 		bind(VideoFacade.class).to(VideoFacadeImpl.class).in(Scopes.SINGLETON);
 		bind(PresentationFacade.class).to(PresentationFacadeImpl.class).in(Scopes.SINGLETON);
+		
+		bind(PdfGenerator.class).to(PdfGeneratorImpl.class);
 	}
 
 }
