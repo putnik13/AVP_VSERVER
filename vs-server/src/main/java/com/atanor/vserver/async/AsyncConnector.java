@@ -7,6 +7,7 @@ import org.atmosphere.cpr.BroadcasterFactory;
 
 import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.Signal;
+import com.atanor.vserver.common.entity.SignalMessage;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.messages.Message;
 import com.google.gson.Gson;
@@ -47,10 +48,10 @@ public class AsyncConnector {
 		}
 	}
 
-	public static void stopSharingSession() {
+	public static void stopSharingSession(final String presentationFile) {
 		final Broadcaster broadcaster = BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false);
 		if (isBroadcasterActive(broadcaster)) {
-			signalSessionOver();
+			signalSessionOver(presentationFile);
 		}
 	}
 
@@ -59,12 +60,14 @@ public class AsyncConnector {
 	}
 
 	private static void signalSessionStart() {
-		final String jsonMsg = appendMessageType(Message.SIGNAL, Signal.SESSION_START.name());
+		final String jsonSignalMsg = gson.toJson(new SignalMessage(Signal.SESSION_START));
+		final String jsonMsg = appendMessageType(Message.SIGNAL, jsonSignalMsg);
 		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
 	}
 
-	private static void signalSessionOver() {
-		final String jsonMsg = appendMessageType(Message.SIGNAL, Signal.SESSION_OVER.name());
+	private static void signalSessionOver(final String presentationFile) {
+		final String jsonSignalMsg = gson.toJson(new SignalMessage(Signal.SESSION_OVER, presentationFile));
+		final String jsonMsg = appendMessageType(Message.SIGNAL, jsonSignalMsg);
 		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
 	}
 }

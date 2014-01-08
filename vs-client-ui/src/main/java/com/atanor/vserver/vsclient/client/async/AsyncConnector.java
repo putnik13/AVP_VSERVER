@@ -6,6 +6,7 @@ import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedEvent;
 import com.atanor.vserver.common.async.events.PresentationStartEvent;
 import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.Signal;
+import com.atanor.vserver.common.entity.SignalMessage;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.entity.Snapshot.TYPE;
 import com.atanor.vserver.vsclient.client.Client;
@@ -38,8 +39,8 @@ public class AsyncConnector extends BaseAsyncConnector {
 		} else if (message instanceof Notification) {
 			final Notification notification = (Notification) message;
 			SC.say("NOTIFICATION:" + notification.getMessage());
-		} else if (message instanceof Signal) {
-			handleSignalMessage((Signal) message);
+		} else if (message instanceof SignalMessage) {
+			handleSignalMessage((SignalMessage) message);
 		} else {
 			SC.warn((String) message);
 		}
@@ -49,11 +50,12 @@ public class AsyncConnector extends BaseAsyncConnector {
 		return TYPE.PRESENTATION == snapshot.getType();
 	}
 
-	private void handleSignalMessage(final Signal message) {
-		if (message == Signal.SESSION_START) {
+	private void handleSignalMessage(final SignalMessage message) {
+		if (message.getSignal() == Signal.SESSION_START) {
 			Client.getEventBus().fireEvent(new PresentationStartEvent());
-		} else if (message == Signal.SESSION_OVER) {
+		} else if (message.getSignal() == Signal.SESSION_OVER) {
 			Client.getEventBus().fireEvent(new PresentationOverEvent());
+			SC.say("Received PDF: " + message.getParams()[0]);
 		}
 	}
 

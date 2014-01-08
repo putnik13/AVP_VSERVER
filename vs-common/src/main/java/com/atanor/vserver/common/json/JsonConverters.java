@@ -4,6 +4,7 @@ import name.pehl.piriti.json.client.JsonReader;
 import name.pehl.piriti.json.client.JsonWriter;
 
 import com.atanor.vserver.common.entity.Notification;
+import com.atanor.vserver.common.entity.SignalMessage;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.google.gwt.core.shared.GWT;
 
@@ -21,4 +22,9 @@ public class JsonConverters {
 	public interface NotificationWriter extends JsonWriter<Notification> {}
 	public static final NotificationWriter NOTIFICATION_WRITER = GWT.create(NotificationWriter.class);
 	
+	public interface SignalReader extends JsonReader<SignalMessage> {}
+	public static final SignalReader SIGNAL_READER = GWT.create(SignalReader.class);
+
+	public interface SignalWriter extends JsonWriter<SignalMessage> {}
+	public static final SignalWriter SIGNAL_WRITER = GWT.create(SignalWriter.class);
 }

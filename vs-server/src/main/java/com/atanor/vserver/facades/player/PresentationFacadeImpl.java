@@ -87,8 +87,9 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	public void stopPresentation() {
 		stopTimer();
 		getImagePlayer().stop();
-		AsyncConnector.stopSharingSession();
-		presentationService.saveAndGeneratePdf(buildPresentationPdfName(), snapshots);
+		final String pdfName = buildPresentationPdfName();
+		presentationService.saveAndGeneratePdf(pdfName, snapshots);
+		AsyncConnector.stopSharingSession(pdfName);
 		snapshotCount = 0;
 		folderName = null;
 		snapshots.clear();
