@@ -16,7 +16,6 @@ public class ImageDecoder {
 
 		try {
 			byte buffer[] = FileUtils.readFileToByteArray(imageFile);
-			//return new String(Base64.encodeBase64(buffer));
 			return Base64.encodeBase64String(buffer);
 		} catch (IOException e) {
 			throw new IllegalStateException("Error. Can not encode image", e);
