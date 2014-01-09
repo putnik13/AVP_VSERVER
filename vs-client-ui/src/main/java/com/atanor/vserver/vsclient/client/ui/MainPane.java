@@ -12,5 +12,5 @@ public interface MainPane extends IsWidget {
 	
 	void onSessionStart();
 	
-	void onSessionOver();
+	void onSessionOver(String pdfFileName);
 }

@@ -23,7 +23,7 @@ public class MainPanePresenter implements PresentationSnapshotReceivedHandler, P
 
 	@Override
 	public void onPresentationOver(final PresentationOverEvent event) {
-		view.onSessionOver();
+		view.onSessionOver(event.getPdfFileName());
 	}
 
 	@Override

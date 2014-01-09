@@ -139,8 +139,8 @@ public class MainPaneImpl extends HLayout implements MainPane {
 	}
 
 	@Override
-	public void onSessionOver() {
-		sessionInactiveLayer.sessionOver();
+	public void onSessionOver(final String pdfFileName) {
+		sessionInactiveLayer.sessionOver(pdfFileName);
 		sessionInactiveLayer.bringToFront();
 	}
 }

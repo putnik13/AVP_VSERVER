@@ -54,8 +54,11 @@ public class AsyncConnector extends BaseAsyncConnector {
 		if (message.getSignal() == Signal.SESSION_START) {
 			Client.getEventBus().fireEvent(new PresentationStartEvent());
 		} else if (message.getSignal() == Signal.SESSION_OVER) {
-			Client.getEventBus().fireEvent(new PresentationOverEvent());
-			SC.say("Received PDF: " + message.getParams()[0]);
+			final String[] params = message.getParams();
+			if (params != null && params.length > 0) {
+				final String pdfFileName = message.getParams()[0];
+				Client.getEventBus().fireEvent(new PresentationOverEvent(pdfFileName));
+			}
 		}
 	}
 

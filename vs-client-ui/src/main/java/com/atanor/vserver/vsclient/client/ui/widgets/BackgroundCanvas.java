@@ -88,9 +88,9 @@ public class BackgroundCanvas extends Canvas {
 		pdfCanvas.sendToBack();
 	}
 
-	public void sessionOver() {
+	public void sessionOver(final String pdfName) {
+		this.pdfName = pdfName;
 		setLabelContent("Session is over..");
-		pdfName = "hello.pdf";
 		pdfCanvas.bringToFront();
 	}
 }
