@@ -28,7 +28,7 @@ public class MainPanePresenter implements PresentationSnapshotReceivedHandler, P
 
 	@Override
 	public void onPresentationStart(PresentationStartEvent event) {
-		// TODO Auto-generated method stub
+		view.onSessionStart();
 	}
 
 }
