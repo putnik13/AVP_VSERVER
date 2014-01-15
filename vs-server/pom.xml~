@@ -141,7 +141,7 @@
       <groupId>com.googlecode</groupId>
       <artifactId>javacv</artifactId>
     </dependency>	
-    <dependency>
+	<dependency>
       <groupId>com.googlecode</groupId>
       <artifactId>javacv-os</artifactId>
     </dependency>

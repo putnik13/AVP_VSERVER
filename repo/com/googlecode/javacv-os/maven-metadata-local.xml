@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.googlecode</groupId>
+  <artifactId>javacv-os</artifactId>
+  <versioning>
+    <release>windows-x86_64-0.7</release>
+    <versions>
+      <version>linux-x86_64-0.7</version>
+      <version>windows-x86_64-0.7</version>
+    </versions>
+    <lastUpdated>20140115191615</lastUpdated>
+  </versioning>
+</metadata>
