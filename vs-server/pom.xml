@@ -132,7 +132,7 @@
       <artifactId>vlcj</artifactId>
     </dependency>
 	
-    <!-- JavaCV (OpenCV wrapper library)-->	
+    <!-- JavaCV & OpenCV libraries-->	
     <dependency>
       <groupId>com.googlecode</groupId>
       <artifactId>javacpp</artifactId>
@@ -145,7 +145,15 @@
       <groupId>com.googlecode</groupId>
       <artifactId>javacv-os</artifactId>
     </dependency>
-	
+    <dependency>
+      <groupId>com.googlecode</groupId>
+      <artifactId>opencv-os</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode</groupId>
+      <artifactId>ffmpeg-os</artifactId>
+    </dependency>
+
 	<dependency>
 	  <groupId>com.lowagie</groupId>
 	  <artifactId>itext</artifactId>

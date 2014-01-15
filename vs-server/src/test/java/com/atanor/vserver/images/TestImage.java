@@ -12,7 +12,8 @@ public class TestImage {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		open("d:/projects/AVP/VideoServer/vs-launch/src/main/webapp/images/test0.png");
+		//open("d:/projects/AVP/VideoServer/vs-launch/src/main/webapp/images/test0.png");
+		open("/home/projects/AVP_VSERVER/vs-launch/src/main/webapp/images/test0.png");
 	}
 
 	public static void open(String filename) {

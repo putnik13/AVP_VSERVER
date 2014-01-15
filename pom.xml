@@ -34,6 +34,8 @@
     <logback.version>1.0.13</logback.version>
 	
     <javacv.version>0.7</javacv.version>
+    <opencv.version>2.4.8</opencv.version>
+    <ffmpeg.version>2.1.1</ffmpeg.version>
     <platform.name>linux-x86_64</platform.name>
 	
     <repo.path>${basedir}</repo.path>
@@ -358,10 +360,7 @@
 	    <version>2.2.4</version>
       </dependency>
 	  
-      <!-- JavaCV (OpenCV wrapper library) 
-	  javacv - 0.6 version used
-	  opencv - 2.4.6 version used
-      -->
+      <!-- JavaCV & OpenCV libraries -->	  
       <dependency>
         <groupId>com.googlecode</groupId>
         <artifactId>javacpp</artifactId>
@@ -377,7 +376,17 @@
         <artifactId>javacv-os</artifactId>
         <version>${platform.name}-${javacv.version}</version>
       </dependency>
-	  
+      <dependency>
+        <groupId>com.googlecode</groupId>
+        <artifactId>opencv-os</artifactId>
+        <version>${platform.name}-${opencv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.googlecode</groupId>
+        <artifactId>ffmpeg-os</artifactId>
+        <version>${platform.name}-${ffmpeg.version}</version>
+      </dependency>
+
 	  <!-- PDF converter -->
 	  <dependency>
 	    <groupId>com.lowagie</groupId>
