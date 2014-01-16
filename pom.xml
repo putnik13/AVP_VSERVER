@@ -36,15 +36,41 @@
     <javacv.version>0.7</javacv.version>
     <opencv.version>2.4.8</opencv.version>
     <ffmpeg.version>2.1.1</ffmpeg.version>
-    <platform.name>linux-x86_64</platform.name>
-	
+       
     <repo.path>${basedir}</repo.path>
 	
     <output.unit>${basedir}/vs-launch</output.unit>
     <war.target>${output.unit}/src/main/webapp</war.target>
     <output.dir>${war.target}/WEB-INF/classes</output.dir>
   </properties>
-
+  
+  <profiles> 
+    <profile>
+      <id>windows-profile</id>
+      <activation>
+	    <os>
+          <family>windows</family>
+          <arch>amd64</arch>
+        </os>
+      </activation>
+	  <properties>
+        <platform.name>windows-x86_64</platform.name>
+      </properties>
+    </profile>
+    <profile>
+      <id>linux-profile</id>
+      <activation>
+	    <os>
+          <family>linux</family>
+          <arch>amd64</arch>
+        </os>
+      </activation>
+	  <properties>
+        <platform.name>linux-x86_64</platform.name>
+      </properties>
+    </profile>	
+  </profiles>
+  
   <pluginRepositories>
         <pluginRepository>
             <id>sonatype releases</id>

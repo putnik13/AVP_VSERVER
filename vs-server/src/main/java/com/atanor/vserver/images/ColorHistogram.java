@@ -28,7 +28,7 @@ public class ColorHistogram {
 	 *            color reduction factor.
 	 */
 	public static void colorReduce(final IplImage image, final int div) {
-
+		Validate.notNull(image, "image argument can not be null");		
 		final CvMat mat = image.asCvMat();
 
 		// Total number of elements, combining components from each channel
