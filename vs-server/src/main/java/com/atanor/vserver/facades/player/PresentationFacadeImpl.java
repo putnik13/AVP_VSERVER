@@ -17,6 +17,7 @@ import com.atanor.vserver.events.GetPresentationSnapshotEvent;
 import com.atanor.vserver.events.PresentationSnapshotEvent;
 import com.atanor.vserver.facades.PresentationFacade;
 import com.atanor.vserver.services.ConfigDataService;
+import com.atanor.vserver.services.ImageService;
 import com.atanor.vserver.services.PresentationDataService;
 import com.atanor.vserver.util.ImageDecoder;
 import com.google.common.collect.Lists;
@@ -26,13 +27,18 @@ import com.google.common.eventbus.Subscribe;
 public class PresentationFacadeImpl extends PlayerFacade implements PresentationFacade {
 
 	private Timer timer;
-	private int snapshotCount = 0;
+	private int snapshotCount = 1;
 	private String folderName;
 	private final List<Snapshot> snapshots = Lists.newArrayList();
+	
+	private BufferedImage bufImage;
+	
+	@Inject
+	private PresentationDataService presentationService;
 
 	@Inject
-	PresentationDataService presentationService;
-
+	private ImageService imageService;
+	
 	@Inject
 	public PresentationFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
@@ -90,11 +96,16 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 		final String pdfName = buildPresentationPdfName();
 		presentationService.saveAndGeneratePdf(pdfName, snapshots);
 		AsyncConnector.stopSharingSession(pdfName);
-		snapshotCount = 0;
+		resetSnapshotCount();
 		folderName = null;
+		bufImage = null;
 		snapshots.clear();
 	}
 
+	private void resetSnapshotCount(){
+		snapshotCount = 1;
+	}
+	
 	private void stopTimer() {
 		if (timer != null) {
 			timer.cancel();
@@ -106,8 +117,14 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	public void takeSnapshot(final GetPresentationSnapshotEvent event) throws IOException {
 		if (getImagePlayer().isPlaying()) {
 
-			final BufferedImage bufImage = getImagePlayer().getSnapshot();
+			final BufferedImage prevBufImage = bufImage;
+			bufImage = getImagePlayer().getSnapshot();
 			if (bufImage != null) {
+
+				if (prevBufImage != null && imageService.isSimilar(prevBufImage, bufImage)) {
+					return;
+				}
+
 				final String encodedImage = ImageDecoder.encodeImage(bufImage);
 				final String width = String.valueOf(bufImage.getWidth());
 				final String height = String.valueOf(bufImage.getHeight());
@@ -119,7 +136,6 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 				snapshotCount++;
 			}
 		}
-
 	}
 
 	// used to emulate presentation stream

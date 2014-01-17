@@ -2,6 +2,7 @@ package com.atanor.vserver.images;
 
 import static com.googlecode.javacv.cpp.opencv_highgui.cvLoadImage;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,6 +14,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.atanor.vserver.services.ImageService;
+import com.atanor.vserver.services.impl.ImageServiceImpl;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
 public class TestImageComparator {
@@ -62,6 +65,19 @@ public class TestImageComparator {
 		Assert.assertEquals(0.18d, round(score));
 	}
 
+	@Test
+	public void imagesSimilarity() throws IOException {
+		final File file0 = new File(fileImage0);
+		final File file1 = new File(fileImage1);
+		
+		BufferedImage img0 = ImageIO.read(file0);
+		BufferedImage img1 = ImageIO.read(file1);
+		
+		ImageService imgService = new ImageServiceImpl();
+		Assert.assertTrue(imgService.isSimilar(img0, img0));
+		Assert.assertFalse(imgService.isSimilar(img0, img1));		
+	}
+	
 	//@Test
 	public void compareBufferredAndNativeImages() throws IOException {
 		IplImage image1 = IplImage.createFrom(ImageIO.read(new File(fileImage0)));
