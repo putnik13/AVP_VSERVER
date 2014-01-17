@@ -75,12 +75,6 @@
       <groupId>org.atmosphere.extensions</groupId>
       <artifactId>atmosphere-gwt20-managed</artifactId>
     </dependency>
-	<dependency>
-      <groupId>org.atmosphere.client</groupId>
-      <artifactId>javascript</artifactId>
-      <type>war</type>
-      <scope>compile</scope>
-    </dependency>
     
     <!-- JSON mapper -->
 	<dependency>
