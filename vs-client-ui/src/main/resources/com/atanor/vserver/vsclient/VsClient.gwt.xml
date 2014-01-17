@@ -12,6 +12,7 @@
 
   <!-- Other module inherits                                      -->
   <inherits name='com.atanor.vserver.Common'/>
+  <inherits name="com.smartgwt.Drawing" />
   
   <!-- Specify properties                                         -->
   <!-- <set-property name="user.agent" value="opera,safari,gecko1_8,ie8,ie9"/>-->
