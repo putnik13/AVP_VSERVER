@@ -2,6 +2,7 @@ package com.atanor.vserver.vsadmin.client.ui.sections;
 
 import com.atanor.vserver.common.Constants;
 import com.atanor.vserver.vsadmin.client.ui.UiUtils;
+import com.smartgwt.client.types.Cursor;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.grid.ListGrid;
@@ -21,6 +22,7 @@ public abstract class BaseGridSection extends BaseSection {
 	protected Img createToolbarImage(final String imgSource, final String tooltip) {
 		final Img img = new Img();
 		img.setSrc(imgSource);
+		img.setCursor(Cursor.HAND);
 		img.setTooltip(tooltip);
 		img.setWidth(UiUtils.TOOLBAR_ICON_SIZE);
 		img.setHeight(UiUtils.TOOLBAR_ICON_SIZE);

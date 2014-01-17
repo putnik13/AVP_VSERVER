@@ -8,6 +8,7 @@ import com.atanor.vserver.vsadmin.client.events.SectionSelectedEvent;
 import com.atanor.vserver.vsadmin.client.ui.sections.Section;
 import com.google.web.bindery.event.shared.EventBus;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.Cursor;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -100,6 +101,7 @@ public class NavigatePane extends HLayout implements SectionAnimationStartedHand
 	private Canvas createNavigateControl(final Section section, final String imgSource, final String tooltip) {
 		final Img img = new Img();
 		img.setSrc(imgSource);
+		img.setCursor(Cursor.HAND);
 		img.setTooltip(tooltip);
 		img.setWidth(UiUtils.NAVIGATE_ICON_CONTROL_SIZE);
 		img.setHeight(UiUtils.NAVIGATE_ICON_CONTROL_SIZE);

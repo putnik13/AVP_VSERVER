@@ -38,11 +38,11 @@ public class AsyncConnector extends BaseAsyncConnector {
 			Client.getEventBus().fireEvent(new PresentationSnapshotReceivedEvent((Snapshot) message));
 		} else if (message instanceof Notification) {
 			final Notification notification = (Notification) message;
-			SC.say("NOTIFICATION:" + notification.getMessage());
+			//SC.say("NOTIFICATION:" + notification.getMessage());
 		} else if (message instanceof SignalMessage) {
 			handleSignalMessage((SignalMessage) message);
 		} else {
-			SC.warn((String) message);
+			//SC.warn((String) message);
 		}
 	}
 
