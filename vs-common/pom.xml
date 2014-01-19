@@ -6,28 +6,31 @@
     <groupId>com.atanor</groupId>
     <artifactId>vserver</artifactId>
     <version>1.0-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   
   <artifactId>vs-common</artifactId>
   <name>vs-common</name>
 
+  <properties>
+    <repo.path>${basedir}/..</repo.path>
+  </properties>
+
   <dependencies>
-    
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
     </dependency>	
     <dependency>
-    	<groupId>com.smartgwt</groupId>
-    	<artifactId>smartgwt</artifactId>
-	</dependency>
+      <groupId>com.smartgwt</groupId>
+      <artifactId>smartgwt</artifactId>
+    </dependency>
     <dependency>
-   		<groupId>javax.validation</groupId>
-   		<artifactId>validation-api</artifactId>
-   		<scope>provided</scope>
-	</dependency>
-	<dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <classifier>sources</classifier>

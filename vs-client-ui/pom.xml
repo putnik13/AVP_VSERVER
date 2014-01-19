@@ -24,11 +24,18 @@
     	<artifactId>vs-server</artifactId>
 		<version>${project.version}</version>
 	</dependency>
-		
+	
+      <!-- SVG Graphics -->
+      <dependency>
+        <groupId>org.sgx</groupId>
+        <artifactId>raphael4gwt</artifactId>
+      </dependency>
+	
   </dependencies>
   
   <properties>
-    <gwtDestinationWarFolder>${basedir}/../vs-launch/src/main/webapp</gwtDestinationWarFolder>
+    <repo.path>${basedir}/..</repo.path>
+    <gwtDestinationWarFolder>${basedir}/../vs-launch/src/main/webapp</gwtDestinationWarFolder>  
   </properties>
   
   <build>

@@ -9,7 +9,7 @@
     <groupId>com.atanor</groupId>
     <artifactId>vserver</artifactId>
     <version>1.0-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   
   <artifactId>videoserver</artifactId>
@@ -17,6 +17,7 @@
   <packaging>war</packaging>
   
   <properties>
+    <repo.path>${basedir}/..</repo.path>
     <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
   </properties>
   
