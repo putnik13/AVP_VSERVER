@@ -85,5 +85,4 @@ public class DrawingBox extends Canvas {
 		addChild(paperWidget);
 	}
 	
-	
 }
