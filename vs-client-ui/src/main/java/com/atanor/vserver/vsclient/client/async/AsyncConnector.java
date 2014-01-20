@@ -4,13 +4,14 @@ import com.atanor.vserver.common.async.BaseAsyncConnector;
 import com.atanor.vserver.common.async.events.PresentationOverEvent;
 import com.atanor.vserver.common.async.events.PresentationSnapshotReceivedEvent;
 import com.atanor.vserver.common.async.events.PresentationStartEvent;
+import com.atanor.vserver.common.async.events.SvgReceivedEvent;
 import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.Signal;
 import com.atanor.vserver.common.entity.SignalMessage;
 import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.entity.Snapshot.TYPE;
+import com.atanor.vserver.common.entity.SvgMessage;
 import com.atanor.vserver.vsclient.client.Client;
-import com.smartgwt.client.util.SC;
 
 public class AsyncConnector extends BaseAsyncConnector {
 
@@ -31,6 +32,10 @@ public class AsyncConnector extends BaseAsyncConnector {
 		getInstance().connectWebsocket();
 	}
 
+	public static void push(Object message) {
+		getInstance().pushMessage(message);
+	}
+
 	@Override
 	protected void handleMessage(Object message) {
 
@@ -38,11 +43,13 @@ public class AsyncConnector extends BaseAsyncConnector {
 			Client.getEventBus().fireEvent(new PresentationSnapshotReceivedEvent((Snapshot) message));
 		} else if (message instanceof Notification) {
 			final Notification notification = (Notification) message;
-			//SC.say("NOTIFICATION:" + notification.getMessage());
+			// SC.say("NOTIFICATION:" + notification.getMessage());
 		} else if (message instanceof SignalMessage) {
 			handleSignalMessage((SignalMessage) message);
+		} else if (message instanceof SvgMessage) {
+			Client.getEventBus().fireEvent(new SvgReceivedEvent((SvgMessage) message));
 		} else {
-			//SC.warn((String) message);
+			// SC.warn((String) message);
 		}
 	}
 

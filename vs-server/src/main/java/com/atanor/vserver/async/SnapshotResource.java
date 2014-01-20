@@ -1,5 +1,8 @@
 package com.atanor.vserver.async;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 import javax.inject.Singleton;
 
 import org.atmosphere.client.TrackMessageSizeInterceptor;
@@ -36,7 +39,7 @@ public class SnapshotResource {
 	@Ready
 	public void onReady(final AtmosphereResource r) {
 		logger.info("GET request received, supported transport: " + r.transport());
-		
+
 		AsyncConnector.addResource(r);
 		AsyncConnector.broadcastNotification("Browser UUID: " + r.uuid() + " connected.");
 	}
@@ -53,7 +56,23 @@ public class SnapshotResource {
 	@Post
 	public void post(AtmosphereResource r) {
 		logger.info("POST received with transport + " + r.transport());
-		// TODO put handler for user call
+
+		final StringBuilder data = new StringBuilder();
+		try {
+			final BufferedReader requestReader = r.getRequest().getReader();
+			char[] buf = new char[5120];
+			int read = -1;
+			while ((read = requestReader.read(buf)) > 0) {
+				data.append(buf, 0, read);
+			}
+			logger.info("Received json message from client: " + data.toString());
+
+			AsyncConnector.handleReceivedMessage(data.toString());
+
+		} catch (IOException e) {
+			logger.error("Error during processing json message from client", e);
+		}
+
 	}
 
 }

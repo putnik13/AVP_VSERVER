@@ -3,6 +3,7 @@ package com.atanor.vserver.vsclient.client;
 import com.atanor.vserver.vsclient.client.presenter.MainPanePresenter;
 import com.atanor.vserver.vsclient.client.ui.MainPane;
 import com.atanor.vserver.vsclient.client.ui.MainPaneImpl;
+import com.atanor.vserver.vsclient.client.ui.widgets.DrawingBox;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -11,7 +12,8 @@ public class Client {
 	private static MainPane view;
 	private static MainPanePresenter presenter;
 	private static EventBus eventBus;
-
+	private static DrawingBox drawingBox;
+	
 	public static MainPane getView() {
 		if (view == null) {
 			view = new MainPaneImpl();
@@ -36,5 +38,12 @@ public class Client {
 			eventBus = new SimpleEventBus();
 		}
 		return eventBus;
+	}
+	
+	public static DrawingBox getDrawingBox() {
+		if (drawingBox == null) {
+			drawingBox = new DrawingBox();
+		}
+		return drawingBox;
 	}
 }

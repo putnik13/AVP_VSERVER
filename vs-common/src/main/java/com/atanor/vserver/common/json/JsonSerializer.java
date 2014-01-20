@@ -5,6 +5,7 @@ import org.atmosphere.gwt20.client.ClientSerializer;
 import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.SignalMessage;
 import com.atanor.vserver.common.entity.Snapshot;
+import com.atanor.vserver.common.entity.SvgMessage;
 import com.atanor.vserver.common.messages.Message;
 import com.google.gwt.user.client.rpc.SerializationException;
 
@@ -13,11 +14,11 @@ public class JsonSerializer implements ClientSerializer {
 	private static final String NOTIFICATION_MSG = Message.NOTIFCATION.name();
 	private static final String SNAPSHOT_MSG = Message.SNAPSHOT.name();
 	private static final String SIGNAL_MSG = Message.SIGNAL.name();
+	private static final String SVG_MSG = Message.SVG.name();
 
 	@Override
 	public Object deserialize(String message) throws SerializationException {
-		Object result = "Can not deserialize unexpected message format, message:"
-				+ message;
+		Object result = "Can not deserialize unexpected message format, message:" + message;
 
 		if (isNotification(message)) {
 			result = getNotification(message);
@@ -25,6 +26,8 @@ public class JsonSerializer implements ClientSerializer {
 			result = getSnapshot(message);
 		} else if (isSignal(message)) {
 			result = getSignal(message);
+		} else if (isSvg(message)) {
+			result = getSvg(message);
 		}
 
 		return result;
@@ -32,7 +35,27 @@ public class JsonSerializer implements ClientSerializer {
 
 	@Override
 	public String serialize(Object message) throws SerializationException {
-		throw new IllegalStateException("Operation is not supported");
+		String json = null;
+		if (message instanceof SvgMessage) {
+			json = serializeSvg((SvgMessage) message);
+		} else {
+			throw new IllegalStateException("Operation is not supported");
+		}
+		return json;
+	}
+
+	private String serializeSvg(final SvgMessage svgMessage) {
+		final String jsonSvg = JsonConverters.SVG_WRITER.toJson(svgMessage);
+		return appendMessageType(Message.SVG, jsonSvg);
+	}
+
+	private boolean isSvg(String message) {
+		return message.startsWith(SVG_MSG);
+	}
+
+	private SvgMessage getSvg(final String message) {
+		final String jsonSvg = message.substring(SVG_MSG.length());
+		return JsonConverters.SVG_READER.read(jsonSvg);
 	}
 
 	private boolean isNotification(final String message) {
@@ -40,8 +63,7 @@ public class JsonSerializer implements ClientSerializer {
 	}
 
 	private Notification getNotification(final String message) {
-		final String jsonNotification = message.substring(NOTIFICATION_MSG
-				.length());
+		final String jsonNotification = message.substring(NOTIFICATION_MSG.length());
 		return JsonConverters.NOTIFICATION_READER.read(jsonNotification);
 	}
 
@@ -62,4 +84,9 @@ public class JsonSerializer implements ClientSerializer {
 		final String jsonSignal = message.substring(SIGNAL_MSG.length());
 		return JsonConverters.SIGNAL_READER.read(jsonSignal);
 	}
+
+	private static String appendMessageType(final Message msgType, final String message) {
+		return msgType.name() + message;
+	}
+
 }

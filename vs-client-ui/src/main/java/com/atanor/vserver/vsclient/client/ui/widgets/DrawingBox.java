@@ -7,6 +7,15 @@ import org.sgx.raphael4gwt.raphael.base.Attrs;
 import org.sgx.raphael4gwt.raphael.event.MouseEventListener;
 import org.sgx.raphael4gwt.raphael.widget.PaperWidget;
 
+import com.atanor.vserver.common.async.events.SvgReceivedEvent;
+import com.atanor.vserver.common.async.events.SvgReceivedHandler;
+import com.atanor.vserver.common.async.events.SvgSendEvent;
+import com.atanor.vserver.common.async.events.SvgSendHandler;
+import com.atanor.vserver.common.entity.SvgMessage;
+import com.atanor.vserver.vsclient.client.Client;
+import com.atanor.vserver.vsclient.client.async.AsyncConnector;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -14,7 +23,7 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.smartgwt.client.widgets.Canvas;
 
-public class DrawingBox extends Canvas {
+public class DrawingBox extends Canvas implements SvgReceivedHandler, SvgSendHandler {
 
 	private PathCmd pathCmd;
 	private boolean mousePressed;
@@ -69,6 +78,9 @@ public class DrawingBox extends Canvas {
 					pathCmd.L(x, y);
 					masterPaper.path(pathCmd.toPathString()).attr(drawAttrs);
 					pathCmd = pathCmd.M(x, y);
+					
+//					final SvgMessage svgMsg = new SvgMessage(masterPaper.toSVG());
+//					Client.getEventBus().fireEvent(new SvgSendEvent(svgMsg));
 				}
 			}
 		});
@@ -83,6 +95,17 @@ public class DrawingBox extends Canvas {
 	public void show() {
 		super.show();
 		addChild(paperWidget);
+	}
+
+	@Override
+	public void onSvgReceived(SvgReceivedEvent event) {
+		System.out.println("SVG: " + event.getSvgMessage().getSvgString());
+		//paperWidget.getPaper().importSvg(event.getSvgMessage().getSvgString());
+	}
+
+	@Override
+	public void onSvgSend(SvgSendEvent event) {
+		AsyncConnector.push(event.getSvgMessage());
 	}
 	
 }

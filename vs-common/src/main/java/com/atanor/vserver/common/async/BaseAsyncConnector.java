@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.atmosphere.gwt20.client.Atmosphere;
 import org.atmosphere.gwt20.client.AtmosphereMessageHandler;
+import org.atmosphere.gwt20.client.AtmosphereRequest;
 import org.atmosphere.gwt20.client.AtmosphereRequestConfig;
 import org.atmosphere.gwt20.client.AtmosphereResponse;
 
 import com.atanor.vserver.common.json.JsonSerializer;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.SerializationException;
 
 public abstract class BaseAsyncConnector {
+
+	private AtmosphereRequest asyncRequest;
 
 	protected void connectWebsocket() {
 
@@ -29,7 +33,7 @@ public abstract class BaseAsyncConnector {
 
 			@Override
 			public void onMessage(AtmosphereResponse response) {
-				List<Object> messages = response.getMessages();
+				final List<Object> messages = response.getMessages();
 				for (Object message : messages) {
 					handleMessage(message);
 				}
@@ -37,8 +41,19 @@ public abstract class BaseAsyncConnector {
 		});
 
 		final Atmosphere asyncClient = Atmosphere.create();
-		asyncClient.subscribe(jsonRequestConfig);
+		asyncRequest = asyncClient.subscribe(jsonRequestConfig);
 	}
 
 	protected abstract void handleMessage(Object message);
+
+	public void pushMessage(final Object message) {
+		if (asyncRequest != null) {
+			try {
+				asyncRequest.push(message);
+			} catch (SerializationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

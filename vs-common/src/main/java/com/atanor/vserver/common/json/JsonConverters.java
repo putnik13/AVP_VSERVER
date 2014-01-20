@@ -6,6 +6,7 @@ import name.pehl.piriti.json.client.JsonWriter;
 import com.atanor.vserver.common.entity.Notification;
 import com.atanor.vserver.common.entity.SignalMessage;
 import com.atanor.vserver.common.entity.Snapshot;
+import com.atanor.vserver.common.entity.SvgMessage;
 import com.google.gwt.core.shared.GWT;
 
 public class JsonConverters {
@@ -27,4 +28,10 @@ public class JsonConverters {
 
 	public interface SignalWriter extends JsonWriter<SignalMessage> {}
 	public static final SignalWriter SIGNAL_WRITER = GWT.create(SignalWriter.class);
+	
+	public interface SvgReader extends JsonReader<SvgMessage> {}
+	public static final SvgReader SVG_READER = GWT.create(SvgReader.class);
+	
+	public interface SvgWriter extends JsonWriter<SvgMessage> {}
+	public static final SvgWriter SVG_WRITER = GWT.create(SvgWriter.class);
 }

@@ -2,6 +2,7 @@ package com.atanor.vserver.injector;
 
 import java.util.Map;
 
+import org.atmosphere.cpr.ApplicationConfig;
 import org.atmosphere.cpr.AtmosphereServlet;
 
 import com.atanor.vserver.async.SnapshotResource;
@@ -33,7 +34,8 @@ public class AppServletModule extends ServletModule {
 		bind(AtmosphereServlet.class).in(Scopes.SINGLETON);
 
 		final Map<String, String> params = Maps.newHashMap();
-		params.put("org.atmosphere.cpr.packages", "com.atanor.vserver.async");
+		params.put(ApplicationConfig.ANNOTATION_PACKAGE, "com.atanor.vserver.async");
+		params.put(ApplicationConfig.WEBSOCKET_MAXTEXTSIZE, "26214400");
 		serve("/atmosphere/*").with(AtmosphereServlet.class, params);
 		serve("/pdfDownload").with(PdfServlet.class);
 		

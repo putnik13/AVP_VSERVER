@@ -1,6 +1,9 @@
 package com.atanor.vserver.vsclient.client;
 
-import com.atanor.vserver.vsclient.client.ui.widgets.DrawingBox;
+import com.atanor.vserver.common.async.events.SvgReceivedEvent;
+import com.atanor.vserver.common.async.events.SvgSendEvent;
+import com.atanor.vserver.common.entity.SvgMessage;
+import com.atanor.vserver.vsclient.client.async.AsyncConnector;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.widgets.Canvas;
@@ -31,12 +34,19 @@ public class VsClientDrawing implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new DrawingBox().show();
+				Client.getDrawingBox().show();
 			}
 		});
 
 		canvas.addChild(button);
 		RootPanel.get().add(canvas);
+
+		register();
+		AsyncConnector.connect();
 	}
 
+	private static void register() {
+		Client.getEventBus().addHandler(SvgReceivedEvent.getType(), Client.getDrawingBox());
+		Client.getEventBus().addHandler(SvgSendEvent.getType(), Client.getDrawingBox());
+	}
 }

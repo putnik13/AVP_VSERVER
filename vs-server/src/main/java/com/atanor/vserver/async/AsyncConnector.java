@@ -28,6 +28,11 @@ public class AsyncConnector {
 		final String jsonMsg = appendMessageType(Message.NOTIFCATION, jsonNotification);
 		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(jsonMsg);
 	}
+	
+	public static void handleReceivedMessage(final String msg) {
+		Validate.notEmpty(msg, "msg can not be empty or null");
+		BroadcasterFactory.getDefault().lookup(SUBSCRIBE_RECEIVE_SNAPSHOTS, false).broadcast(msg);
+	}
 
 	public static void broadcastSnapshot(final Snapshot snapshot) {
 		Validate.notNull(snapshot, "snapshot can not be null");
