@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import javax.inject.Inject;
 
 import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import com.atanor.vserver.domain.entity.VsConfig;
@@ -25,9 +25,21 @@ public abstract class PlayerFacade {
 	private final EventBus eventBus;
 	private final ConfigDataService configService;
 
-	private final EmbeddedMediaPlayer streamPlayer;
-	private final EmbeddedMediaPlayer imagePlayer;
+	private final MediaPlayer streamPlayer;
+	private final MediaPlayer imagePlayer;
 
+	private static final String[] VLC_ARGS = {
+		"--intf", "dummy", // no interface
+		"--vout", "dummy", // no video output
+		"--no-audio", // no audio decoding
+		"--no-video-title-show", // do not display title
+		"--no-stats", // no stats
+		"--no-sub-autodetect-file", // no subtitles
+		"--no-snapshot-preview", // nosnapshot preview
+		"--live-caching=50", // reduce capture lag/latency
+		"--quiet", // turn off VLC warnings 
+	};
+	
 	@Inject
 	public PlayerFacade(final EventBus eventBus, final ConfigDataService configService) {
 		this.eventBus = eventBus;
@@ -38,18 +50,18 @@ public abstract class PlayerFacade {
 		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
 
 		this.streamPlayer = new MediaPlayerFactory().newEmbeddedMediaPlayer();
-		this.imagePlayer = new MediaPlayerFactory().newEmbeddedMediaPlayer();
+		this.imagePlayer = new MediaPlayerFactory(VLC_ARGS).newHeadlessMediaPlayer();
 	}
 
 	protected VsConfig config() {
 		return configService.getConfig();
 	}
 
-	protected EmbeddedMediaPlayer getImagePlayer() {
+	protected MediaPlayer getImagePlayer() {
 		return imagePlayer;
 	}
 
-	protected EmbeddedMediaPlayer getStreamPlayer() {
+	protected MediaPlayer getStreamPlayer() {
 		return streamPlayer;
 	}
 

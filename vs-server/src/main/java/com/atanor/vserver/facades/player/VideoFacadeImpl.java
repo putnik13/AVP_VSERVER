@@ -43,8 +43,8 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 			final String fileName = buildRecordingName(startTime);
 			final String[] options = { String.format(config().getRecordingMediaOptions(), buildRecordingPath(fileName)) };
 			getStreamPlayer().playMedia(config().getRecordingMediaResource(), options);
-			getImagePlayer().playMedia(config().getRecordingMediaResource());
-
+			getImagePlayer().startMedia(config().getRecordingMediaResource());
+			
 			currentRecordingId = recordingService.createRecording(fileName, startTime);
 			startTakeSnapshots();
 			getEventBus().post(new CreateAndSaveSnapshotEvent(currentRecordingId));
