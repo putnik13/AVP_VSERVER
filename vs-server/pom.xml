@@ -154,11 +154,17 @@
       <artifactId>ffmpeg-os</artifactId>
     </dependency>
 
-	<dependency>
-	  <groupId>com.lowagie</groupId>
-	  <artifactId>itext</artifactId>
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itext</artifactId>
     </dependency>
-	  
+
+    <!-- Xuggler API -->
+    <dependency>
+      <groupId>xuggle</groupId>
+      <artifactId>xuggle-xuggler</artifactId>
+    </dependency>
+
   </dependencies>
   
 </project>

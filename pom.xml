@@ -118,7 +118,11 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-	<repository>
+    <repository>
+      <id>xuggle repo</id>
+      <url>http://xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+    </repository>
+    <repository>
         <id>VideoServerRepo</id>
         <url>file:${repo.path}/repo</url>
     </repository>
@@ -405,20 +409,27 @@
         <version>${platform.name}-${ffmpeg.version}</version>
       </dependency>
 
-	  <!-- PDF converter -->
-	  <dependency>
-	    <groupId>com.lowagie</groupId>
-	    <artifactId>itext</artifactId>
-	    <version>4.2.1</version>
+      <!-- PDF converter -->
+      <dependency>
+        <groupId>com.lowagie</groupId>
+	<artifactId>itext</artifactId>
+	<version>4.2.1</version>
       </dependency>
 	
-	  <!-- VIDEO player -->
-	  <dependency>
+      <!-- VIDEO player -->
+      <dependency>
         <groupId>com.github.videojs-for-gwt</groupId>
         <artifactId>player</artifactId>
-		<version>3.2.0</version>
+        <version>3.2.0</version>
       </dependency>
-	
+
+      <!-- Xuggler API -->
+      <dependency>
+        <groupId>xuggle</groupId>
+        <artifactId>xuggle-xuggler</artifactId>
+        <version>5.4</version>
+      </dependency>
+
 	  <!-- Tests -->
 	  <dependency>
         <groupId>junit</groupId>
