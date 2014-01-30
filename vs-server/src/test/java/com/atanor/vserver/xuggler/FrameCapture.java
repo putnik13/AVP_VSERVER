@@ -20,7 +20,7 @@ public class FrameCapture {
 	public static final double SECONDS_BETWEEN_FRAMES = 10;
 
 	private static final String inputFilename = "D:/temp/video/test2.mp4";
-	private static final String inputStream = "rtp://localhost:5004";
+	private static final String inputStream = "rtp://127.0.0.1:5004";
 	private static final String outputFilePrefix = "D:/temp/recordings/img";
 
 	// The video stream index, used to ensure we display frames from one and
@@ -37,14 +37,13 @@ public class FrameCapture {
 	 */
 	public static void main(String[] args) {
 
-		IContainer container = IContainer.make();
-		IContainerFormat containerFormat = IContainerFormat.make();
-		containerFormat.setInputFormat("rtp"); 
-		container.open(inputStream, Type.READ, containerFormat);
-		IMediaReader mediaReader = ToolFactory.makeReader(container);
-		//IMediaReader mediaReader = ToolFactory.makeReader(inputStream);
-		
-		
+//		IContainer container = IContainer.make();
+//		IContainerFormat containerFormat = IContainerFormat.make();
+//		containerFormat.setInputFormat("rtp"); 
+//		container.open(inputStream, Type.READ, containerFormat);
+//		IMediaReader mediaReader = ToolFactory.makeReader(container);
+		IMediaReader mediaReader = ToolFactory.makeReader(inputStream);
+			
 		// stipulate that we want BufferedImages created in BGR 24bit color
 		// space
 		mediaReader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);

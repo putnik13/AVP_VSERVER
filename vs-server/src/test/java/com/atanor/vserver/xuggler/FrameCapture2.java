@@ -8,21 +8,29 @@ import java.net.Socket;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.MediaListenerAdapter;
 import com.xuggle.mediatool.ToolFactory;
 import com.xuggle.mediatool.event.IVideoPictureEvent;
+import com.xuggle.xuggler.Converter;
 import com.xuggle.xuggler.Global;
 import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IContainer.Type;
 import com.xuggle.xuggler.IContainerFormat;
+import com.xuggle.xuggler.IPacket;
+import com.xuggle.xuggler.IStream;
+import com.xuggle.xuggler.IStreamCoder;
 
 public class FrameCapture2 {
 
 	public static final double SECONDS_BETWEEN_FRAMES = 10;
 
 	private static final String inputFilename = "D:/temp/video/test2.mp4";
-	private static final String inputStream = "rtp://localhost:5004";
+	private static final String inputStream = "rtp://127.0.0.1:5004";
 	private static final String outputFilePrefix = "D:/temp/recordings/img";
 
 
@@ -31,55 +39,63 @@ public class FrameCapture2 {
 	/**
 	 * @param args
 	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 
-		IContainer container = IContainer.make();
-		IContainerFormat containerFormat = IContainerFormat.make();
-		containerFormat.setInputFormat("rtp"); 
-		Socket socket = new Socket();
-		socket.connect(InetSocketAddress.createUnresolved("127.0.0.1", 5004));
-		
-		container.open(socket.getInputStream(), containerFormat);
-		IMediaReader mediaReader = ToolFactory.makeReader(container);
+//		IContainer container = IContainer.make();
+//		IContainerFormat containerFormat = IContainerFormat.make();
+//		containerFormat.setInputFormat("rtp"); 
+//		
+//		container.open(inputStream, Type.READ, containerFormat);
+//		IMediaReader mediaReader = ToolFactory.makeReader(container);
+//		mediaReader.setAddDynamicStreams(true);
+//        mediaReader.setQueryMetaData(true);
 		//IMediaReader mediaReader = ToolFactory.makeReader(inputStream);
 		
-		
-		// stipulate that we want BufferedImages created in BGR 24bit color
-		// space
-		mediaReader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
-
-		mediaReader.addListener(ToolFactory.makeDebugListener());
-		mediaReader.addListener(new ImageSnapListener());
+		//mediaReader.addListener(ToolFactory.makeWriter("D:/temp/video/test222.mp4", mediaReader));
 
 		// read out the contents of the media file and
 		// dispatch events to the attached listener
-		while (mediaReader.readPacket() == null)
-			;
+//		while (mediaReader.readPacket() == null)
+//			;
+
+		final IContainer input = IContainer.make();
+		final IContainer output = IContainer.make();
+		output.open("D:/temp/video/test222.mp4", IContainer.Type.WRITE, null);
+		
+		input.open(inputFilename, IContainer.Type.READ, null);
+		int numStreams = input.getNumStreams();
+		for(int i = 0; i < numStreams; i++)
+	    {
+	      final IStream stream = input.getStream(i);
+	      final IStreamCoder coder = stream.getStreamCoder();
+	      coder.open(null, null);
+	      
+	      output.addNewStream(coder.getCodec());
+	      IStreamCoder newCoder = IStreamCoder.make(IStreamCoder.Direction.ENCODING, coder);
+	      output.getStream(i).setStreamCoder(newCoder);	   
+	      newCoder.open(null, null);
+	    }
+		
+		
+		//output.writeHeader();
+		for (;;) {
+			final IPacket pkt = IPacket.make();
+			if (input.readNextPacket(pkt) < 0)
+				break;
+
+			output.writePacket(pkt, false);
+		}
+		
+		//output.writeTrailer();
+		
+		int streams = output.getNumStreams();
+		for (int j = 0; j < streams; j++) {
+			output.getStream(j).getStreamCoder().close();
+		}
+		output.close();
 	}
 
-	private static class ImageSnapListener extends MediaListenerAdapter {
-
-		public void onVideoPicture(IVideoPictureEvent event) {
-
-				String outputFilename = dumpImageToFile(event.getImage());
-
-				// indicate file written
-				double seconds = ((double) event.getTimeStamp()) / Global.DEFAULT_PTS_PER_SECOND;
-				System.out.printf("at elapsed time of %6.3f seconds wrote: %s\n", seconds, outputFilename);
-
-		}
-
-		private String dumpImageToFile(BufferedImage image) {
-			try {
-				String outputFilename = outputFilePrefix + System.currentTimeMillis() + ".png";
-				ImageIO.write(image, "png", new File(outputFilename));
-				return outputFilename;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-
-	}
+	
 }
