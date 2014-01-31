@@ -21,18 +21,13 @@ public class FFmpegRecorder {
 		if(executor != null){
 			return;
 		}
-		
-		final CommandLine cmdLine = new CommandLine("ffmpeg");
-		cmdLine.addArgument("-i").addArgument("${mediasource}");
-		cmdLine.addArgument("-vcodec").addArgument("copy");
-		cmdLine.addArgument("-acodec").addArgument("copy");
-		cmdLine.addArgument("${output}");
+		final String line = "ffmpeg -i ${input} -vcodec copy -acodec copy ${output}";
+		final CommandLine cmdLine = CommandLine.parse(line);
 		
 		final Map<String, Object> map = Maps.newHashMap();
-		map.put("mediasource", "D:/temp/video/Flower.mp4");
+		map.put("input", "D:/temp/video/Flower.mp4");
 		//map.put("mediasource", "rtp://127.0.0.1:5004");
 		map.put("output", "D:/temp/video/temp222.mp4");
-		
 		cmdLine.setSubstitutionMap(map);
 		
 		//Takes System.out for dumping the output and System.err for Error
@@ -43,7 +38,6 @@ public class FFmpegRecorder {
 		executor.setWatchdog(new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT));
 		executor.execute(cmdLine, resultHandler);
 		System.out.println("Recording started asynchronously..");
-		//Thread.sleep(20000);
 	}
 
 	public void stopRecording() {
