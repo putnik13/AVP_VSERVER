@@ -31,42 +31,44 @@ public class FrameGrabber {
 //		 recorder.setFrameRate(frameRate);
 //		 recorder.start();
 
-//		CanvasFrame canvas = new CanvasFrame("Client");
-//		canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-		//canvas.setCanvasSize(640, 480);
+		CanvasFrame canvas = new CanvasFrame("Client");
+		canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+		canvas.setCanvasSize(640, 480);
 		
-		FFmpegFrameGrabber stream = new FFmpegFrameGrabber("rtp://localhost:5004");
-		//FFmpegFrameGrabber stream = new FFmpegFrameGrabber("D:/temp/video/test2.mp4");
+		FFmpegFrameGrabber stream = new FFmpegFrameGrabber("rtp://127.0.0.1:5004");
+		//FFmpegFrameGrabber stream = new FFmpegFrameGrabber("/home/video/test_HD.mp4");
 		//stream.setFormat("mp4");
 		// recorder.setFormat("mp4");
 		// recorder.setSampleRate(sampleAudioRateInHz);
 		// recorder.setFrameRate(frameRate);
+		stream.setFrameRate(0.01);
 		stream.start();
-		IplImage grabImg = stream.grab();
+		IplImage grabImg;
 		
-		FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(output, 1280, 720);
-	    recorder.setFormat("mp4");
-	    recorder.setFrameRate(25);
+//		FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(output, 1280, 720);
+//	    recorder.setFormat("mp4");
+//	    recorder.setFrameRate(25);
 	    //recorder.setAudioChannels(stream.getAudioChannels());
-	    recorder.setAudioCodec(avcodec.AV_CODEC_ID_MP2);
-        recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+//	    recorder.setAudioCodec(avcodec.AV_CODEC_ID_MP2);
+//        recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
 //	    recorder.setPixelFormat(AV_PIX_FMT_YUV420P);
 	    //recorder.setVideoBitrate(10 * 1024 * 1024);
 //	    recorder.setVideoOption("preset", "ultrafast");
 //	    recorder.setVideoQuality(20.0);
 	    //recorder.setSampleRate(sampleAudioRateInHz);
 	    
-		recorder.start();
-		while ((grabImg = stream.grab()) != null) {
-			IplImage image = stream.grab();
-			if (image != null) {
+		//recorder.start();
+		while ((grabImg = stream.grabKeyFrame().image) != null) {
+			//IplImage image = stream.grab();
+			if (grabImg != null) {
 				//canvas.setCanvasSize(640, 480);
-				//canvas.showImage(image);
-				recorder.record(grabImg);
+				canvas.showImage(grabImg);
+				//recorder.record(grabImg);
+				Thread.sleep(5000);
 			}
 		}
 		stream.stop();
-	    recorder.stop();
+	    //recorder.stop();
 	    
 		// FrameGrabber grabber = new VideoInputFrameGrabber(0);
 		// //OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);

@@ -165,11 +165,16 @@
       <artifactId>xuggle-xuggler</artifactId>
     </dependency>
 
-	<dependency>
-	    <groupId>org.apache.commons</groupId>
-	    <artifactId>commons-exec</artifactId>
-      </dependency>
-	  
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-exec</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.coobird</groupId>
+      <artifactId>thumbnailator</artifactId>
+    </dependency>
+
   </dependencies>
   
 </project>

@@ -16,7 +16,7 @@ public class FFmpegRecorderTest {
 	 */
 	public static void main(String[] args) throws ExecuteException, IOException, InterruptedException {
 		FFmpegRecorder recorder = new FFmpegRecorder();
-		recorder.startRecording();
+		//recorder.startRecording();
 
 		System.out.println("hello from test");
 	}

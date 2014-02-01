@@ -1,5 +1,6 @@
 package com.atanor.vserver.services;
 
+import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface RecordingDataService {
 	
 	void updateDuration(Long recordingId, Date endTime);
 
-	void saveSnapshot(Long recordingId, String snapshotName);
+	void saveSnapshot(Long recordingId, BufferedImage image);
 }

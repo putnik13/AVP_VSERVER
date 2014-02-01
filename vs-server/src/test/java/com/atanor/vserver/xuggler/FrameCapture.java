@@ -17,11 +17,11 @@ import com.xuggle.xuggler.IContainerFormat;
 
 public class FrameCapture {
 
-	public static final double SECONDS_BETWEEN_FRAMES = 10;
+	public static final double SECONDS_BETWEEN_FRAMES = 3;
 
 	private static final String inputFilename = "D:/temp/video/test2.mp4";
 	private static final String inputStream = "rtp://127.0.0.1:5004";
-	private static final String outputFilePrefix = "D:/temp/recordings/img";
+	private static final String outputFilePrefix = "/home/vserver/recordings/snapshots/img";
 
 	// The video stream index, used to ensure we display frames from one and
 	// only one video stream from the media container.

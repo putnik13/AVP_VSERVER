@@ -1,5 +1,6 @@
 package com.atanor.vserver.services.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -102,22 +103,16 @@ public class RecordingDataServiceImpl implements RecordingDataService {
 	}
 
 	@Override
-	public void saveSnapshot(final Long recordingId, final String snapshotName) {
+	public void saveSnapshot(final Long recordingId, final BufferedImage image) {
 		Validate.notNull(recordingId, "recordingId can not be null");
-		Validate.notEmpty(snapshotName, "snapshotName can not be empty or null");
+		Validate.notNull(image, "image can not be null");
 
 		final Recording recording = recordingDao.find(recordingId);
 		if (recording == null) {
 			throw new IllegalStateException("Can not find recording with id=" + recordingId);
 		}
 
-		final File file = new File(snapshotName);
-		if (!file.exists()) {
-			System.out.println("Recording Snapshot is not exist!");
-			return;
-		}
-
-		recording.setImageBlob(ImageDecoder.encodeImage(file));
+		recording.setImageBlob(ImageDecoder.encodeImage(image));
 		recordingDao.update(recording);
 	}
 

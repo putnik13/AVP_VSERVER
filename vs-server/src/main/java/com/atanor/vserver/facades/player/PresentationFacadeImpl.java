@@ -15,6 +15,7 @@ import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.entity.Snapshot.TYPE;
 import com.atanor.vserver.events.GetPresentationSnapshotEvent;
 import com.atanor.vserver.events.PresentationSnapshotEvent;
+import com.atanor.vserver.facades.ImageGrabber;
 import com.atanor.vserver.facades.PresentationFacade;
 import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.ImageService;
@@ -31,6 +32,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	private String folderName;
 	private final List<Snapshot> snapshots = Lists.newArrayList();
 	
+	private final ImageGrabber grabber;
 	private BufferedImage bufImage;
 	
 	@Inject
@@ -42,16 +44,16 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	@Inject
 	public PresentationFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
-		getImagePlayer().setSnapshotDirectory(config().getPresentationSnapshotOutput());
+		grabber = new FFmpegImageGrabber();
 	}
 
 	@Override
 	public void startPresentation() {
-		if (!getImagePlayer().isPlaying()) {
+		if (grabber.isPlaying()) {
 			folderName = buildFolderName();
 			createFolder(folderName);
 
-			getImagePlayer().playMedia(config().getPresentationMediaResource());
+			grabber.start(config().getPresentationMediaResource());
 			AsyncConnector.startSharingSession();
 			startTakeSnapshots();
 		}
@@ -92,7 +94,7 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	@Override
 	public void stopPresentation() {
 		stopTimer();
-		getImagePlayer().stop();
+		grabber.stop();
 		final String pdfName = buildPresentationPdfName();
 		presentationService.saveAndGeneratePdf(pdfName, snapshots);
 		AsyncConnector.stopSharingSession(pdfName);
@@ -115,10 +117,10 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 
 	@Subscribe
 	public void takeSnapshot(final GetPresentationSnapshotEvent event) throws IOException {
-		if (getImagePlayer().isPlaying()) {
+		if (grabber.isPlaying()) {
 
 			final BufferedImage prevBufImage = bufImage;
-			bufImage = getImagePlayer().getSnapshot();
+			bufImage = grabber.grab();
 			if (bufImage != null) {
 
 				if (prevBufImage != null && imageService.isSimilar(prevBufImage, bufImage)) {
@@ -137,21 +139,5 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 			}
 		}
 	}
-
-	// used to emulate presentation stream
-	// final Long random = Math.round(Math.random() * 4);
-	// final File file = new
-	// File("D:/projects/AVP_VSERVER/vs-launch/src/main/webapp/images/test" +
-	// random + ".png");
-	// if (!file.exists()) {
-	// throw new IllegalStateException("Snapshot is not exist!");
-	// }
-	//
-	// final String encodedImage = ImageDecoder.encodeImage(file);
-	// final Snapshot snapshot = new Snapshot(TYPE.PRESENTATION,
-	// buildSnapshotName(), encodedImage, "795", "586");
-	// snapshots.add(snapshot);
-	// final BufferedImage in = ImageIO.read(file);
-	// getEventBus().post(new PresentationSnapshotEvent(in, snapshot));
 
 }

@@ -430,19 +430,27 @@
         <version>5.4</version>
       </dependency>
 
-	  <dependency>
-	    <groupId>org.apache.commons</groupId>
-	    <artifactId>commons-exec</artifactId>
-	    <version>1.2</version>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-exec</artifactId>
+        <version>1.2</version>
       </dependency>
 
-	  <!-- Tests -->
-	  <dependency>
+      <!-- Image Size editor -->
+      <dependency>
+        <groupId>net.coobird</groupId>
+        <artifactId>thumbnailator</artifactId>
+        <version>0.4.7</version>
+      </dependency>
+
+      <!-- Tests -->
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.7</version>
         <scope>test</scope>
-      </dependency>	  
+      </dependency>
+	  
     </dependencies>
 	
   </dependencyManagement>
