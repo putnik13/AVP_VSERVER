@@ -41,7 +41,7 @@ public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	public FFmpegVideoFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
 		recorder = new FFmpegRecorder();
-		grabber = new FFmpegImageGrabber();
+		grabber = new FFmpegImageGrabber(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	public void takeSnapshot(final GetVideoSnapshotEvent event) {
 		System.out.println("-- take snapshot");
 		if (grabber.isPlaying()) {
-			final BufferedImage image = grabber.grab(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
+			final BufferedImage image = grabber.grab();
 			System.out.println("-- grabbed image: " + image);
 			if (image != null) {
 				getEventBus().post(new VideoSnapshotEvent(createSnapshot(image)));
@@ -90,7 +90,7 @@ public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	public void stopRecording() {
 		stopTimer();
 		cleanSnapshotFolder();
-		recorder.stopRecording();
+		//recorder.stopRecording();
 		grabber.stop();
 		recordingService.updateDuration(currentRecordingId, new Date());
 	}
@@ -120,7 +120,7 @@ public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	}
 
 	private boolean isPlaying() {
-		return recorder.isPlaying() && grabber.isPlaying();
+		return /*recorder.isPlaying() &&*/ grabber.isPlaying();
 	}
 
 	private String buildSnapshotName() {
@@ -133,7 +133,7 @@ public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
 
 	private void saveSnapshot() {
 		if (grabber.isPlaying()) {
-			final BufferedImage image = grabber.grab(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
+			final BufferedImage image = grabber.grab();
 			if (image != null) {
 				recordingService.saveSnapshot(currentRecordingId, image);
 			}

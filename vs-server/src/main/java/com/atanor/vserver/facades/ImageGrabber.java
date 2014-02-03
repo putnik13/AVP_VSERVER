@@ -8,9 +8,7 @@ public interface ImageGrabber {
 
 	void stop();
 
-	BufferedImage grab();
-
-	BufferedImage grab(int width, int height);
-
 	boolean isPlaying();
+
+	BufferedImage grab();
 }

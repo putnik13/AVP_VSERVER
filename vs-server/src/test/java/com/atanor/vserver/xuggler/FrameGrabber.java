@@ -1,5 +1,6 @@
 package com.atanor.vserver.xuggler;
 
+import com.atanor.vserver.common.Constants;
 import com.googlecode.javacv.CanvasFrame;
 import com.googlecode.javacv.FFmpegFrameGrabber;
 import com.googlecode.javacv.FFmpegFrameRecorder;
@@ -31,17 +32,17 @@ public class FrameGrabber {
 //		 recorder.setFrameRate(frameRate);
 //		 recorder.start();
 
-		CanvasFrame canvas = new CanvasFrame("Client");
+		CanvasFrame canvas = new CanvasFrame("Client1");
 		canvas.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-		canvas.setCanvasSize(640, 480);
+		canvas.setCanvasSize(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
 		
 		FFmpegFrameGrabber stream = new FFmpegFrameGrabber("rtp://127.0.0.1:5004");
+		//FFmpegFrameGrabber stream = new FFmpegFrameGrabber("/home/video/aaa.mp4");
 		//FFmpegFrameGrabber stream = new FFmpegFrameGrabber("/home/video/test_HD.mp4");
-		//stream.setFormat("mp4");
 		// recorder.setFormat("mp4");
 		// recorder.setSampleRate(sampleAudioRateInHz);
-		// recorder.setFrameRate(frameRate);
-		stream.setFrameRate(0.01);
+		stream.setImageWidth(Constants.SNAPSHOT_WIDTH);
+		stream.setImageHeight(Constants.SNAPSHOT_HEIGHT);
 		stream.start();
 		IplImage grabImg;
 		
@@ -56,15 +57,14 @@ public class FrameGrabber {
 //	    recorder.setVideoOption("preset", "ultrafast");
 //	    recorder.setVideoQuality(20.0);
 	    //recorder.setSampleRate(sampleAudioRateInHz);
-	    
 		//recorder.start();
-		while ((grabImg = stream.grabKeyFrame().image) != null) {
+		while ((grabImg = stream.grab()) != null) {
 			//IplImage image = stream.grab();
 			if (grabImg != null) {
 				//canvas.setCanvasSize(640, 480);
 				canvas.showImage(grabImg);
 				//recorder.record(grabImg);
-				Thread.sleep(5000);
+				//Thread.sleep(5000);
 			}
 		}
 		stream.stop();
