@@ -8,27 +8,27 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.atanor.vserver.facades.ImageGrabber;
+import com.atanor.vserver.facades.SnapshotGrabber;
 import com.googlecode.javacv.FFmpegFrameGrabber;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
-public class FFmpegImageGrabber implements ImageGrabber {
+public class FFmpegSnapshotGrabber implements SnapshotGrabber {
 
-	private static final Logger LOG = LoggerFactory.getLogger(FFmpegImageGrabber.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FFmpegSnapshotGrabber.class);
 
 	private FFmpegFrameGrabber grabber;
 	private ExecutorService executor;
 	
 	private final int width;
 	private final int height;
-
+	
 	boolean stopped;
 	
-	public FFmpegImageGrabber() {
+	public FFmpegSnapshotGrabber() {
 		this(0, 0);
 	}
 
-	public FFmpegImageGrabber(final int width, final int height) {
+	public FFmpegSnapshotGrabber(final int width, final int height) {
 		this.width = width;
 		this.height = height;
 	}
@@ -41,7 +41,7 @@ public class FFmpegImageGrabber implements ImageGrabber {
 
 		try {
 			stopped = false;
-			grabber = new FFmpegFrameGrabber(mediaSource);
+			grabber = new FFmpegFrameGrabber("rtp://127.0.0.1:5005");
 			if (isResize()) {
 				grabber.setImageWidth(width);
 				grabber.setImageHeight(height);

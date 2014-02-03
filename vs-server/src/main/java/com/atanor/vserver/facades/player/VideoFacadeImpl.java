@@ -16,7 +16,7 @@ import com.atanor.vserver.common.entity.Snapshot.TYPE;
 import com.atanor.vserver.events.CreateAndSaveSnapshotEvent;
 import com.atanor.vserver.events.GetVideoSnapshotEvent;
 import com.atanor.vserver.events.VideoSnapshotEvent;
-import com.atanor.vserver.facades.ImageGrabber;
+import com.atanor.vserver.facades.SnapshotGrabber;
 import com.atanor.vserver.facades.VideoFacade;
 import com.atanor.vserver.facades.VideoRecorder;
 import com.atanor.vserver.services.ConfigDataService;
@@ -32,7 +32,7 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	private RecordingDataService recordingService;
 
 	private final VideoRecorder recorder;
-	private final ImageGrabber grabber;
+	private final SnapshotGrabber grabber;
 
 	private Timer timer;
 	private Long currentRecordingId;
@@ -41,7 +41,7 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	public VideoFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
 		recorder = new FFmpegRecorder();
-		grabber = new FFmpegImageGrabber(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
+		grabber = new FFmpegSnapshotGrabber(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 			final Map<String, Object> params = Maps.newHashMap();
 			params.put("input", config().getRecordingMediaResource());
 			params.put("output", buildRecordingPath(fileName));
-			//recorder.startRecording(config().getRecordingMediaOptions(), params);
+			recorder.startRecording(config().getRecordingMediaOptions(), params);
 			grabber.start(config().getRecordingMediaResource());
 			
 			currentRecordingId = recordingService.createRecording(fileName, startTime);
@@ -90,7 +90,7 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	public void stopRecording() {
 		stopTimer();
 		cleanSnapshotFolder();
-		//recorder.stopRecording();
+		recorder.stopRecording();
 		grabber.stop();
 		recordingService.updateDuration(currentRecordingId, new Date());
 	}
@@ -120,7 +120,7 @@ public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	}
 
 	private boolean isPlaying() {
-		return /*recorder.isPlaying() &&*/ grabber.isPlaying();
+		return recorder.isPlaying() && grabber.isPlaying();
 	}
 
 	private String buildSnapshotName() {

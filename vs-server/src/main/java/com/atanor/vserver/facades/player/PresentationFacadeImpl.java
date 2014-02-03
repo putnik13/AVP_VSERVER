@@ -15,7 +15,7 @@ import com.atanor.vserver.common.entity.Snapshot;
 import com.atanor.vserver.common.entity.Snapshot.TYPE;
 import com.atanor.vserver.events.GetPresentationSnapshotEvent;
 import com.atanor.vserver.events.PresentationSnapshotEvent;
-import com.atanor.vserver.facades.ImageGrabber;
+import com.atanor.vserver.facades.SnapshotGrabber;
 import com.atanor.vserver.facades.PresentationFacade;
 import com.atanor.vserver.services.ConfigDataService;
 import com.atanor.vserver.services.ImageService;
@@ -31,20 +31,20 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 	private int snapshotCount = 1;
 	private String folderName;
 	private final List<Snapshot> snapshots = Lists.newArrayList();
-	
-	private final ImageGrabber grabber;
+
+	private final SnapshotGrabber grabber;
 	private BufferedImage bufImage;
-	
+
 	@Inject
 	private PresentationDataService presentationService;
 
 	@Inject
 	private ImageService imageService;
-	
+
 	@Inject
 	public PresentationFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
-		grabber = new FFmpegImageGrabber();
+		grabber = new FFmpegSnapshotGrabber();
 	}
 
 	@Override
@@ -104,10 +104,10 @@ public class PresentationFacadeImpl extends PlayerFacade implements Presentation
 		snapshots.clear();
 	}
 
-	private void resetSnapshotCount(){
+	private void resetSnapshotCount() {
 		snapshotCount = 1;
 	}
-	
+
 	private void stopTimer() {
 		if (timer != null) {
 			timer.cancel();
