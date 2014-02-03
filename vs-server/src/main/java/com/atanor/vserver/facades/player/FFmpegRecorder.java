@@ -7,6 +7,7 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.LogOutputStream;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,13 @@ public class FFmpegRecorder implements VideoRecorder {
 		final CommandLine cmdLine = CommandLine.parse(line);
 		cmdLine.setSubstitutionMap(params);
 
-		// Takes System.out for dumping the output and System.err for Error
-		final PumpStreamHandler streamHandler = new PumpStreamHandler();
+		final LogOutputStream output = new LogOutputStream() {
+			@Override
+			protected void processLine(String line, int level) {
+				LOG.debug(line);
+			}
+		};
+		final PumpStreamHandler streamHandler = new PumpStreamHandler(output);
 		final DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
 		try {

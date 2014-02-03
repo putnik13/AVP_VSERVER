@@ -3,6 +3,7 @@ package com.atanor.vserver.facades.player;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,8 @@ public class FFmpegImageGrabber implements ImageGrabber {
 	private final int width;
 	private final int height;
 
+	boolean stopped;
+	
 	public FFmpegImageGrabber() {
 		this(0, 0);
 	}
@@ -37,6 +40,7 @@ public class FFmpegImageGrabber implements ImageGrabber {
 		}
 
 		try {
+			stopped = false;
 			grabber = new FFmpegFrameGrabber(mediaSource);
 			if (isResize()) {
 				grabber.setImageWidth(width);
@@ -57,6 +61,9 @@ public class FFmpegImageGrabber implements ImageGrabber {
 	public void stop() {
 		try {
 			if (grabber != null) {
+				stopped = true;
+				// to close grabbing process silently
+				TimeUnit.SECONDS.sleep(1);
 				grabber.stop();
 				grabber.release();
 				LOG.info("<<<<<< FFmpeg image grabber stopped grabbing");
@@ -98,9 +105,9 @@ public class FFmpegImageGrabber implements ImageGrabber {
 		public void run() {
 			try {
 				grabber.start();
-				while (grabber != null && grabber.grab() != null);
+				while (!stopped && grabber.grab() != null);
 			} catch (Exception e) {
-				LOG.error("Fail to start image grabbing process..", e);
+				LOG.error("Fail to proceed image grabbing process..", e);
 			}
 		}
 	}

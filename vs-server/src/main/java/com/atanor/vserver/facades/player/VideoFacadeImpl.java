@@ -26,7 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
+public class VideoFacadeImpl extends PlayerFacade implements VideoFacade {
 
 	@Inject
 	private RecordingDataService recordingService;
@@ -38,7 +38,7 @@ public class FFmpegVideoFacadeImpl extends PlayerFacade implements VideoFacade {
 	private Long currentRecordingId;
 
 	@Inject
-	public FFmpegVideoFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
+	public VideoFacadeImpl(final EventBus eventBus, final ConfigDataService configService) {
 		super(eventBus, configService);
 		recorder = new FFmpegRecorder();
 		grabber = new FFmpegImageGrabber(Constants.SNAPSHOT_WIDTH, Constants.SNAPSHOT_HEIGHT);
