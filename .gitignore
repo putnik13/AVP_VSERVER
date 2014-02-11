@@ -20,5 +20,6 @@ surefire/
 # more caches and things from deploy #
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
+src/main/webapp/init.properties
 
 *.log
